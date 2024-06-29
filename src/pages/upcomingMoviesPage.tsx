@@ -29,6 +29,8 @@ const UpcomingMoviesPage: React.FC = () => {
     [titleFiltering, genreFiltering]
   );
 
+  document.title = `Upcoming Movies - TMDB Client`
+
   if (isLoading) {
     return <Spinner />;
   }

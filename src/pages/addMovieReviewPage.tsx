@@ -15,6 +15,8 @@ const WriteReviewPage: React.FC = () => {
         () => getMovie(movieId)
     );
 
+    if (movie) document.title = `Write Review of ${movie.title}`
+
     if (isLoading) {
         return <Spinner />;
     }

@@ -29,6 +29,8 @@ const HomePage: React.FC = () => {
     [titleFiltering, genreFiltering]
   );
 
+  document.title = "Home Page - TMDB Client"
+
   if (isLoading) {
     return <Spinner />;
   }
