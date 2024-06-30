@@ -10,11 +10,11 @@ const styles = {
   }
 };
 
-const MovieListPageTemplate: React.FC<MovieListPageTemplateProps> = ({ movies, title, action }) => {
+const MovieListPageTemplate: React.FC<MovieListPageTemplateProps> = ({ movies, title, action, increment, decrement }) => {
   return (
     <Grid container sx={styles.root}>
       <Grid item xs={12}>
-        <Header title={title} />
+        <Header title={title} increment={increment} decrement={decrement}/>
       </Grid>
       <Grid item container spacing={5}>
         <MovieList action={action} movies={movies}></MovieList>

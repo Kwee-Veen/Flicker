@@ -17,15 +17,19 @@ const styles = {
 
 interface HeaderProps {
     title: string;
+    increment: Function;
+    decrement: Function;
 }
 
 const Header: React.FC<HeaderProps> = (headerProps) => {
-    const title = headerProps.title
+    const title = headerProps.title;
+    const increment = headerProps.increment;
+    const decrement = headerProps.decrement;
 
     return (
         <Paper component="div" sx={styles.root}>
             <IconButton
-                aria-label="go back"
+                aria-label="go back" onClick={() => { decrement(); }}
             >
                 <ArrowBackIcon color="primary" fontSize="large" />
             </IconButton>
@@ -34,9 +38,9 @@ const Header: React.FC<HeaderProps> = (headerProps) => {
                 {title}
             </Typography>
             <IconButton
-                aria-label="go forward"
+                aria-label="go forward"  onClick={() => { increment(); }}
             >
-                <ArrowForwardIcon color="primary" fontSize="large" />
+                <ArrowForwardIcon color="primary" fontSize="large"/>
             </IconButton>
         </Paper>
     );

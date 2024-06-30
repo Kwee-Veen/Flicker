@@ -20,6 +20,8 @@ export interface BaseMovieProps {
 
 export interface MovieListPageTemplateProps extends BaseMovieListProps {
   title: string;
+  increment: Function;
+  decrement: Function;
 }
 
 export type FilterOption = "title" | "genre";

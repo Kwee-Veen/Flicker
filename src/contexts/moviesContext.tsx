@@ -20,15 +20,7 @@ const initialContextState: MovieContextInterface = {
   removeFromMustWatchList: () => { },
 };
 
-// interface UpcomingMovieContextInterface {
-
-// }
-// const initialMustWatchListContextState: UpcomingMovieContextInterface = {
-
-// };
-
 export const MoviesContext = React.createContext<MovieContextInterface>(initialContextState);
-// export const UpcomingMoviesContext = React.createContext<UpcomingMovieContextInterface>(initialMustWatchListContextState);
 
 const MoviesContextProvider: React.FC<React.PropsWithChildren> = ({ children }) => {
   const [myReviews, setMyReviews] = useState<Review[]>([]);
@@ -77,7 +69,7 @@ const MoviesContextProvider: React.FC<React.PropsWithChildren> = ({ children }) 
         addReview,
         mustWatchList,
         addToMustWatchList,
-        removeFromMustWatchList
+        removeFromMustWatchList,
       }}
     >
       {children}

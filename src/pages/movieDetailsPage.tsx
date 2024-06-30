@@ -14,6 +14,8 @@ const MovieDetailsPage: React.FC= () => {
     ()=> getMovie(id||"")
   );
 
+  if (movie) document.title = `${movie.title} - TMDB Client`
+
   if (isLoading) {
     return <Spinner />;
   }

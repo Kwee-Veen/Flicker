@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useContext } from "react";
 import PageTemplate from "../components/templateMovieListPage";
 import { getMovies } from "../api/tmdb-api";
 import useFiltering from "../hooks/useFiltering";
@@ -10,6 +10,7 @@ import { BaseMovieProps, DiscoverMovies } from "../types/interfaces";
 import { useQuery } from "react-query";
 import Spinner from "../components/spinner";
 import AddToFavouritesIcon from '../components/cardIcons/addToFavourites'
+import { PagesContext } from "../contexts/pagesContext";
 
 
 const titleFiltering = {
@@ -24,10 +25,15 @@ const genreFiltering = {
 };
 
 const HomePage: React.FC = () => {
-  const { data, error, isLoading, isError } = useQuery<DiscoverMovies, Error>("discover", getMovies);
+  const { moviesPageCount } = useContext(PagesContext);
+  const { incrementMoviesPageCount } = useContext(PagesContext);
+  const { decrementMoviesPageCount } = useContext(PagesContext);
+  const { data, error, isLoading, isError } = useQuery<DiscoverMovies, Error>(`discover${moviesPageCount}`, () => getMovies(moviesPageCount));
   const { filterValues, setFilterValues, filterFunction } = useFiltering(
     [titleFiltering, genreFiltering]
   );
+
+  document.title = "Home Page - TMDB Client"
 
   if (isLoading) {
     return <Spinner />;
@@ -58,6 +64,12 @@ const HomePage: React.FC = () => {
         action={(movie: BaseMovieProps) => {
           return <AddToFavouritesIcon {...movie} />
         }}
+        increment={
+          incrementMoviesPageCount
+        }
+        decrement={
+          decrementMoviesPageCount
+        }
       />
       <MovieFilterUI
         onFilterValuesChange={changeFilterValues}
