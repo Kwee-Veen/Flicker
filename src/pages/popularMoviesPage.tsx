@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useContext } from "react";
 import PageTemplate from "../components/templateMovieListPage";
 import { getPopularMovies } from "../api/tmdb-api";
 import useFiltering from "../hooks/useFiltering";
@@ -10,7 +10,7 @@ import { BaseMovieProps, DiscoverMovies } from "../types/interfaces";
 import { useQuery } from "react-query";
 import Spinner from "../components/spinner";
 import AddToFavouritesIcon from "../components/cardIcons/addToFavourites";
-
+import { MoviesContext } from "../contexts/moviesContext";
 
 const titleFiltering = {
   name: "title",
@@ -24,7 +24,8 @@ const genreFiltering = {
 };
 
 const PopularMoviesPage: React.FC = () => {
-  const { data, error, isLoading, isError } = useQuery<DiscoverMovies, Error>("popular", getPopularMovies);
+  const { popularMoviesPageCount } = useContext(MoviesContext);
+  const { data, error, isLoading, isError } = useQuery<DiscoverMovies, Error>(`popular${popularMoviesPageCount}`, () => getPopularMovies(popularMoviesPageCount));
   const { filterValues, setFilterValues, filterFunction } = useFiltering(
     [titleFiltering, genreFiltering]
   );
