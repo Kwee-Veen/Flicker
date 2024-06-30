@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useContext } from "react";
 import PageTemplate from "../components/templateMovieListPage";
 import { getUpcomingMovies } from "../api/tmdb-api";
 import useFiltering from "../hooks/useFiltering";
@@ -10,6 +10,7 @@ import { BaseMovieProps, DiscoverMovies } from "../types/interfaces";
 import { useQuery } from "react-query";
 import Spinner from "../components/spinner";
 import AddToMustWatchList from '../components/cardIcons/addToMustWatchList'
+import { PagesContext } from "../contexts/pagesContext";
 
 
 const titleFiltering = {
@@ -24,7 +25,10 @@ const genreFiltering = {
 };
 
 const UpcomingMoviesPage: React.FC = () => {
-  const { data, error, isLoading, isError } = useQuery<DiscoverMovies, Error>("upcoming", getUpcomingMovies);
+  const { upcomingMoviesPageCount } = useContext(PagesContext);
+  const { incrementUpcomingMoviesPageCount } = useContext(PagesContext);
+  const { decrementUpcomingMoviesPageCount } = useContext(PagesContext);
+  const { data, error, isLoading, isError } = useQuery<DiscoverMovies, Error>(`upcoming${upcomingMoviesPageCount}`, () => getUpcomingMovies(upcomingMoviesPageCount));
   const { filterValues, setFilterValues, filterFunction } = useFiltering(
     [titleFiltering, genreFiltering]
   );
@@ -60,6 +64,12 @@ const UpcomingMoviesPage: React.FC = () => {
         action={(movie: BaseMovieProps) => {
           return <AddToMustWatchList {...movie} />
         }}
+        increment={
+          incrementUpcomingMoviesPageCount
+        }
+        decrement={
+          decrementUpcomingMoviesPageCount
+        }
       />
       <MovieFilterUI
         onFilterValuesChange={changeFilterValues}

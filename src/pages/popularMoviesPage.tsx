@@ -10,7 +10,7 @@ import { BaseMovieProps, DiscoverMovies } from "../types/interfaces";
 import { useQuery } from "react-query";
 import Spinner from "../components/spinner";
 import AddToFavouritesIcon from "../components/cardIcons/addToFavourites";
-import { MoviesContext } from "../contexts/moviesContext";
+import { PagesContext } from "../contexts/pagesContext";
 
 const titleFiltering = {
   name: "title",
@@ -24,7 +24,9 @@ const genreFiltering = {
 };
 
 const PopularMoviesPage: React.FC = () => {
-  const { popularMoviesPageCount } = useContext(MoviesContext);
+  const { popularMoviesPageCount } = useContext(PagesContext);
+  const { incrementPopularMoviesPageCount } = useContext(PagesContext);
+  const { decrementPopularMoviesPageCount } = useContext(PagesContext);
   const { data, error, isLoading, isError } = useQuery<DiscoverMovies, Error>(`popular${popularMoviesPageCount}`, () => getPopularMovies(popularMoviesPageCount));
   const { filterValues, setFilterValues, filterFunction } = useFiltering(
     [titleFiltering, genreFiltering]
@@ -60,6 +62,12 @@ const PopularMoviesPage: React.FC = () => {
         action={(movie: BaseMovieProps) => {
           return <AddToFavouritesIcon {...movie} />
         }}
+        increment={
+          incrementPopularMoviesPageCount
+        }
+        decrement={
+          decrementPopularMoviesPageCount
+        }
       />
       <MovieFilterUI
         onFilterValuesChange={changeFilterValues}

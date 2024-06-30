@@ -9,9 +9,6 @@ interface MovieContextInterface {
   mustWatchList: number[];
   addToMustWatchList: ((movie: BaseMovieProps) => void);
   removeFromMustWatchList: ((movie: BaseMovieProps) => void);
-  popularMoviesPageCount: number;
-  incrementPopularMoviesPageCount: (() => void);
-  decrementPopularMoviesPageCount: (() => void);
 }
 const initialContextState: MovieContextInterface = {
   favourites: [],
@@ -21,9 +18,6 @@ const initialContextState: MovieContextInterface = {
   mustWatchList: [],
   addToMustWatchList: () => { },
   removeFromMustWatchList: () => { },
-  popularMoviesPageCount: 1,
-  incrementPopularMoviesPageCount: () => { },
-  decrementPopularMoviesPageCount: () => { },
 };
 
 export const MoviesContext = React.createContext<MovieContextInterface>(initialContextState);
@@ -31,15 +25,6 @@ export const MoviesContext = React.createContext<MovieContextInterface>(initialC
 const MoviesContextProvider: React.FC<React.PropsWithChildren> = ({ children }) => {
   const [myReviews, setMyReviews] = useState<Review[]>([]);
   const [favourites, setFavourites] = useState<number[]>([]);
-  const [popularMoviesPageCount, setPopularMoviesPageCount] = useState<number>(1);
-
-  const incrementPopularMoviesPageCount = useCallback(() => {
-    setPopularMoviesPageCount((popularMoviesPageCount) => (popularMoviesPageCount + 1));
-  }, []);
-
-  const decrementPopularMoviesPageCount = useCallback(() => {
-    setPopularMoviesPageCount((popularMoviesPageCount) => (popularMoviesPageCount - 1));
-  }, []);
 
   const addToFavourites = useCallback((movie: BaseMovieProps) => {
     setFavourites((prevFavourites) => {
@@ -85,9 +70,6 @@ const MoviesContextProvider: React.FC<React.PropsWithChildren> = ({ children }) 
         mustWatchList,
         addToMustWatchList,
         removeFromMustWatchList,
-        popularMoviesPageCount,
-        incrementPopularMoviesPageCount,
-        decrementPopularMoviesPageCount,
       }}
     >
       {children}
