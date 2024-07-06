@@ -24,11 +24,22 @@ export interface MovieListPageTemplateProps extends BaseMovieListProps {
   decrement: Function;
 }
 
-export type FilterOption = "title" | "genre";
+export interface TVListPageTemplateProps extends BaseTVListProps {
+  name: string;
+  increment: Function;
+  decrement: Function;
+}
+
+export type FilterOption = "title" | "name" | "genre";
 
 export interface BaseMovieListProps {
   movies: BaseMovieProps[];
   action: (m: BaseMovieProps) => React.ReactNode;
+}
+
+export interface BaseTVListProps {
+  tv: BaseTVProps[];
+  action: (m: BaseTVProps) => React.ReactNode;
 }
 
 export interface MovieDetailsProps extends BaseMovieProps {
@@ -77,10 +88,34 @@ export interface DiscoverMovies {
   results: BaseMovieProps[];
 }
 
+export interface DiscoverTV {
+  page: number;	
+  total_pages: number;
+  total_results: number;
+  results: BaseTVProps[];
+}
+
 export interface Review {
   author: string,
   content: string,
   agree: boolean,
   rating: number,
   movieId: number,
+}
+
+export interface BaseTVProps {
+  adult: boolean,
+  backdrop_path: string,
+  genre_ids: number[],
+  id: number,
+  origin_country: string[],
+  original_language: string,
+  original_name: string,
+  overview: string,
+  popularity: number,
+  poster_path: string,
+  first_air_date: string,
+  name: string,
+  vote_average: number,
+  vote_count: number
 }
