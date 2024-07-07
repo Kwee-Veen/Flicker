@@ -3,7 +3,7 @@ import MovieHeader from "../headerMovie";
 import Grid from "@mui/material/Grid";
 import ImageList from "@mui/material/ImageList";
 import ImageListItem from "@mui/material/ImageListItem";
-import { getMovieImages } from "../../api/tmdb-api";
+import { getImages } from "../../api/tmdb-api";
 import { MovieImage, MovieDetailsProps } from "../../types/interfaces";
 import { useQuery } from "react-query";
 import Spinner from '../spinner';
@@ -29,7 +29,7 @@ interface TemplateMoviePageProps {
 const TemplateMoviePage: React.FC<TemplateMoviePageProps> = ({movie, children}) => {
   const { data, error, isLoading, isError } = useQuery<MovieImage[], Error>(
       ["images", movie.id],
-      () => getMovieImages(movie.id)
+      () => getImages(movie.id, "movie")
   );
 
   if (isLoading) {

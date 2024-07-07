@@ -31,6 +31,7 @@ interface TVCardProps {
 }
 
 const TVCard: React.FC<TVCardProps> = ({ tv, action }) => {
+  // TODO: Favourites implementation for TV
   const { favourites } = useContext(MoviesContext);
 
   const isFavourite = favourites.find((id) => id === tv.id) ? true : false;

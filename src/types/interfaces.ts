@@ -117,5 +117,84 @@ export interface BaseTVProps {
   first_air_date: string,
   name: string,
   vote_average: number,
-  vote_count: number
+  vote_count: number,
+  homepage: string,
+  
+}
+
+export interface TVDetailsProps extends BaseTVProps{
+  genres: {
+    id: number;
+    name: string;
+  }[];
+  production_countries: {
+    iso_3166_1: string;
+    name: string;
+  }[];
+  adult: false,
+  backdrop_path: string,
+  created_by: string[],
+  episode_run_time: number[],
+  homepage: string,
+  languages: [
+    string
+  ],
+  last_air_date: string | Date,
+  last_episode_to_air: {
+    id: string,
+    name: string,
+    overview: string,
+    vote_average: number,
+    vote_count: number,
+    air_date: number | Date,
+    episode_number: number,
+    episode_type: string,
+    production_code: string,
+    runtime: number,
+    season_number: number,
+    show_id: number,
+    still_path: null
+  },
+  name: string,
+  next_episode_to_air: number | string | null,
+  networks: [
+    {
+      id: number,
+      logo_path: string,
+      name: string,
+      origin_country: string
+    }
+  ],
+  number_of_episodes: number,
+  number_of_seasons: number,
+  origin_country: [
+    string
+  ],
+  original_language: string,
+  original_name: string,
+  overview: string,
+  popularity: number,
+  poster_path: string,
+  production_companies: string[],
+  seasons: [
+    {
+      air_date: Date,
+      episode_count: number,
+      id: string,
+      name: string,
+      overview: string,
+      poster_path: string,
+      season_number: number,
+      vote_average: number
+    }
+  ],
+  spoken_languages: [
+    {
+      english_name: string,
+      iso_639_1: string,
+      name: string
+    }
+  ],
+  status: string,
+  tagline: string,
 }
