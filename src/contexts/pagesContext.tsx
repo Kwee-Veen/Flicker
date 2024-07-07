@@ -10,6 +10,9 @@ interface MovieContextInterface {
   moviesPageCount: number;
   incrementMoviesPageCount: (() => void);
   decrementMoviesPageCount: (() => void);
+  tvPageCount: number;
+  incrementTVPageCount: (() => void);
+  decrementTVPageCount: (() => void);
 }
 const initialContextState: MovieContextInterface = {
   popularMoviesPageCount: 1,
@@ -21,6 +24,9 @@ const initialContextState: MovieContextInterface = {
   moviesPageCount: 1,
   incrementMoviesPageCount: () => { },
   decrementMoviesPageCount: () => { },
+  tvPageCount: 1,
+  incrementTVPageCount: () => { },
+  decrementTVPageCount: () => { },
 };
 
 export const PagesContext = React.createContext<MovieContextInterface>(initialContextState);
@@ -56,6 +62,16 @@ const PagesContextProvider: React.FC<React.PropsWithChildren> = ({ children }) =
     setMoviesPageCount((moviesPageCount) => (moviesPageCount - 1));
   }, []);
 
+  const [tvPageCount, setTVPageCount] = useState<number>(1);
+
+  const incrementTVPageCount = useCallback(() => {
+    setTVPageCount((tvPageCount) => (tvPageCount + 1));
+  }, []);
+
+  const decrementTVPageCount = useCallback(() => {
+    setTVPageCount((tvPageCount) => (tvPageCount - 1));
+  }, []);
+
   return (
     <PagesContext.Provider
       value={{
@@ -68,6 +84,9 @@ const PagesContextProvider: React.FC<React.PropsWithChildren> = ({ children }) =
         moviesPageCount,
         incrementMoviesPageCount,
         decrementMoviesPageCount,
+        tvPageCount,
+        incrementTVPageCount,
+        decrementTVPageCount,
       }}
     >
       {children}

@@ -25,10 +25,10 @@ const genreFiltering = {
 };
 
 const DisocoverTVPage: React.FC = () => {
-  // const { moviesPageCount } = useContext(PagesContext);
-  // const { incrementMoviesPageCount } = useContext(PagesContext);
-  // const { decrementMoviesPageCount } = useContext(PagesContext);
-  const { data, error, isLoading, isError } = useQuery<DiscoverTV, Error>(`discover`, () => getTV());
+  const { tvPageCount } = useContext(PagesContext);
+  const { incrementTVPageCount } = useContext(PagesContext);
+  const { decrementTVPageCount } = useContext(PagesContext);
+  const { data, error, isLoading, isError } = useQuery<DiscoverTV, Error>(`discoverTV ${tvPageCount}`, () => getTV(tvPageCount));
   const { filterValues, setFilterValues, filterFunction } = useFiltering(
     [nameFiltering, genreFiltering]
   );
@@ -61,21 +61,15 @@ const DisocoverTVPage: React.FC = () => {
       <TVListPageTemplate
         name="Discover TV"
         tv={displayedTV}
-        increment={
-          () => {console.log("placeholder")}
-        }
-        decrement={
-          () => {console.log("placeholder")}
-        }
         action={(tv: BaseTVProps) => {
           return <AddToTVFavouritesIcon {...tv} />
         }}
-        // increment={
-        //   incrementMoviesPageCount
-        // }
-        // decrement={
-        //   decrementMoviesPageCount
-        // }
+        increment={
+          incrementTVPageCount
+        }
+        decrement={
+          decrementTVPageCount
+        }
       />
       <TVFilterUI
         onFilterValuesChange={changeFilterValues}
