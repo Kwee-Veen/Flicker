@@ -39,7 +39,7 @@ const MoviesContextProvider: React.FC<React.PropsWithChildren> = ({ children }) 
     setFavourites((prevFavourites) => prevFavourites.filter((mId) => mId !== movie.id));
   }, []);
 
-  const addReview = (movie: BaseMovieProps, review: Review) => {   // NEW
+  const addReview = (movie: BaseMovieProps, review: Review) => {   
     setMyReviews({ ...myReviews, [movie.id]: review })
   };
 

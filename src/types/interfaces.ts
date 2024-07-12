@@ -119,6 +119,7 @@ export interface BaseTVProps {
   vote_average: number,
   vote_count: number,
   homepage: string,
+  favourite?: boolean;
   
 }
 

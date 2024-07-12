@@ -65,6 +65,8 @@ const FavouriteMoviesPage: React.FC = () => {
       <PageTemplate
         title="Favourite Movies"
         movies={displayedMovies}
+        increment={() => {}}
+        decrement={() => {}}
         action={(movie) => {
           return (
             <>

@@ -15,7 +15,7 @@ import img from '../../images/film-poster-placeholder.png';
 import { BaseTVProps } from "../../types/interfaces";
 import { Link } from "react-router-dom";
 import { Avatar } from "@mui/material";
-import { MoviesContext } from "../../contexts/moviesContext";
+import { TVContext } from "../../contexts/tvContext";
 
 const styles = {
   card: { maxWidth: 345 },
@@ -31,24 +31,23 @@ interface TVCardProps {
 }
 
 const TVCard: React.FC<TVCardProps> = ({ tv, action }) => {
-  // TODO: Favourites implementation for TV
-  const { favourites } = useContext(MoviesContext);
+  const { tvFavourites } = useContext(TVContext);
 
-  const isFavourite = favourites.find((id) => id === tv.id) ? true : false;
+  const isTVFavourite = tvFavourites.find((id) => id === tv.id) ? true : false;
 
-  const { mustWatchList } = useContext(MoviesContext);
+  const { tvMustWatchList } = useContext(TVContext);
 
-  const isInMustWatchList = mustWatchList.find((id) => id === tv.id) ? true : false;
+  const isInTVMustWatchList = tvMustWatchList.find((id) => id === tv.id) ? true : false;
 
   return (
     <Card sx={styles.card}>
       <CardHeader
         avatar={
-          isFavourite ? (
+          isTVFavourite ? (
             <Avatar sx={styles.avatar}>
               <FavoriteIcon />
             </Avatar>
-          ) : (isInMustWatchList ? (
+          ) : (isInTVMustWatchList ? (
             <Avatar sx={styles.avatar}>
               <PlaylistAddIcon />
             </Avatar>

@@ -1,20 +1,18 @@
 import React, {MouseEvent, useContext} from "react";
-import { MoviesContext } from "../../contexts/moviesContext";
+import { TVContext } from "../../contexts/tvContext";
 import IconButton from "@mui/material/IconButton";
 import FavoriteIcon from "@mui/icons-material/Favorite";
-import {BaseMovieProps, BaseTVProps} from "../../types/interfaces"
+import { BaseTVProps} from "../../types/interfaces"
 
 const AddToTVFavouritesIcon: React.FC<BaseTVProps> = (tv) => {
-  // const context = useContext(MoviesContext);
+  const context = useContext(TVContext);
 
   const onUserSelect = (e: MouseEvent<HTMLButtonElement>) => {
     e.preventDefault();
-    // context.addToFavourites(tv);
-    // TODO:
-    console.log("Placeholder for TV being added to context, which hasn't yet been implemented");
+    context.addToTVFavourites(tv);
   };
   return (
-    <IconButton aria-label="add to favorites" onClick={onUserSelect}>
+    <IconButton aria-label="add to tv favorites" onClick={onUserSelect}>
       <FavoriteIcon color="primary" fontSize="large" />
     </IconButton>
   );
