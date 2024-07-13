@@ -9,6 +9,7 @@ import { TVDetailsProps } from "../../types/interfaces";
 import NavigationIcon from "@mui/icons-material/Navigation";
 import Fab from "@mui/material/Fab";
 import Drawer from "@mui/material/Drawer";
+import TVReviews from "../tvReviews";
 
 
 const styles = {
@@ -33,7 +34,7 @@ const styles = {
 
 const TVDetails: React.FC<TVDetailsProps> = (tv) => {
 
-    const [drawerOpen, setDrawerOpen] = useState(false); // New
+    const [drawerOpen, setDrawerOpen] = useState(false); 
 
     return (
         <>
@@ -78,7 +79,7 @@ const TVDetails: React.FC<TVDetailsProps> = (tv) => {
                 Reviews
             </Fab>
             <Drawer anchor="top" open={drawerOpen} onClose={() => setDrawerOpen(false)}>
-                {/* <MovieReviews {...movie} /> */}
+                <TVReviews {...tv} />
             </Drawer>
         </>
     );

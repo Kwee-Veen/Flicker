@@ -92,6 +92,17 @@ export const getMovieReviews = (id: string | number) => {
     });
 };
 
+export const getTVReviews = (id: string | number) => { 
+  return fetch(
+    `https://api.themoviedb.org/3/tv/${id}/reviews?api_key=${import.meta.env.VITE_TMDB_KEY}`
+  )
+    .then((res) => res.json())
+    .then((json) => {
+      return json.results;
+    });
+};
+
+
 
 export const getUpcomingMovies = (page: number = 1) => {
   if (page < 1) { page = 1}
