@@ -24,7 +24,7 @@ const genreFiltering = {
   condition: genreFilter,
 };
 
-const DisocoverTVPage: React.FC = () => {
+const DiscoverTVPage: React.FC = () => {
   const { tvPageCount } = useContext(PagesContext);
   const { incrementTVPageCount } = useContext(PagesContext);
   const { decrementTVPageCount } = useContext(PagesContext);
@@ -79,4 +79,4 @@ const DisocoverTVPage: React.FC = () => {
     </>
   );
 };
-export default DisocoverTVPage;
+export default DiscoverTVPage;

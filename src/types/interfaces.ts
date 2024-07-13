@@ -103,6 +103,14 @@ export interface Review {
   movieId: number,
 }
 
+export interface TVReview {
+  author: string,
+  content: string,
+  agree: boolean,
+  rating: number,
+  series_id: number,
+}
+
 export interface BaseTVProps {
   adult: boolean,
   backdrop_path: string,

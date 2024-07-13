@@ -1,11 +1,11 @@
 import React, { useState, useCallback } from "react";
-import { BaseTVProps, Review } from "../types/interfaces";
+import { BaseTVProps, TVReview } from "../types/interfaces";
 
 interface TVContextInterface {
   tvFavourites: number[];
   addToTVFavourites: ((tvShow: BaseTVProps) => void);
   removeFromTVFavourites: ((tvShow: BaseTVProps) => void);
-  addTVReview: ((tvShow: BaseTVProps, review: Review) => void);
+  addTVReview: ((tvShow: BaseTVProps, review: TVReview) => void);
   tvMustWatchList: number[];
   addToTVMustWatchList: ((tvShow: BaseTVProps) => void);
   removeFromTVMustWatchList: ((tvShow: BaseTVProps) => void);
@@ -23,7 +23,7 @@ const initialContextState: TVContextInterface = {
 export const TVContext = React.createContext<TVContextInterface>(initialContextState);
 
 const TVContextProvider: React.FC<React.PropsWithChildren> = ({ children }) => {
-  const [myReviews, setMyReviews] = useState<Review[]>([]);
+  const [myReviews, setMyReviews] = useState<TVReview[]>([]);
   const [tvFavourites, setTVFavourites] = useState<number[]>([]);
 
   const addToTVFavourites = useCallback((tvShow: BaseTVProps) => {
@@ -42,7 +42,7 @@ const TVContextProvider: React.FC<React.PropsWithChildren> = ({ children }) => {
     setTVFavourites((prevTVFavourites) => prevTVFavourites.filter((tId) => tId !== tvShow.id));
   }, []);
 
-  const addTVReview = (tvShow: BaseTVProps, review: Review) => {
+  const addTVReview = (tvShow: BaseTVProps, review: TVReview) => {
     setMyReviews({ ...myReviews, [tvShow.id]: review })
   };
 
