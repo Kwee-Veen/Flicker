@@ -9,7 +9,7 @@ import Paper from "@mui/material/Paper";
 import { Link } from "react-router-dom";
 import { getTVReviews } from "../../api/tmdb-api";
 import { excerpt } from "../../util";
-import { TVDetailsProps, Review } from "../../types/interfaces"; 
+import { TVDetailsProps, Review, TVReview } from "../../types/interfaces"; 
 
 const styles = {
     table: {
@@ -18,11 +18,11 @@ const styles = {
 };
 
 const TVReviews: React.FC<TVDetailsProps> = (tv) => { 
-    const [reviews, setReviews] = useState([]);
+    const [tvReviews, setTVReviews] = useState([]);
 
     useEffect(() => {
         getTVReviews(tv.id).then((reviews) => {
-            setReviews(reviews);
+            setTVReviews(reviews);
         });
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, []);
@@ -38,7 +38,7 @@ const TVReviews: React.FC<TVDetailsProps> = (tv) => {
                     </TableRow>
                 </TableHead>
                 <TableBody>
-                    {reviews.map((r: Review) => (
+                    {tvReviews.map((r: TVReview) => (
                         <TableRow key={r.id}>
                             <TableCell component="th" scope="row">
                                 {r.author}
@@ -46,7 +46,7 @@ const TVReviews: React.FC<TVDetailsProps> = (tv) => {
                             <TableCell >{excerpt(r.content)}</TableCell>
                             <TableCell >
                                 <Link
-                                    to={`/reviews/${r.id}`}
+                                    to={`/tvReviews/${r.id}`}
                                     state={{
                                         review: r,
                                         tv: tv,

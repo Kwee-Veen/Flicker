@@ -5,7 +5,7 @@ import TVReview from "../components/tvReview";
 
 const TVReviewPage: React.FC = () => {
   const { state : {tv, review } } = useLocation()
-  if (tv) document.title = `Reviews of ${tv.title} - TMDB Client`
+  if (tv) document.title = `Reviews of ${tv.name} - TMDB Client`
   return (
     <PageTemplate tv={tv}>
       <TVReview {...review} />

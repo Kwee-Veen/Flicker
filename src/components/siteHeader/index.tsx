@@ -11,6 +11,7 @@ import Menu from "@mui/material/Menu";
 import { useNavigate } from "react-router-dom";
 import { useTheme } from "@mui/material/styles";
 import useMediaQuery from "@mui/material/useMediaQuery";
+import { MenuOptions } from "../../types/interfaces";
 
 const styles = {
     title: {
@@ -27,18 +28,30 @@ const SiteHeader: React.FC = () => {
   const theme = useTheme();
   const isMobile = useMediaQuery(theme.breakpoints.down("lg"));
 
-  const menuOptions = [
-    { label: "Home", path: "/" },
-    { label: "Favorite Movies", path: "/movies/favourites" },
-    { label: "Popular Movies", path: "/movies/popular" },
+  const movieOptions: MenuOptions[] = [
+    { label: "Discover Movies", path: "/" },
+    { label: "Trending Movies", path: "/movies/popular" },
     { label: "Upcoming Movies", path: "/movies/upcoming" },
-    { label: "", path: "" },
-    { label: "TV", path: "/tv" },
+    { label: "Favorite Movies", path: "/movies/favourites" },
+  ];
+
+  const tvOptions: MenuOptions[] = [
+    { label: "Discover TV", path: "/tv" },
+    { label: "Trending TV", path: "/tv/trending" },
     { label: "TV Favourites", path: "/tv/favourites" },
   ];
 
+  const [menuOptions, setMenuOptions] = useState<MenuOptions[]>(movieOptions);
+  const [movieOrTV, setMovieOrTV] = useState<Boolean>(false);  
+
   const handleMenuSelect = (pageURL: string) => {
     navigate(pageURL);
+  };
+
+  const toggleMoviesOrTV = () => {
+    setMovieOrTV(!movieOrTV);
+    if (movieOrTV) setMenuOptions(movieOptions);
+    else setMenuOptions(tvOptions);
   };
 
   const handleMenu = (event: MouseEvent<HTMLButtonElement>) => {
@@ -102,6 +115,14 @@ const SiteHeader: React.FC = () => {
               ))}
             </>
           )}
+          <Button
+            color="warning"
+            onClick={() => toggleMoviesOrTV()}
+            variant="outlined"
+            classes="left"
+          >
+            Toggle Movies or TV
+          </Button>
         </Toolbar>
       </AppBar>
       <Offset />

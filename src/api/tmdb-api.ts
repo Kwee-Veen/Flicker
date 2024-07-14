@@ -102,8 +102,6 @@ export const getTVReviews = (id: string | number) => {
     });
 };
 
-
-
 export const getUpcomingMovies = (page: number = 1) => {
   if (page < 1) { page = 1}
   return fetch(
@@ -121,10 +119,24 @@ export const getUpcomingMovies = (page: number = 1) => {
 export const getPopularMovies = (page: number = 1) => {
   if (page < 1) { page = 1}
   return fetch(
-    `https://api.themoviedb.org/3/movie/top_rated?api_key=${import.meta.env.VITE_TMDB_KEY}&language=en-US&page=${page}`
+    `https://api.themoviedb.org/3/trending/movie/week?api_key=${import.meta.env.VITE_TMDB_KEY}&language=en-US&page=${page}`
   ).then((response) => {
     if (!response.ok)
       throw new Error(`Unable to fetch popular movies. Response status: ${response.status}`);
+    return response.json();
+  })
+    .catch((error) => {
+      throw error
+    });
+};
+
+export const getTrendingTV = (page: number = 1) => {
+  if (page < 1) { page = 1}
+  return fetch(
+    `https://api.themoviedb.org/3/trending/tv/week?api_key=${import.meta.env.VITE_TMDB_KEY}&language=en-US&page=${page}`
+  ).then((response) => {
+    if (!response.ok)
+      throw new Error(`Unable to fetch trending TV. Response status: ${response.status}`);
     return response.json();
   })
     .catch((error) => {

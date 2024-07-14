@@ -42,6 +42,11 @@ export interface BaseTVListProps {
   action: (m: BaseTVProps) => React.ReactNode;
 }
 
+export interface MenuOptions {
+  label: string,
+  path: string,
+}
+
 export interface MovieDetailsProps extends BaseMovieProps {
   genres: {
     id: number;
@@ -69,6 +74,12 @@ export interface MoviePageProps {
 }
 
 export interface Review{
+  id: string;
+  content: string
+  author: string
+}
+
+export interface TVReview{
   id: string;
   content: string
   author: string

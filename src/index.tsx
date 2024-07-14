@@ -19,6 +19,7 @@ import TVContextProvider from "./contexts/tvContext";
 import FavouriteTVPage from "./pages/favouriteTVPage";
 import TVReviewPage from "./pages/tvReviewPage";
 import AddTVReviewPage from "./pages/addTVReviewPage";
+import TrendingTVPage from "./pages/trendingTVPage";
 
 const queryClient = new QueryClient({
   defaultOptions: {
@@ -53,6 +54,7 @@ const App = () => {
                   <Route path="/tv" element={<DiscoverTVPage/>} />
                   <Route path="/tv/:id" element={<TVDetailsPage />} />
                   <Route path="/tv/favourites" element={<FavouriteTVPage />} />
+                  <Route path="/tv/trending" element={<TrendingTVPage/>} />
                   <Route path="/tvreviews/:id" element={<TVReviewPage />} />
                   <Route path="/tvreviews/form" element={<AddTVReviewPage/>} />
                 </Routes>
