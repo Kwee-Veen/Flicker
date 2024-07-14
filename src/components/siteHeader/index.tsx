@@ -16,7 +16,15 @@ import { MenuOptions } from "../../types/interfaces";
 const styles = {
     title: {
       flexGrow: 1,
+      fontWeight: '500',
+      letterSpacing: 6,
+      fontFamily: 'Monospace'
     },
+    // subtitle: {
+    //   flexGrow: 8,
+    //   fontWeight: 'light',
+    //   textAlign: 'left',
+    // },
   };
 
 const Offset = styled("div")(({ theme }) => theme.mixins.toolbar);
@@ -31,8 +39,10 @@ const SiteHeader: React.FC = () => {
   const movieOptions: MenuOptions[] = [
     { label: "Discover Movies", path: "/" },
     { label: "Trending Movies", path: "/movies/popular" },
-    { label: "Upcoming Movies", path: "/movies/upcoming" },
     { label: "Favorite Movies", path: "/movies/favourites" },
+    { label: "", path: "" },
+    { label: "Upcoming Movies", path: "/movies/upcoming" },
+    { label: "Must-Watch Movies", path: "/movies/mustWatch" },
   ];
 
   const tvOptions: MenuOptions[] = [
@@ -60,11 +70,14 @@ const SiteHeader: React.FC = () => {
 
   return (
     <>
-      <AppBar position="fixed" elevation={0} color="primary">
+      <AppBar position="fixed" elevation={0} color="error">
         <Toolbar>
           <Typography variant="h4" sx={styles.title}>
-            TMDB Client
+            Flicker.
           </Typography>
+          {/* <Typography sx={styles.subtitle}>
+            Films & TV
+          </Typography> */}
           {isMobile ? (
             <>
               <IconButton
@@ -115,11 +128,11 @@ const SiteHeader: React.FC = () => {
               ))}
             </>
           )}
+          &nbsp;&nbsp;&nbsp;
           <Button
-            color="warning"
+            color="secondary"
             onClick={() => toggleMoviesOrTV()}
-            variant="outlined"
-            classes="left"
+            variant="contained"
           >
             Toggle Movies or TV
           </Button>
