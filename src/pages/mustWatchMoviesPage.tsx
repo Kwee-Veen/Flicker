@@ -50,6 +50,7 @@ const MustWatchMoviesPage: React.FC = () => {
 
   const allMustWatchMovies = mustWatchMovieQueries.map((q) => q.data);
   const displayedMovies = allMustWatchMovies
+    .sort((a, b) => a.title.localeCompare(b.title))
     ? filterFunction(allMustWatchMovies)
     : [];
 

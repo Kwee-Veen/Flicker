@@ -50,6 +50,7 @@ const FavouriteTVPage: React.FC = () => {
 
   const allFavourites = favouriteTVQueries.map((q) => q.data);
   const displayedTV = allFavourites
+    .sort((a, b) => a.name.localeCompare(b.name))
     ? filterFunction(allFavourites)
     : [];
 

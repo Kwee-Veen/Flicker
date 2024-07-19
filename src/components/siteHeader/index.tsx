@@ -20,11 +20,6 @@ const styles = {
       letterSpacing: 6,
       fontFamily: 'Monospace'
     },
-    // subtitle: {
-    //   flexGrow: 8,
-    //   fontWeight: 'light',
-    //   textAlign: 'left',
-    // },
   };
 
 const Offset = styled("div")(({ theme }) => theme.mixins.toolbar);
@@ -75,9 +70,6 @@ const SiteHeader: React.FC = () => {
           <Typography variant="h4" sx={styles.title}>
             Flicker.
           </Typography>
-          {/* <Typography sx={styles.subtitle}>
-            Films & TV
-          </Typography> */}
           {isMobile ? (
             <>
               <IconButton

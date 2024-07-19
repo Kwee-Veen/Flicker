@@ -50,6 +50,7 @@ const FavouriteMoviesPage: React.FC = () => {
 
   const allFavourites = favouriteMovieQueries.map((q) => q.data);
   const displayedMovies = allFavourites
+    .sort((a, b) => a.title.localeCompare(b.title))
     ? filterFunction(allFavourites)
     : [];
 
