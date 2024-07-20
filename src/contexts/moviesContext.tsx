@@ -1,5 +1,5 @@
 import React, { useState, useCallback } from "react";
-import { BaseMovieProps, Review } from "../types/interfaces";
+import { BaseMovieProps, MenuOptions, Review } from "../types/interfaces";
 
 interface MovieContextInterface {
   favourites: number[];
@@ -9,6 +9,7 @@ interface MovieContextInterface {
   mustWatchList: number[];
   addToMustWatchList: ((movie: BaseMovieProps) => void);
   removeFromMustWatchList: ((movie: BaseMovieProps) => void);
+  movieGenres: MenuOptions[];
 }
 const initialContextState: MovieContextInterface = {
   favourites: [],
@@ -18,6 +19,7 @@ const initialContextState: MovieContextInterface = {
   mustWatchList: [],
   addToMustWatchList: () => { },
   removeFromMustWatchList: () => { },
+  movieGenres: [],
 };
 
 export const MoviesContext = React.createContext<MovieContextInterface>(initialContextState);
@@ -60,6 +62,29 @@ const MoviesContextProvider: React.FC<React.PropsWithChildren> = ({ children }) 
       setMustWatchList((prevMustWatchList) => prevMustWatchList.filter((mId) => mId !== movie.id));
   }, []);
 
+  const [movieGenres] = useState<MenuOptions[]> ([
+    { label: "Pick a genre", path: "" },
+    { label: "Action", path: "28" },
+    { label: "Adventure", path: "12" },
+    { label: "Animation", path: "16" },
+    { label: "Comedy", path: "35" },
+    { label: "Crime", path: "80" },
+    { label: "Documentary", path: "99" },
+    { label: "Drama", path: "18" },
+    { label: "Family", path: "10751" },
+    { label: "Fantasy", path: "14" },
+    { label: "History", path: "36" },
+    { label: "Horror", path: "27" },
+    { label: "Music", path: "10402" },
+    { label: "Mystery", path: "9648" },
+    { label: "Romance", path: "10749" },
+    { label: "Science Fiction", path: "878" },
+    { label: "TV Movie", path: "10770" },
+    { label: "Thriller", path: "53" },
+    { label: "War", path: "10752" },
+    { label: "Western", path: "37" },
+  ])
+
   return (
     <MoviesContext.Provider
       value={{
@@ -70,6 +95,7 @@ const MoviesContextProvider: React.FC<React.PropsWithChildren> = ({ children }) 
         mustWatchList,
         addToMustWatchList,
         removeFromMustWatchList,
+        movieGenres,
       }}
     >
       {children}

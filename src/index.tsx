@@ -21,6 +21,7 @@ import TVReviewPage from "./pages/tvReviewPage";
 import AddTVReviewPage from "./pages/addTVReviewPage";
 import TrendingTVPage from "./pages/trendingTVPage";
 import MustWatchMoviesPage from "./pages/mustWatchMoviesPage";
+import MoviesByGenrePage from "./pages/moviesByGenrePage";
 
 const queryClient = new QueryClient({
   defaultOptions: {
@@ -31,8 +32,6 @@ const queryClient = new QueryClient({
     },
   },
 });
-
-// let title = "";
 
 const App = () => {
   return (
@@ -50,6 +49,7 @@ const App = () => {
                   <Route path="/movies/mustWatch" element={<MustWatchMoviesPage />} />
                   <Route path="/movies/upcoming" element={<UpcomingMoviesPage />} />
                   <Route path="/movies/popular" element={<PopularMoviesPage />} />
+                  <Route path="/movies/genre/:genreId" element={<MoviesByGenrePage />} />
                   <Route path="/reviews/:id" element={<MovieReviewPage />} />
                   <Route path="/reviews/form" element={<AddMovieReviewPage/>} />
 
