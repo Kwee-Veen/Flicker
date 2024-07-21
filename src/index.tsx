@@ -59,6 +59,7 @@ const App = () => {
                   <Route path="/tv/favourites" element={<FavouriteTVPage />} />
                   <Route path="/tv/trending" element={<TrendingTVPage/>} />
                   <Route path="/tv/genre/:genreId" element={<TVByGenrePage />} />
+                  <Route path="/tv/customSearch" element={<TVByGenrePage />} />
                   <Route path="/tvreviews/:id" element={<TVReviewPage />} />
                   <Route path="/tvreviews/form" element={<AddTVReviewPage/>} />
                 </Routes>

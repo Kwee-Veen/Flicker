@@ -4,24 +4,18 @@ import { getContent } from "../api/tmdb-api";
 import { BaseTVProps, DiscoverTV } from "../types/interfaces";
 import { useQuery } from "react-query";
 import Spinner from "../components/spinner";
-// import { PagesContext } from "../contexts/pagesContext";
-import { useLocation } from "react-router-dom";
 import { PagesContext } from "../contexts/pagesContext";
 import AddToTVFavouritesIcon from "../components/cardIcons/addToTVFavourites";
 
 const TVByGenrePage: React.FC = () => {
-  
-  const location = useLocation();
-  const { genreId } = location.state;
-  const { voteAverage } = location.state;
 
-  const { tvByGenrePageCount } = useContext(PagesContext);
-  const { incrementTVByGenrePageCount } = useContext(PagesContext);
-  const { decrementTVByGenrePageCount } = useContext(PagesContext);
-  const { data, error, isLoading, isError } = useQuery<DiscoverTV, Error>(`discover tv genre ${genreId} page ${tvByGenrePageCount}`, () => getContent("tv", tvByGenrePageCount, voteAverage, genreId));
-
-
-  document.title = "TV by Genre - TMDB Client"
+  const { genreId, genreLabel, voteAverage ,tvByGenrePageCount, incrementTVByGenrePageCount, decrementTVByGenrePageCount } = useContext(PagesContext);
+  let genreString: string = ''; 
+  let voteString: string = ''; 
+  if (genreLabel) genreString = `${genreLabel} `;
+  if (voteAverage) voteString = ` Rated ≥ ${voteAverage}`;
+  document.title = `Page ${tvByGenrePageCount} of ${genreString}TV${voteString}`
+  const { data, error, isLoading, isError } = useQuery<DiscoverTV, Error>(`TV of genre: ${genreLabel}, average vote: ${voteAverage}, page: ${tvByGenrePageCount}`, () => getContent("tv", tvByGenrePageCount, voteAverage, genreId));
 
   if (isLoading) {
     return <Spinner />;

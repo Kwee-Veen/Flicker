@@ -1,23 +1,21 @@
 import React, { useContext } from "react";
 import PageTemplate from "../components/templateMovieListPage";
-import { getContent, getContentWithGenre } from "../api/tmdb-api";
+import { getContent } from "../api/tmdb-api";
 import { BaseMovieProps, DiscoverMovies } from "../types/interfaces";
 import { useQuery } from "react-query";
 import Spinner from "../components/spinner";
 import AddToFavouritesIcon from '../components/cardIcons/addToFavourites'
-// import { PagesContext } from "../contexts/pagesContext";
 import { useLocation } from "react-router-dom";
 import { PagesContext } from "../contexts/pagesContext";
 
 const MoviesByGenrePage: React.FC = () => {
-  
-  const location = useLocation();
-  const { genreId } = location.state;
 
-  const { moviesByGenrePageCount } = useContext(PagesContext);
-  const { incrementMoviesByGenrePageCount } = useContext(PagesContext);
-  const { decrementMoviesByGenrePageCount } = useContext(PagesContext);
-  const { data, error, isLoading, isError } = useQuery<DiscoverMovies, Error>(`discover movies genre ${genreId} page ${moviesByGenrePageCount}`, () => getContent("movie", moviesByGenrePageCount, undefined, genreId));
+  // TODO: refactor out, useContext instead
+  // const location = useLocation();
+  // const { genreId, voteAverage } = location.state;
+
+  const { moviesByGenrePageCount, incrementMoviesByGenrePageCount, decrementMoviesByGenrePageCount } = useContext(PagesContext);
+  const { data, error, isLoading, isError } = useQuery<DiscoverMovies, Error>(`discover movies genre ${genreId} page ${moviesByGenrePageCount}`, () => getContent("movie", moviesByGenrePageCount, voteAverage, genreId));
 
   document.title = "Movies by Genre - TMDB Client"
 

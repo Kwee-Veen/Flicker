@@ -24,6 +24,12 @@ interface MovieContextInterface {
   setTVByGenrePageCount: ((number: number) => void);
   incrementTVByGenrePageCount: (() => void);
   decrementTVByGenrePageCount: (() => void);
+  voteAverage: number | undefined;
+  setVoteAverage: ((number: number | undefined) => void);
+  genreId: number | string |undefined;
+  setGenreId: ((number: number | string | undefined) => void);
+  genreLabel: string |undefined;
+  setGenreLabel: ((label: string | undefined) => void);
 }
 const initialContextState: MovieContextInterface = {
   popularMoviesPageCount: 1,
@@ -49,6 +55,12 @@ const initialContextState: MovieContextInterface = {
   setTVByGenrePageCount: () => { },
   incrementTVByGenrePageCount: () => { },
   decrementTVByGenrePageCount: () => { },
+  voteAverage: undefined,
+  setVoteAverage: () => { },
+  genreId: undefined,
+  setGenreId: () => { },
+  genreLabel: undefined,
+  setGenreLabel: () => { },
 };
 
 export const PagesContext = React.createContext<MovieContextInterface>(initialContextState);
@@ -124,6 +136,10 @@ const PagesContextProvider: React.FC<React.PropsWithChildren> = ({ children }) =
     setTVByGenrePageCount((tvByGenrePageCount) => (tvByGenrePageCount - 1));
   }, []);
 
+  const [voteAverage, setVoteAverage] = React.useState<number | undefined>(undefined);
+  const [genreId, setGenreId] = React.useState<number | string | undefined>(undefined);
+  const [genreLabel, setGenreLabel] = React.useState<string | undefined>(undefined);
+
 
   return (
     <PagesContext.Provider
@@ -151,6 +167,12 @@ const PagesContextProvider: React.FC<React.PropsWithChildren> = ({ children }) =
         setTVByGenrePageCount,
         incrementTVByGenrePageCount,
         decrementTVByGenrePageCount,
+        voteAverage,
+        setVoteAverage,
+        genreId,
+        setGenreId,
+        genreLabel,
+        setGenreLabel,
       }}
     >
       {children}

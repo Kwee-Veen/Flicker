@@ -46,7 +46,7 @@ export interface BaseTVListProps {
 
 export interface MenuOptions {
   label: string,
-  path: string,
+  path: string | number,
 }
 
 export interface MovieDetailsProps extends BaseMovieProps {

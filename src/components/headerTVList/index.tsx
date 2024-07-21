@@ -14,6 +14,8 @@ import { useNavigate } from "react-router-dom";
 import { TVContext } from "../../contexts/tvContext";
 import { PagesContext } from "../../contexts/pagesContext";
 import { Unstable_NumberInput as NumberInput } from '@mui/base';
+import { Button } from "@mui/material";
+import SendIcon from '@mui/icons-material/Send';
 
 const styles = {
     root: {
@@ -50,29 +52,33 @@ const TVHeader: React.FC<HeaderProps> = (headerProps) => {
       setAnchorEl(event.currentTarget);
     };
 
-    // TODO 3b: Optional - also pass in a third parameter, whether it's discover or trending or upcoming (for tv only) 
+    // TODO 0.9: Change genre and vote boxes so updating them does not immediately trigger a page change. Use temporary let variables, then push to context when button pressed.
+    // TODO 1: Change showGenreSearch to showSearch in all iterations
+    // TODO 2: Update movies to follow this
+    // TODO 3: pass in a third parameter, whether it's discover or trending or upcoming (for tv only) 
     // TODO 5: UI, have it not displace the page title as jankily
-    // FIX 1: Display the name of the genre on the tvByGenrePage somewhere. Maybe add another element to 'state' on line 85
     
-    const { setTVByGenrePageCount } = useContext(PagesContext);
+    const { setTVByGenrePageCount, setVoteAverage, setGenreId, genreLabel, setGenreLabel } = useContext(PagesContext);
 
     const handleGenreClick = (
       index: number,
-      path: string
+      path: string | number,
+      label: string,
     ) => {
       setSelectedIndex(index);
       setAnchorEl(null);
-
-      setTVByGenrePageCount(1);
-      navigate(`/tv/genre/${path}`, { state:{genreId: path, voteAverage: voteAverage}} );
+      setGenreId(path);
+      setGenreLabel(label);
     };
 
     const handleClose = () => {
       setAnchorEl(null);
     };
 
-    const [voteAverage, setVoteAverage] = React.useState<number | undefined>(undefined);
-
+    const handleSearchClick = () => {
+      setTVByGenrePageCount(1);
+      navigate(`/tv/customSearch`);
+    };
 
     return (
         <Paper component="div" sx={styles.root}>
@@ -84,7 +90,7 @@ const TVHeader: React.FC<HeaderProps> = (headerProps) => {
               </IconButton>
             }
 
-            <Typography variant="h4" component="h3">
+            <Typography variant="h5" component="h3" align="right">
                 {title}
             </Typography>
 
@@ -102,8 +108,8 @@ const TVHeader: React.FC<HeaderProps> = (headerProps) => {
                     sx={{ bgcolor: 'lavender', borderRadius: 2, maxHeight: 55, }}
                   >
                     <ListItemText
-                      primary="Genre Search"
-                      secondary={genres[selectedIndex].label}
+                      primary="Genre"
+                      secondary={genreLabel}
                     />
                   </ListItemButton>
                 </List>
@@ -120,9 +126,8 @@ const TVHeader: React.FC<HeaderProps> = (headerProps) => {
                   {genres.map((genre, index) => (
                     <MenuItem
                       key={genre.label}
-                      disabled={index === 0}
                       selected={index === selectedIndex}
-                      onClick={() => handleGenreClick(index, genre.path)}
+                      onClick={() => handleGenreClick(index, genre.path, genre.label)}
                     >
                       {genre.label}
                     </MenuItem>
@@ -132,56 +137,22 @@ const TVHeader: React.FC<HeaderProps> = (headerProps) => {
 
               <NumberInput
                 aria-label="Demo number input"
-                placeholder="Minimum Vote"
+                placeholder={`Rate out of 10`}
                 min={0}
                 max={10}
-                step={0.5}
                 onChange={(event, val) => setVoteAverage(val)}
               />
 
-              Vote Average: {voteAverage}
+              {/* Experimenting with this, delete when finished: */}
+              {/* <TextField inputProps={{ type: 'number'}} /> */}
 
-              {/* {showGenreSearch &&  <span>
-                <List
-                  component="nav"
-                >
-                  <ListItemButton
-                    id="lock-button"
-                    aria-haspopup="listbox"
-                    aria-controls="lock-menu"
-                    aria-label="Search by Average Vote"
-                    aria-expanded={open ? 'true' : undefined}
-                    onClick={handleClickListItem}
-                    sx={{ bgcolor: 'lavender', borderRadius: 2, maxHeight: 55, }}
-                  >
-                    <ListItemText
-                      primary="Genre Search"
-                      secondary={genres[selectedIndex].label}
-                    />
-                  </ListItemButton>
-                </List>
-                <Menu
-                  id="lock-menu"
-                  anchorEl={anchorEl}
-                  open={open}
-                  onClose={handleClose}
-                  MenuListProps={{
-                    'aria-labelledby': 'lock-button',
-                    role: 'listbox',
-                  }}
-                >
-                  {genres.map((genre, index) => (
-                    <MenuItem
-                      key={genre.label}
-                      disabled={index === 0}
-                      selected={index === selectedIndex}
-                      onClick={() => handleMenuItemClick(index, genre.path)}
-                    >
-                      {genre.label}
-                    </MenuItem>
-                  ))}
-                </Menu>
-              </span>} */}
+              <Button 
+                variant="contained" 
+                endIcon={<SendIcon />} 
+                onClick={() => handleSearchClick()}
+              >
+                Search
+              </Button> 
 
             {increment &&
                 <IconButton
