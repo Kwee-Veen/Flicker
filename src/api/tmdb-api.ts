@@ -26,6 +26,24 @@ export const getContentWithGenre = (medium: string, page: number = 1, genreId: n
     });
 };
 
+export const getContent = (medium: string, page: number = 1, voteAverageParam?: number, genreId?: number, ) => {
+  if (page < 1) { page = 1}
+  let voteAverage: string = '';
+  if (voteAverageParam) {voteAverage = `&vote_average.gte=${voteAverageParam}`}
+  let genre: string = '';
+  if (genreId) {genre = `&with_genres=${genreId}`}
+  return fetch(
+    `https://api.themoviedb.org/3/discover/${medium}?api_key=${import.meta.env.VITE_TMDB_KEY}&language=en-US&include_adult=false&include_video=false&page=${page}${voteAverage}${genre}`
+  ).then((response) => {
+    if (!response.ok)
+      throw new Error(`Unable to fetch movies with genreId ${genreId}. Response status: ${response.status}`);
+    return response.json();
+  })
+    .catch((error) => {
+      throw error
+    });
+};
+
 export const getTV = (page: number = 1) => {
   if (page < 1) { page = 1}
   return fetch(

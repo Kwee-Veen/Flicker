@@ -13,6 +13,7 @@ import { MenuOptions } from "../../types/interfaces";
 import { useNavigate } from "react-router-dom";
 import { TVContext } from "../../contexts/tvContext";
 import { PagesContext } from "../../contexts/pagesContext";
+import { Unstable_NumberInput as NumberInput } from '@mui/base';
 
 const styles = {
     root: {
@@ -49,15 +50,13 @@ const TVHeader: React.FC<HeaderProps> = (headerProps) => {
       setAnchorEl(event.currentTarget);
     };
 
-    // TODO 3: Have a second parameter passed into the api get request; whether it's tv or tv.
     // TODO 3b: Optional - also pass in a third parameter, whether it's discover or trending or upcoming (for tv only) 
-    // TODO 4: Only have this dropdown appear where appropriate; remove from detail-pages, favourite pages
     // TODO 5: UI, have it not displace the page title as jankily
     // FIX 1: Display the name of the genre on the tvByGenrePage somewhere. Maybe add another element to 'state' on line 85
     
     const { setTVByGenrePageCount } = useContext(PagesContext);
 
-    const handleMenuItemClick = (
+    const handleGenreClick = (
       index: number,
       path: string
     ) => {
@@ -65,12 +64,15 @@ const TVHeader: React.FC<HeaderProps> = (headerProps) => {
       setAnchorEl(null);
 
       setTVByGenrePageCount(1);
-      navigate(`/tv/genre/${path}`, { state:{genreId: path}} );
+      navigate(`/tv/genre/${path}`, { state:{genreId: path, voteAverage: voteAverage}} );
     };
 
     const handleClose = () => {
       setAnchorEl(null);
     };
+
+    const [voteAverage, setVoteAverage] = React.useState<number | undefined>(undefined);
+
 
     return (
         <Paper component="div" sx={styles.root}>
@@ -120,13 +122,66 @@ const TVHeader: React.FC<HeaderProps> = (headerProps) => {
                       key={genre.label}
                       disabled={index === 0}
                       selected={index === selectedIndex}
-                      onClick={() => handleMenuItemClick(index, genre.path)}
+                      onClick={() => handleGenreClick(index, genre.path)}
                     >
                       {genre.label}
                     </MenuItem>
                   ))}
                 </Menu>
               </span>}
+
+              <NumberInput
+                aria-label="Demo number input"
+                placeholder="Minimum Vote"
+                min={0}
+                max={10}
+                step={0.5}
+                onChange={(event, val) => setVoteAverage(val)}
+              />
+
+              Vote Average: {voteAverage}
+
+              {/* {showGenreSearch &&  <span>
+                <List
+                  component="nav"
+                >
+                  <ListItemButton
+                    id="lock-button"
+                    aria-haspopup="listbox"
+                    aria-controls="lock-menu"
+                    aria-label="Search by Average Vote"
+                    aria-expanded={open ? 'true' : undefined}
+                    onClick={handleClickListItem}
+                    sx={{ bgcolor: 'lavender', borderRadius: 2, maxHeight: 55, }}
+                  >
+                    <ListItemText
+                      primary="Genre Search"
+                      secondary={genres[selectedIndex].label}
+                    />
+                  </ListItemButton>
+                </List>
+                <Menu
+                  id="lock-menu"
+                  anchorEl={anchorEl}
+                  open={open}
+                  onClose={handleClose}
+                  MenuListProps={{
+                    'aria-labelledby': 'lock-button',
+                    role: 'listbox',
+                  }}
+                >
+                  {genres.map((genre, index) => (
+                    <MenuItem
+                      key={genre.label}
+                      disabled={index === 0}
+                      selected={index === selectedIndex}
+                      onClick={() => handleMenuItemClick(index, genre.path)}
+                    >
+                      {genre.label}
+                    </MenuItem>
+                  ))}
+                </Menu>
+              </span>} */}
 
             {increment &&
                 <IconButton

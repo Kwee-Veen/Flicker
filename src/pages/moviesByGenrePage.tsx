@@ -1,6 +1,6 @@
 import React, { useContext } from "react";
 import PageTemplate from "../components/templateMovieListPage";
-import { getContentWithGenre } from "../api/tmdb-api";
+import { getContent, getContentWithGenre } from "../api/tmdb-api";
 import { BaseMovieProps, DiscoverMovies } from "../types/interfaces";
 import { useQuery } from "react-query";
 import Spinner from "../components/spinner";
@@ -17,7 +17,7 @@ const MoviesByGenrePage: React.FC = () => {
   const { moviesByGenrePageCount } = useContext(PagesContext);
   const { incrementMoviesByGenrePageCount } = useContext(PagesContext);
   const { decrementMoviesByGenrePageCount } = useContext(PagesContext);
-  const { data, error, isLoading, isError } = useQuery<DiscoverMovies, Error>(`discover movies genre ${genreId} page ${moviesByGenrePageCount}`, () => getContentWithGenre("movie", moviesByGenrePageCount, genreId));
+  const { data, error, isLoading, isError } = useQuery<DiscoverMovies, Error>(`discover movies genre ${genreId} page ${moviesByGenrePageCount}`, () => getContent("movie", moviesByGenrePageCount, undefined, genreId));
 
   document.title = "Movies by Genre - TMDB Client"
 
