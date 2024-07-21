@@ -28,6 +28,7 @@ interface HeaderProps {
     title: string;
     increment?: Function;
     decrement?: Function;
+    showGenreSearch: boolean;
 }
 
 const Header: React.FC<HeaderProps> = (headerProps) => {
@@ -38,6 +39,7 @@ const Header: React.FC<HeaderProps> = (headerProps) => {
     let decrement: Function | null = null;
     if (headerProps.decrement !== undefined) decrement = headerProps.decrement
     const navigate = useNavigate();
+    const showGenreSearch = headerProps.showGenreSearch;
 
     const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
     const [selectedIndex, setSelectedIndex] = React.useState(1);
@@ -47,10 +49,8 @@ const Header: React.FC<HeaderProps> = (headerProps) => {
       setAnchorEl(event.currentTarget);
     };
 
-    // TODO 3: Have a second parameter passed into the api get request; whether it's tv or movie.
-    // TODO 3b: Optional - also pass in a third parameter, whether it's discover or trending or upcoming (for movies only) 
-    // TODO 4: Only have this dropdown appear where appropriate; remove from detail-pages, favourite pages
-    // TODO 5: UI, have it not displace the page title as jankily
+    // TODO 1: Optional - also pass in a third parameter, whether it's discover or trending or upcoming (for movies only) 
+    // TODO 2: UI, have it not displace the page title as jankily
     // FIX 1: Display the name of the genre on the moviesByGenrePage somewhere. Maybe add another element to 'state' on line 85
     
     const { setMoviesByGenrePageCount } = useContext(PagesContext);
@@ -63,7 +63,7 @@ const Header: React.FC<HeaderProps> = (headerProps) => {
       setAnchorEl(null);
 
       setMoviesByGenrePageCount(1);
-      navigate(`/movies/genre/${path}`, {state:{genreId: path}});
+      navigate(`/movies/genre/${path}`, { state:{genreId: path}} );
     };
 
     const handleClose = () => {
@@ -84,47 +84,47 @@ const Header: React.FC<HeaderProps> = (headerProps) => {
                 {title}
             </Typography>
 
-            <span>
-              <List
-                component="nav"
-              >
-                <ListItemButton
-                  id="lock-button"
-                  aria-haspopup="listbox"
-                  aria-controls="lock-menu"
-                  aria-label="Search by Genre"
-                  aria-expanded={open ? 'true' : undefined}
-                  onClick={handleClickListItem}
-                  sx={{ bgcolor: 'lavender', borderRadius: 2, maxHeight: 55, }}
+            {showGenreSearch &&  <span>
+                <List
+                  component="nav"
                 >
-                  <ListItemText
-                    primary="Genre Search"
-                    secondary={genres[selectedIndex].label}
-                  />
-                </ListItemButton>
-              </List>
-              <Menu
-                id="lock-menu"
-                anchorEl={anchorEl}
-                open={open}
-                onClose={handleClose}
-                MenuListProps={{
-                  'aria-labelledby': 'lock-button',
-                  role: 'listbox',
-                }}
-              >
-                {genres.map((genre, index) => (
-                  <MenuItem
-                    key={genre.label}
-                    disabled={index === 0}
-                    selected={index === selectedIndex}
-                    onClick={() => handleMenuItemClick(index, genre.path)}
+                  <ListItemButton
+                    id="lock-button"
+                    aria-haspopup="listbox"
+                    aria-controls="lock-menu"
+                    aria-label="Search by Genre"
+                    aria-expanded={open ? 'true' : undefined}
+                    onClick={handleClickListItem}
+                    sx={{ bgcolor: 'lavender', borderRadius: 2, maxHeight: 55, }}
                   >
-                    {genre.label}
-                  </MenuItem>
-                ))}
-              </Menu>
-            </span>
+                    <ListItemText
+                      primary="Genre Search"
+                      secondary={genres[selectedIndex].label}
+                    />
+                  </ListItemButton>
+                </List>
+                <Menu
+                  id="lock-menu"
+                  anchorEl={anchorEl}
+                  open={open}
+                  onClose={handleClose}
+                  MenuListProps={{
+                    'aria-labelledby': 'lock-button',
+                    role: 'listbox',
+                  }}
+                >
+                  {genres.map((genre, index) => (
+                    <MenuItem
+                      key={genre.label}
+                      disabled={index === 0}
+                      selected={index === selectedIndex}
+                      onClick={() => handleMenuItemClick(index, genre.path)}
+                    >
+                      {genre.label}
+                    </MenuItem>
+                  ))}
+                </Menu>
+              </span>}
 
             {increment &&
                 <IconButton

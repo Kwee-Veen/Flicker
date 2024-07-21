@@ -76,6 +76,7 @@ const FavouriteMoviesPage: React.FC = () => {
             </>
           );
         }}
+        showGenreSearch={false}
       />
       <MovieFilterUI
         onFilterValuesChange={changeFilterValues}

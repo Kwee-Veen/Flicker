@@ -1,5 +1,5 @@
 import React from "react";
-import Header from "../headerMovieList";
+import TVHeader from "../headerTVList";
 import Grid from "@mui/material/Grid";
 import { TVListPageTemplateProps } from "../../types/interfaces";
 import TVList from "../tvList";
@@ -10,11 +10,11 @@ const styles = {
   }
 };
 
-const TVListPageTemplate: React.FC<TVListPageTemplateProps> = ({ tv, name, action, increment, decrement }) => {
+const TVListPageTemplate: React.FC<TVListPageTemplateProps> = ({ tv, name, action, increment, decrement, showGenreSearch }) => {
   return (
     <Grid container sx={styles.root}>
       <Grid item xs={12}>
-        <Header title={name} increment={increment} decrement={decrement}/>
+        <TVHeader title={name} increment={increment} decrement={decrement} showGenreSearch={showGenreSearch}/>
       </Grid>
       <Grid item container spacing={5}>
         <TVList action={action} tv={tv}></TVList>

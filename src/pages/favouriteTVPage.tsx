@@ -76,6 +76,7 @@ const FavouriteTVPage: React.FC = () => {
             </>
           );
         }}
+        showGenreSearch={false}
       />
       <TVFilterUI
         onFilterValuesChange={changeFilterValues}

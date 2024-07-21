@@ -70,6 +70,7 @@ const DiscoverTVPage: React.FC = () => {
         decrement={
           decrementTVPageCount
         }
+        showGenreSearch={true}
       />
       <TVFilterUI
         onFilterValuesChange={changeFilterValues}

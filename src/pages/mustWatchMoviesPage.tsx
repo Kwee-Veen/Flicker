@@ -76,6 +76,7 @@ const MustWatchMoviesPage: React.FC = () => {
             </>
           );
         }}
+        showGenreSearch={false}
       />
       <MovieFilterUI
         onFilterValuesChange={changeFilterValues}

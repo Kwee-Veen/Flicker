@@ -20,6 +20,10 @@ interface MovieContextInterface {
   setMoviesByGenrePageCount: ((number: number) => void);
   incrementMoviesByGenrePageCount: (() => void);
   decrementMoviesByGenrePageCount: (() => void);
+  tvByGenrePageCount: number;
+  setTVByGenrePageCount: ((number: number) => void);
+  incrementTVByGenrePageCount: (() => void);
+  decrementTVByGenrePageCount: (() => void);
 }
 const initialContextState: MovieContextInterface = {
   popularMoviesPageCount: 1,
@@ -41,6 +45,10 @@ const initialContextState: MovieContextInterface = {
   setMoviesByGenrePageCount: () => { },
   incrementMoviesByGenrePageCount: () => { },
   decrementMoviesByGenrePageCount: () => { },
+  tvByGenrePageCount: 1,
+  setTVByGenrePageCount: () => { },
+  incrementTVByGenrePageCount: () => { },
+  decrementTVByGenrePageCount: () => { },
 };
 
 export const PagesContext = React.createContext<MovieContextInterface>(initialContextState);
@@ -106,6 +114,16 @@ const PagesContextProvider: React.FC<React.PropsWithChildren> = ({ children }) =
     setTrendingTVPageCount((trendingTVPageCount) => (trendingTVPageCount - 1));
   }, []);
 
+  const [tvByGenrePageCount, setTVByGenrePageCount] = useState<number>(1);
+
+  const incrementTVByGenrePageCount = useCallback(() => {
+    setTVByGenrePageCount((tvByGenrePageCount) => (tvByGenrePageCount + 1));
+  }, []);
+
+  const decrementTVByGenrePageCount = useCallback(() => {
+    setTVByGenrePageCount((tvByGenrePageCount) => (tvByGenrePageCount - 1));
+  }, []);
+
 
   return (
     <PagesContext.Provider
@@ -129,6 +147,10 @@ const PagesContextProvider: React.FC<React.PropsWithChildren> = ({ children }) =
         setMoviesByGenrePageCount,
         incrementMoviesByGenrePageCount,
         decrementMoviesByGenrePageCount,
+        tvByGenrePageCount,
+        setTVByGenrePageCount,
+        incrementTVByGenrePageCount,
+        decrementTVByGenrePageCount,
       }}
     >
       {children}

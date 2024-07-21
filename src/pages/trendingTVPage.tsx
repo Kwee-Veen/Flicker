@@ -68,6 +68,7 @@ const TrendingTVPage: React.FC = () => {
         decrement={
           decrementTrendingTVPageCount
         }
+        showGenreSearch={false}
       />
       <TVFilterUI
         onFilterValuesChange={changeFilterValues}

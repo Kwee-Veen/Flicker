@@ -22,12 +22,14 @@ export interface MovieListPageTemplateProps extends BaseMovieListProps {
   title: string;
   increment?: Function;
   decrement?: Function;
+  showGenreSearch: boolean;
 }
 
 export interface TVListPageTemplateProps extends BaseTVListProps {
   name: string;
   increment?: Function;
   decrement?: Function;
+  showGenreSearch: boolean;
 }
 
 export type FilterOption = "title" | "name" | "genre";

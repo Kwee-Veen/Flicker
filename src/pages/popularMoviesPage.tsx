@@ -68,6 +68,7 @@ const PopularMoviesPage: React.FC = () => {
         decrement={
           decrementPopularMoviesPageCount
         }
+        showGenreSearch={false}
       />
       <MovieFilterUI
         onFilterValuesChange={changeFilterValues}

@@ -70,6 +70,7 @@ const HomePage: React.FC = () => {
         decrement={
           decrementMoviesPageCount
         }
+        showGenreSearch={true}
       />
       <MovieFilterUI
         onFilterValuesChange={changeFilterValues}
