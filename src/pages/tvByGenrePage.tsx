@@ -7,15 +7,20 @@ import Spinner from "../components/spinner";
 import { PagesContext } from "../contexts/pagesContext";
 import AddToTVFavouritesIcon from "../components/cardIcons/addToTVFavourites";
 
-const TVByGenrePage: React.FC = () => {
+const TVSearchResultsPage: React.FC = () => {
 
-  const { genreId, genreLabel, voteAverage ,tvByGenrePageCount, incrementTVByGenrePageCount, decrementTVByGenrePageCount } = useContext(PagesContext);
+  const { genreId, genreLabel, voteAverage, sortBy, sortByLabel, tvByGenrePageCount, incrementTVByGenrePageCount, decrementTVByGenrePageCount } = useContext(PagesContext);
   let genreString: string = ''; 
-  let voteString: string = ''; 
   if (genreLabel) genreString = `${genreLabel} `;
+
+  let voteString: string = ''; 
   if (voteAverage) voteString = ` Rated ≥ ${voteAverage}`;
-  document.title = `Page ${tvByGenrePageCount} of ${genreString}TV${voteString}`
-  const { data, error, isLoading, isError } = useQuery<DiscoverTV, Error>(`TV of genre: ${genreLabel}, average vote: ${voteAverage}, page: ${tvByGenrePageCount}`, () => getContent("tv", tvByGenrePageCount, voteAverage, genreId));
+
+  let sortString: string = ''; 
+  if (sortByLabel) sortString = `, sorted by ${sortByLabel} `;
+
+  document.title = `Page ${tvByGenrePageCount}`
+  const { data, error, isLoading, isError } = useQuery<DiscoverTV, Error>(`TV of genre: ${genreLabel}, average vote: ${voteAverage}, sorted by ${sortByLabel}, page: ${tvByGenrePageCount}`, () => getContent("tv", tvByGenrePageCount, voteAverage, genreId, sortBy));
 
   if (isLoading) {
     return <Spinner />;
@@ -37,9 +42,9 @@ const TVByGenrePage: React.FC = () => {
         }}
         increment={incrementTVByGenrePageCount}
         decrement={decrementTVByGenrePageCount}
-        showGenreSearch={true}
+        showSearch={true}
       />
     </>
   );
 };
-export default TVByGenrePage;
+export default TVSearchResultsPage;

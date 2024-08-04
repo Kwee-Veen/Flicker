@@ -33,7 +33,7 @@ const UpcomingMoviesPage: React.FC = () => {
     [titleFiltering, genreFiltering]
   );
 
-  document.title = `Upcoming Movies - TMDB Client`
+  document.title = `Upcoming Movies`
 
   if (isLoading) {
     return <Spinner />;
@@ -70,7 +70,7 @@ const UpcomingMoviesPage: React.FC = () => {
         decrement={
           decrementUpcomingMoviesPageCount
         }
-        showGenreSearch={false}
+        showSearch={false}
       />
       <MovieFilterUI
         onFilterValuesChange={changeFilterValues}

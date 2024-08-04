@@ -13,156 +13,209 @@ import { MenuOptions } from "../../types/interfaces";
 import { useNavigate } from "react-router-dom";
 import { TVContext } from "../../contexts/tvContext";
 import { PagesContext } from "../../contexts/pagesContext";
-import { Unstable_NumberInput as NumberInput } from '@mui/base';
 import { Button } from "@mui/material";
 import SendIcon from '@mui/icons-material/Send';
+import NumberInput from "../numberInputBox";
 
 const styles = {
-    root: {
-        display: "flex",
-        justifyContent: "space-around",
-        alignItems: "center",
-        flexWrap: "wrap",
-        marginBottom: 1.5,
-    },
+  root: {
+    display: "flex",
+    justifyContent: "space-around",
+    alignItems: "center",
+    flexWrap: "wrap",
+    marginBottom: 1.5,
+  },
 };
 
 interface HeaderProps {
-    title: string;
-    increment?: Function;
-    decrement?: Function;
-    showGenreSearch: boolean;
+  title: string;
+  increment?: Function;
+  decrement?: Function;
+  showSearch: boolean;
 }
 
 const TVHeader: React.FC<HeaderProps> = (headerProps) => {
-    const navigate = useNavigate();
-    const genres: MenuOptions[] = useContext(TVContext).tvGenres;
-    const title = headerProps.title;
-    let increment: Function | null = null;
-    if (headerProps.increment !== undefined) increment = headerProps.increment
-    let decrement: Function | null = null;
-    if (headerProps.decrement !== undefined) decrement = headerProps.decrement
-    const showGenreSearch = headerProps.showGenreSearch;
+  const navigate = useNavigate();
+  const genres: MenuOptions[] = useContext(TVContext).tvGenres;
+  const sortOptions: MenuOptions[] = useContext(TVContext).sortOptions;
+  const title = headerProps.title;
+  let increment: Function | null = null;
+  if (headerProps.increment !== undefined) increment = headerProps.increment
+  let decrement: Function | null = null;
+  if (headerProps.decrement !== undefined) decrement = headerProps.decrement
+  const showSearch = headerProps.showSearch;
 
-    const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
-    const [selectedIndex, setSelectedIndex] = React.useState(1);
+  const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
+  const [sortAnchorEl, setSortAnchorEl] = React.useState<null | HTMLElement>(null);
+  const [selectedIndex, setSelectedIndex] = React.useState(1);
 
-    const open = Boolean(anchorEl);
-    const handleClickListItem = (event: React.MouseEvent<HTMLElement>) => {
-      setAnchorEl(event.currentTarget);
-    };
+  const open = Boolean(anchorEl);
+  const handleClickListItem = (event: React.MouseEvent<HTMLElement>) => {
+    setAnchorEl(event.currentTarget);
+  };
+  const openSort = Boolean(sortAnchorEl);
+  const handleClickSortListItem = (event: React.MouseEvent<HTMLElement>) => {
+    setSortAnchorEl(event.currentTarget);
+  };
 
-    // TODO 0.9: Change genre and vote boxes so updating them does not immediately trigger a page change. Use temporary let variables, then push to context when button pressed.
-    // TODO 1: Change showGenreSearch to showSearch in all iterations
-    // TODO 2: Update movies to follow this
-    // TODO 3: pass in a third parameter, whether it's discover or trending or upcoming (for tv only) 
-    // TODO 5: UI, have it not displace the page title as jankily
-    
-    const { setTVByGenrePageCount, setVoteAverage, setGenreId, genreLabel, setGenreLabel } = useContext(PagesContext);
+  const { tempVoteAverage, setTVByGenrePageCount, setVoteAverage, setGenreId, genreLabel, setGenreLabel, setSortBy, sortByLabel, setSortByLabel } = useContext(PagesContext);
+  const [tempGenreLabel, setTempGenreLabel] = React.useState<string | undefined>(genreLabel);
+  const [tempGenreId, setTempGenreId] = React.useState<string | number | undefined>(undefined);
+  const [tempSortBy, setTempSortBy] = React.useState<string | undefined>(undefined);
+  const [tempSortByLabel, setTempSortByLabel] = React.useState<string | undefined>(undefined);
 
-    const handleGenreClick = (
-      index: number,
-      path: string | number,
-      label: string,
-    ) => {
-      setSelectedIndex(index);
-      setAnchorEl(null);
-      setGenreId(path);
-      setGenreLabel(label);
-    };
+  const handleGenreClick = (
+    index: number,
+    path: string | number,
+    label: string,
+  ) => {
+    setSelectedIndex(index);
+    setAnchorEl(null);
+    setTempGenreId(path);
+    setTempGenreLabel(label);
+  };
 
-    const handleClose = () => {
-      setAnchorEl(null);
-    };
+  const handleSortClick = (
+    path: string,
+    label: string,
+  ) => {
+    setTempSortBy(path);
+    setTempSortByLabel(label);
+  };
 
-    const handleSearchClick = () => {
-      setTVByGenrePageCount(1);
-      navigate(`/tv/customSearch`);
-    };
+  const handleClose = () => {
+    setAnchorEl(null);
+  };
+  const handleCloseSort = () => {
+    setSortAnchorEl(null);
+  };
 
-    return (
-        <Paper component="div" sx={styles.root}>
-            {decrement &&
-              <IconButton
-                  aria-label="go back" onClick={() => { decrement(); }}
-              >
-                  <ArrowBackIcon color="primary" fontSize="large" />
-              </IconButton>
-            }
+  const handleSearchClick = () => {
+    setTVByGenrePageCount(1);
+    setGenreId(tempGenreId);
+    setGenreLabel(tempGenreLabel);
+    setVoteAverage(tempVoteAverage);
+    if (tempSortBy) setSortBy(tempSortBy);
+    if (tempSortByLabel) setSortByLabel(tempSortByLabel);
+    navigate(`/tv/customSearch`);
+  };
 
-            <Typography variant="h5" component="h3" align="right">
-                {title}
-            </Typography>
+  return (
+    <Paper component="div" sx={styles.root}>
+      {decrement &&
+        <IconButton
+          aria-label="go back" onClick={() => { decrement(); }}
+        >
+          <ArrowBackIcon color="primary" fontSize="large" />
+        </IconButton>
+      }
 
-            {showGenreSearch &&  <span>
-                <List
-                  component="nav"
-                >
-                  <ListItemButton
-                    id="lock-button"
-                    aria-haspopup="listbox"
-                    aria-controls="lock-menu"
-                    aria-label="Search by Genre"
-                    aria-expanded={open ? 'true' : undefined}
-                    onClick={handleClickListItem}
-                    sx={{ bgcolor: 'lavender', borderRadius: 2, maxHeight: 55, }}
-                  >
-                    <ListItemText
-                      primary="Genre"
-                      secondary={genreLabel}
-                    />
-                  </ListItemButton>
-                </List>
-                <Menu
-                  id="lock-menu"
-                  anchorEl={anchorEl}
-                  open={open}
-                  onClose={handleClose}
-                  MenuListProps={{
-                    'aria-labelledby': 'lock-button',
-                    role: 'listbox',
-                  }}
-                >
-                  {genres.map((genre, index) => (
-                    <MenuItem
-                      key={genre.label}
-                      selected={index === selectedIndex}
-                      onClick={() => handleGenreClick(index, genre.path, genre.label)}
-                    >
-                      {genre.label}
-                    </MenuItem>
-                  ))}
-                </Menu>
-              </span>}
+      <Typography variant="h5" component="h3" align="right">
+        {title}
+      </Typography>
 
-              <NumberInput
-                aria-label="Demo number input"
-                placeholder={`Rate out of 10`}
-                min={0}
-                max={10}
-                onChange={(event, val) => setVoteAverage(val)}
+      {showSearch &&
+        <span>
+          <List component="nav">
+            <ListItemButton
+              id="lock-button"
+              aria-haspopup="listbox"
+              aria-controls="lock-menu"
+              aria-label="Search by Genre"
+              aria-expanded={open ? 'true' : undefined}
+              onClick={handleClickListItem}
+              sx={{ bgcolor: 'lavender', borderRadius: 2, maxHeight: 55, }}
+            >
+              <ListItemText
+                primary="Genre"
+                secondary={tempGenreLabel}
               />
-
-              {/* Experimenting with this, delete when finished: */}
-              {/* <TextField inputProps={{ type: 'number'}} /> */}
-
-              <Button 
-                variant="contained" 
-                endIcon={<SendIcon />} 
-                onClick={() => handleSearchClick()}
+            </ListItemButton>
+          </List>
+          <Menu
+            id="lock-menu"
+            anchorEl={anchorEl}
+            open={open}
+            onClose={handleClose}
+            MenuListProps={{
+              'aria-labelledby': 'lock-button',
+              role: 'listbox',
+            }}
+          >
+            {genres.map((genre, index) => (
+              <MenuItem
+                key={genre.label}
+                selected={index === selectedIndex}
+                onClick={() => handleGenreClick(index, genre.path, genre.label)}
               >
-                Search
-              </Button> 
-
-            {increment &&
-                <IconButton
-                  aria-label="go forward"  onClick={() => { increment(); }}
+                {genre.label}
+              </MenuItem>
+            ))}
+          </Menu>
+        </span>
+      }
+      {showSearch &&
+        <span>
+          <List component="nav">
+            <ListItemButton
+              id="lock-button-sort"
+              aria-haspopup="listbox"
+              aria-controls="lock-menu-sort"
+              aria-label="Sort By"
+              aria-expanded={open ? 'true' : undefined}
+              onClick={handleClickSortListItem}
+              sx={{ bgcolor: 'lavender', borderRadius: 2, maxHeight: 55, }}
+            >
+              <ListItemText
+                primary="Sort By"
+                secondary={tempSortByLabel || sortByLabel}
+              />
+            </ListItemButton>
+          </List>
+          <Menu
+            id="lock-menu-sort"
+            anchorEl={sortAnchorEl}
+            open={openSort}
+            onClose={handleCloseSort}
+            MenuListProps={{
+              'aria-labelledby': 'lock-button-sort',
+              role: 'listbox',
+            }}
+          >
+            {sortOptions.map((option, index) => (
+              <MenuItem
+                key={option.label}
+                selected={index === selectedIndex}
+                onClick={() => handleSortClick(option.path as string, option.label)}
               >
-                  <ArrowForwardIcon color="primary" fontSize="large"/>
-              </IconButton>
-            }
-        </Paper>
-    );
+                {option.label}
+              </MenuItem>
+            ))}
+          </Menu>
+        </span>
+      }
+
+      {showSearch && <NumberInput ></NumberInput>}
+
+      {showSearch &&
+        <Button
+          variant="contained"
+          endIcon={<SendIcon />}
+          onClick={() => handleSearchClick()}
+        >
+          Search
+        </Button>
+      }
+
+      {increment &&
+        <IconButton
+          aria-label="go forward" onClick={() => { increment(); }}
+        >
+          <ArrowForwardIcon color="primary" fontSize="large" />
+        </IconButton>
+      }
+    </Paper>
+  );
 };
 
 export default TVHeader;

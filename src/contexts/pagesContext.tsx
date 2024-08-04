@@ -26,10 +26,16 @@ interface MovieContextInterface {
   decrementTVByGenrePageCount: (() => void);
   voteAverage: number | undefined;
   setVoteAverage: ((number: number | undefined) => void);
+  tempVoteAverage: number | undefined;
+  setTempVoteAverage: ((number: number | undefined) => void);
   genreId: number | string |undefined;
   setGenreId: ((number: number | string | undefined) => void);
   genreLabel: string |undefined;
   setGenreLabel: ((label: string | undefined) => void);
+  sortBy: string |undefined;
+  setSortBy: ((label: string | undefined) => void);
+  sortByLabel: string |undefined;
+  setSortByLabel: ((label: string | undefined) => void);
 }
 const initialContextState: MovieContextInterface = {
   popularMoviesPageCount: 1,
@@ -57,10 +63,16 @@ const initialContextState: MovieContextInterface = {
   decrementTVByGenrePageCount: () => { },
   voteAverage: undefined,
   setVoteAverage: () => { },
+  tempVoteAverage:  undefined,
+  setTempVoteAverage: () => { },
   genreId: undefined,
   setGenreId: () => { },
   genreLabel: undefined,
   setGenreLabel: () => { },
+  sortBy: undefined,
+  setSortBy: () => { },
+  sortByLabel: undefined,
+  setSortByLabel: () => { },
 };
 
 export const PagesContext = React.createContext<MovieContextInterface>(initialContextState);
@@ -137,9 +149,11 @@ const PagesContextProvider: React.FC<React.PropsWithChildren> = ({ children }) =
   }, []);
 
   const [voteAverage, setVoteAverage] = React.useState<number | undefined>(undefined);
+  const [tempVoteAverage, setTempVoteAverage] = React.useState<number | undefined>(undefined);
   const [genreId, setGenreId] = React.useState<number | string | undefined>(undefined);
   const [genreLabel, setGenreLabel] = React.useState<string | undefined>(undefined);
-
+  const [sortBy, setSortBy] = React.useState<string | undefined>(undefined);
+  const [sortByLabel, setSortByLabel] = React.useState<string | undefined>(undefined);
 
   return (
     <PagesContext.Provider
@@ -173,6 +187,12 @@ const PagesContextProvider: React.FC<React.PropsWithChildren> = ({ children }) =
         setGenreId,
         genreLabel,
         setGenreLabel,
+        tempVoteAverage,
+        setTempVoteAverage,
+        sortBy,
+        setSortBy,
+        sortByLabel,
+        setSortByLabel,
       }}
     >
       {children}

@@ -10,6 +10,7 @@ interface TVContextInterface {
   addToTVMustWatchList: ((tvShow: BaseTVProps) => void);
   removeFromTVMustWatchList: ((tvShow: BaseTVProps) => void);
   tvGenres: MenuOptions[];
+  sortOptions: MenuOptions[];
 }
 const initialContextState: TVContextInterface = {
   tvFavourites: [],
@@ -20,6 +21,7 @@ const initialContextState: TVContextInterface = {
   addToTVMustWatchList: () => { },
   removeFromTVMustWatchList: () => { },
   tvGenres: [],
+  sortOptions: [],
 };
 
 export const TVContext = React.createContext<TVContextInterface>(initialContextState);
@@ -83,6 +85,19 @@ const TVContextProvider: React.FC<React.PropsWithChildren> = ({ children }) => {
     { label: "Western", path: 37 },
   ])
 
+  
+  const [sortOptions] = useState<MenuOptions[]> ([
+    { label: "Name (A-Z)", path: "original_name.asc" },
+    { label: "Name (Z-A)", path: "original_name.desc" },
+    { label: "Popularity (high-low)", path: "popularity.desc" },
+    { label: "Popularity (low-high)", path: "popularity.asc" },
+    { label: "Rating Average (high-low)", path: "vote_average.desc" },
+    { label: "Rating Average (low-high)", path: "vote_average.asc" },
+    { label: "Release Date (high-low)", path: "first_air_date.desc" },
+    { label: "Release Date (low-high)", path: "first_air_date.asc" },
+
+  ])
+
   return (
     <TVContext.Provider
       value={{
@@ -94,6 +109,7 @@ const TVContextProvider: React.FC<React.PropsWithChildren> = ({ children }) => {
         addToTVMustWatchList,
         removeFromTVMustWatchList,
         tvGenres,
+        sortOptions,
       }}
     >
       {children}

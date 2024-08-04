@@ -33,7 +33,7 @@ const DiscoverTVPage: React.FC = () => {
     [nameFiltering, genreFiltering]
   );
 
-  document.title = "Discover TV - TMDB Client"
+  document.title = "Discover TV"
 
   if (isLoading) {
     return <Spinner />;
@@ -70,7 +70,7 @@ const DiscoverTVPage: React.FC = () => {
         decrement={
           decrementTVPageCount
         }
-        showGenreSearch={true}
+        showSearch={true}
       />
       <TVFilterUI
         onFilterValuesChange={changeFilterValues}

@@ -26,16 +26,21 @@ export const getContentWithGenre = (medium: string, page: number = 1, genreId: n
     });
 };
 
-export const getContent = (medium: string, page: number = 1, voteAverageParam?: number, genreId?: number | string, ) => {
+export const getContent = (medium: string, page: number = 1, voteAverageParam?: number, genreId?: number | string, sortByParam?: string) => {
   
   if (page < 1) { page = 1}
+
   let genre: string = '';
-  let voteAverage: string = '';
   if (genreId) {genre = `&with_genres=${genreId}`}
+
+  let voteAverage: string = '';
   if (voteAverageParam) {voteAverage = `&vote_average.gte=${voteAverageParam}`}
 
+  let sortBy: string = '';
+  if (sortByParam) {sortBy = `&sort_by=${sortByParam}`}
+
   return fetch(
-    `https://api.themoviedb.org/3/discover/${medium}?api_key=${import.meta.env.VITE_TMDB_KEY}&language=en-US&include_adult=false&include_video=false&page=${page}${voteAverage}${genre}`
+    `https://api.themoviedb.org/3/discover/${medium}?api_key=${import.meta.env.VITE_TMDB_KEY}&language=en-US&include_adult=false&include_video=false&page=${page}${sortBy}${voteAverage}${genre}`
   ).then((response) => {
     if (!response.ok)
       throw new Error(`Unable to fetch ${medium} page ${page} ${genre} ${voteAverage}. Response status: ${response.status}`);

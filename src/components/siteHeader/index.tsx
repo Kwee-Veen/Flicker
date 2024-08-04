@@ -8,7 +8,7 @@ import { styled } from "@mui/material/styles";
 import MenuIcon from "@mui/icons-material/Menu";
 import MenuItem from "@mui/material/MenuItem";
 import Menu from "@mui/material/Menu";
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { useTheme } from "@mui/material/styles";
 import useMediaQuery from "@mui/material/useMediaQuery";
 import { MenuOptions } from "../../types/interfaces";
@@ -18,7 +18,9 @@ const styles = {
       flexGrow: 1,
       fontWeight: '500',
       letterSpacing: 6,
-      fontFamily: 'Monospace'
+      fontFamily: 'Monospace',
+      textDecoration: "none",
+      boxShadow: "none"
     },
   };
 
@@ -67,7 +69,7 @@ const SiteHeader: React.FC = () => {
     <>
       <AppBar position="fixed" elevation={0} color="error">
         <Toolbar>
-          <Typography variant="h4" sx={styles.title}>
+          <Typography variant="h4" sx={styles.title} component={Link} to="/" color="white"> 
             Flicker.
           </Typography>
           {isMobile ? (
@@ -100,7 +102,7 @@ const SiteHeader: React.FC = () => {
                 {menuOptions.map((opt) => (
                   <MenuItem
                     key={opt.label}
-                    onClick={() => handleMenuSelect(opt.path)}
+                    onClick={() => handleMenuSelect(opt.path as string)}
                   >
                     {opt.label}
                   </MenuItem>
@@ -113,7 +115,7 @@ const SiteHeader: React.FC = () => {
                 <Button
                   key={opt.label}
                   color="inherit"
-                  onClick={() => handleMenuSelect(opt.path)}
+                  onClick={() => handleMenuSelect(opt.path as string)}
                 >
                   {opt.label}
                 </Button>

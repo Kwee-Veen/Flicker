@@ -5,7 +5,7 @@ import { BaseMovieProps, DiscoverMovies } from "../types/interfaces";
 import { useQuery } from "react-query";
 import Spinner from "../components/spinner";
 import AddToFavouritesIcon from '../components/cardIcons/addToFavourites'
-import { useLocation } from "react-router-dom";
+// import { useLocation } from "react-router-dom";
 import { PagesContext } from "../contexts/pagesContext";
 
 const MoviesByGenrePage: React.FC = () => {
@@ -15,9 +15,10 @@ const MoviesByGenrePage: React.FC = () => {
   // const { genreId, voteAverage } = location.state;
 
   const { moviesByGenrePageCount, incrementMoviesByGenrePageCount, decrementMoviesByGenrePageCount } = useContext(PagesContext);
-  const { data, error, isLoading, isError } = useQuery<DiscoverMovies, Error>(`discover movies genre ${genreId} page ${moviesByGenrePageCount}`, () => getContent("movie", moviesByGenrePageCount, voteAverage, genreId));
+  // const { data, error, isLoading, isError } = useQuery<DiscoverMovies, Error>(`discover movies genre ${genreId} page ${moviesByGenrePageCount}`, () => getContent("movie", moviesByGenrePageCount, voteAverage, genreId));
+  const { data, error, isLoading, isError } = useQuery<DiscoverMovies, Error>(`discover movies genre page ${moviesByGenrePageCount}`, () => getContent("movie", moviesByGenrePageCount));
 
-  document.title = "Movies by Genre - TMDB Client"
+  document.title = "Movie Search"
 
   if (isLoading) {
     return <Spinner />;
@@ -39,7 +40,7 @@ const MoviesByGenrePage: React.FC = () => {
         }}
         increment={incrementMoviesByGenrePageCount}
         decrement={decrementMoviesByGenrePageCount}
-        showGenreSearch={true}
+        showSearch={true}
       />
     </>
   );

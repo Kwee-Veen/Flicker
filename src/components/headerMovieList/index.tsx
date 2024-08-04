@@ -28,7 +28,7 @@ interface HeaderProps {
     title: string;
     increment?: Function;
     decrement?: Function;
-    showGenreSearch: boolean;
+    showSearch: boolean;
 }
 
 const Header: React.FC<HeaderProps> = (headerProps) => {
@@ -39,7 +39,7 @@ const Header: React.FC<HeaderProps> = (headerProps) => {
     let decrement: Function | null = null;
     if (headerProps.decrement !== undefined) decrement = headerProps.decrement
     const navigate = useNavigate();
-    const showGenreSearch = headerProps.showGenreSearch;
+    const showSearch = headerProps.showSearch;
 
     const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
     const [selectedIndex, setSelectedIndex] = React.useState(1);
@@ -49,10 +49,6 @@ const Header: React.FC<HeaderProps> = (headerProps) => {
       setAnchorEl(event.currentTarget);
     };
 
-    // TODO 1: Optional - also pass in a third parameter, whether it's discover or trending or upcoming (for movies only) 
-    // TODO 2: UI, have it not displace the page title as jankily
-    // FIX 1: Display the name of the genre on the moviesByGenrePage somewhere. Maybe add another element to 'state' on line 85
-    
     const { setMoviesByGenrePageCount } = useContext(PagesContext);
 
     const handleMenuItemClick = (
@@ -84,7 +80,7 @@ const Header: React.FC<HeaderProps> = (headerProps) => {
                 {title}
             </Typography>
 
-            {showGenreSearch &&  <span>
+            {showSearch &&  <span>
                 <List
                   component="nav"
                 >
@@ -118,7 +114,7 @@ const Header: React.FC<HeaderProps> = (headerProps) => {
                       key={genre.label}
                       disabled={index === 0}
                       selected={index === selectedIndex}
-                      onClick={() => handleMenuItemClick(index, genre.path)}
+                      onClick={() => handleMenuItemClick(index, genre.path as string)}
                     >
                       {genre.label}
                     </MenuItem>

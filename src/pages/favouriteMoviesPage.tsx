@@ -29,7 +29,7 @@ const FavouriteMoviesPage: React.FC = () => {
     [titleFiltering, genreFiltering]
   );
 
-  document.title = `Favourite Movies - TMDB Client`
+  document.title = `Favourite Movies`
 
   // Create an array of queries and run them in parallel.
   const favouriteMovieQueries = useQueries(
@@ -76,7 +76,7 @@ const FavouriteMoviesPage: React.FC = () => {
             </>
           );
         }}
-        showGenreSearch={false}
+        showSearch={false}
       />
       <MovieFilterUI
         onFilterValuesChange={changeFilterValues}

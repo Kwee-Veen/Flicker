@@ -32,7 +32,7 @@ const PopularMoviesPage: React.FC = () => {
     [titleFiltering, genreFiltering]
   );
 
-  document.title = `Popular Movies - TMDB Client`
+  document.title = `Popular Movies`
 
   if (isLoading) {
     return <Spinner />;
@@ -68,7 +68,7 @@ const PopularMoviesPage: React.FC = () => {
         decrement={
           decrementPopularMoviesPageCount
         }
-        showGenreSearch={false}
+        showSearch={false}
       />
       <MovieFilterUI
         onFilterValuesChange={changeFilterValues}

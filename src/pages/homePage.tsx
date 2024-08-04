@@ -33,7 +33,7 @@ const HomePage: React.FC = () => {
     [titleFiltering, genreFiltering]
   );
 
-  document.title = "Home Page - TMDB Client"
+  document.title = "Home Page - Flicker"
 
   if (isLoading) {
     return <Spinner />;
@@ -70,7 +70,7 @@ const HomePage: React.FC = () => {
         decrement={
           decrementMoviesPageCount
         }
-        showGenreSearch={true}
+        showSearch={true}
       />
       <MovieFilterUI
         onFilterValuesChange={changeFilterValues}
