@@ -1,17 +1,13 @@
 import React, { useContext } from "react";
 import { getTV } from "../api/tmdb-api";
 import useFiltering from "../hooks/useFiltering";
-import TVFilterUI, {
-  nameFilter,
-  genreFilter,
-} from "../components/tvFilterUI";
+import TVFilterUI, { nameFilter, genreFilter } from "../components/tvFilterUI";
 import { BaseTVProps, DiscoverTV } from "../types/interfaces";
 import { useQuery } from "react-query";
 import Spinner from "../components/spinner";
 import { PagesContext } from "../contexts/pagesContext";
 import TVListPageTemplate from "../components/templateTVListPage";
 import AddToTVFavouritesIcon from "../components/cardIcons/addToTVFavourites";
-
 
 const nameFiltering = {
   name: "title",
@@ -29,20 +25,12 @@ const DiscoverTVPage: React.FC = () => {
   const { incrementTVPageCount } = useContext(PagesContext);
   const { decrementTVPageCount } = useContext(PagesContext);
   const { data, error, isLoading, isError } = useQuery<DiscoverTV, Error>(`discoverTV ${tvPageCount}`, () => getTV(tvPageCount));
-  const { filterValues, setFilterValues, filterFunction } = useFiltering(
-    [nameFiltering, genreFiltering]
-  );
+  const { filterValues, setFilterValues, filterFunction } = useFiltering([nameFiltering, genreFiltering]);
 
-  document.title = "Discover TV"
+  document.title = `Discover TV Page ${tvPageCount}`
 
-  if (isLoading) {
-    return <Spinner />;
-  }
-
-  if (isError) {
-    return <h1>{error.message}</h1>;
-  }
-
+  if (isLoading) return <Spinner />;
+  if (isError) return <h1>{error.message}</h1>;
 
   const changeFilterValues = (type: string, value: string) => {
     const changedFilter = { name: type, value: value };
@@ -59,17 +47,13 @@ const DiscoverTVPage: React.FC = () => {
   return (
     <>
       <TVListPageTemplate
-        name="Discover TV"
+        name={document.title}
         tv={displayedTV}
         action={(tv: BaseTVProps) => {
           return <AddToTVFavouritesIcon {...tv} />
         }}
-        increment={
-          incrementTVPageCount
-        }
-        decrement={
-          decrementTVPageCount
-        }
+        increment={incrementTVPageCount}
+        decrement={decrementTVPageCount}
         showSearch={true}
       />
       <TVFilterUI

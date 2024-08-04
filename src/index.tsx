@@ -21,8 +21,8 @@ import TVReviewPage from "./pages/tvReviewPage";
 import AddTVReviewPage from "./pages/addTVReviewPage";
 import TrendingTVPage from "./pages/trendingTVPage";
 import MustWatchMoviesPage from "./pages/mustWatchMoviesPage";
-import MoviesByGenrePage from "./pages/moviesByGenrePage";
-import TVSearchResultsPage from "./pages/tvByGenrePage";
+import MovieSearchResultsPage from "./pages/movieSearchResultsPage";
+import TVSearchResultsPage from "./pages/TVSearchResultsPage";
 
 const queryClient = new QueryClient({
   defaultOptions: {
@@ -39,34 +39,34 @@ const App = () => {
     <QueryClientProvider client={queryClient}>
       <BrowserRouter>
         <SiteHeader />
-          <PagesContextProvider>
-            <MoviesContextProvider>
-              <TVContextProvider>
-                <Routes>
-                  <Route path="/" element={<HomePage />} />
-                  <Route path="*" element={<Navigate to="/" />} />
-                  <Route path="/movies/:id" element={<MoviePage />} />
-                  <Route path="/movies/favourites" element={<FavouriteMoviesPage />} />
-                  <Route path="/movies/mustWatch" element={<MustWatchMoviesPage />} />
-                  <Route path="/movies/upcoming" element={<UpcomingMoviesPage />} />
-                  <Route path="/movies/popular" element={<PopularMoviesPage />} />
-                  <Route path="/movies/genre/:genreId" element={<MoviesByGenrePage />} />
-                  <Route path="/reviews/:id" element={<MovieReviewPage />} />
-                  <Route path="/reviews/form" element={<AddMovieReviewPage/>} />
+        <PagesContextProvider>
+          <MoviesContextProvider>
+            <TVContextProvider>
+              <Routes>
+                <Route path="/" element={<HomePage />} />
+                <Route path="*" element={<Navigate to="/" />} />
 
-                  <Route path="/tv" element={<DiscoverTVPage/>} />
-                  <Route path="/tv/:id" element={<TVDetailsPage />} />
-                  <Route path="/tv/favourites" element={<FavouriteTVPage />} />
-                  <Route path="/tv/trending" element={<TrendingTVPage/>} />
-                  {/* <Route path="/tv/genre/:genreId" element={<TVSearchResultsPage />} /> */}
-                  <Route path="/tv/customSearch" element={<TVSearchResultsPage />} />
-                  <Route path="/tvreviews/:id" element={<TVReviewPage />} />
-                  <Route path="/tvreviews/form" element={<AddTVReviewPage/>} />
-                </Routes>
-              </TVContextProvider>
-            </MoviesContextProvider>
-          </PagesContextProvider>
-        </BrowserRouter>
+                <Route path="/movies/:id" element={<MoviePage />} />
+                <Route path="/movies/favourites" element={<FavouriteMoviesPage />} />
+                <Route path="/movies/mustWatch" element={<MustWatchMoviesPage />} />
+                <Route path="/movies/upcoming" element={<UpcomingMoviesPage />} />
+                <Route path="/movies/popular" element={<PopularMoviesPage />} />
+                <Route path="/movies/customSearch" element={<MovieSearchResultsPage />} />
+                <Route path="/reviews/:id" element={<MovieReviewPage />} />
+                <Route path="/reviews/form" element={<AddMovieReviewPage />} />
+
+                <Route path="/tv" element={<DiscoverTVPage />} />
+                <Route path="/tv/:id" element={<TVDetailsPage />} />
+                <Route path="/tv/favourites" element={<FavouriteTVPage />} />
+                <Route path="/tv/trending" element={<TrendingTVPage />} />
+                <Route path="/tv/customSearch" element={<TVSearchResultsPage />} />
+                <Route path="/tvreviews/:id" element={<TVReviewPage />} />
+                <Route path="/tvreviews/form" element={<AddTVReviewPage />} />
+              </Routes>
+            </TVContextProvider>
+          </MoviesContextProvider>
+        </PagesContextProvider>
+      </BrowserRouter>
       <ReactQueryDevtools initialIsOpen={false} />
     </QueryClientProvider>
   );

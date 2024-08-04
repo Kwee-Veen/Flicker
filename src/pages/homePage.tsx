@@ -2,16 +2,12 @@ import React, { useContext } from "react";
 import PageTemplate from "../components/templateMovieListPage";
 import { getMovies } from "../api/tmdb-api";
 import useFiltering from "../hooks/useFiltering";
-import MovieFilterUI, {
-  titleFilter,
-  genreFilter,
-} from "../components/movieFilterUI";
+import MovieFilterUI, { titleFilter, genreFilter } from "../components/movieFilterUI";
 import { BaseMovieProps, DiscoverMovies } from "../types/interfaces";
 import { useQuery } from "react-query";
 import Spinner from "../components/spinner";
 import AddToFavouritesIcon from '../components/cardIcons/addToFavourites'
 import { PagesContext } from "../contexts/pagesContext";
-
 
 const titleFiltering = {
   name: "title",
@@ -25,24 +21,15 @@ const genreFiltering = {
 };
 
 const HomePage: React.FC = () => {
-  const { moviesPageCount } = useContext(PagesContext);
-  const { incrementMoviesPageCount } = useContext(PagesContext);
-  const { decrementMoviesPageCount } = useContext(PagesContext);
+  
+  const { moviesPageCount, incrementMoviesPageCount, decrementMoviesPageCount } = useContext(PagesContext);
   const { data, error, isLoading, isError } = useQuery<DiscoverMovies, Error>(`discover${moviesPageCount}`, () => getMovies(moviesPageCount));
-  const { filterValues, setFilterValues, filterFunction } = useFiltering(
-    [titleFiltering, genreFiltering]
-  );
+  const { filterValues, setFilterValues, filterFunction } = useFiltering( [titleFiltering, genreFiltering] );
 
-  document.title = "Home Page - Flicker"
+  document.title = "Flicker - Home Page"
 
-  if (isLoading) {
-    return <Spinner />;
-  }
-
-  if (isError) {
-    return <h1>{error.message}</h1>;
-  }
-
+  if (isLoading) return <Spinner />;
+  if (isError) return <h1>{error.message}</h1>;
 
   const changeFilterValues = (type: string, value: string) => {
     const changedFilter = { name: type, value: value };
@@ -59,7 +46,7 @@ const HomePage: React.FC = () => {
   return (
     <>
       <PageTemplate
-        title="Discover Movies"
+        title={document.title}
         movies={displayedMovies}
         action={(movie: BaseMovieProps) => {
           return <AddToFavouritesIcon {...movie} />

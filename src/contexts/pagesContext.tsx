@@ -16,25 +16,25 @@ interface MovieContextInterface {
   trendingTVPageCount: number;
   incrementTrendingTVPageCount: (() => void);
   decrementTrendingTVPageCount: (() => void);
-  moviesByGenrePageCount: number;
-  setMoviesByGenrePageCount: ((number: number) => void);
-  incrementMoviesByGenrePageCount: (() => void);
-  decrementMoviesByGenrePageCount: (() => void);
-  tvByGenrePageCount: number;
-  setTVByGenrePageCount: ((number: number) => void);
-  incrementTVByGenrePageCount: (() => void);
-  decrementTVByGenrePageCount: (() => void);
+  moviesSearchPageCount: number;
+  setMoviesSearchPageCount: ((number: number) => void);
+  incrementMoviesSearchPageCount: (() => void);
+  decrementMoviesSearchPageCount: (() => void);
+  tvSearchPageCount: number;
+  setTVSearchPageCount: ((number: number) => void);
+  incrementTVSearchPageCount: (() => void);
+  decrementTVSearchPageCount: (() => void);
   voteAverage: number | undefined;
   setVoteAverage: ((number: number | undefined) => void);
   tempVoteAverage: number | undefined;
   setTempVoteAverage: ((number: number | undefined) => void);
-  genreId: number | string |undefined;
+  genreId: number | string | undefined;
   setGenreId: ((number: number | string | undefined) => void);
-  genreLabel: string |undefined;
+  genreLabel: string | undefined;
   setGenreLabel: ((label: string | undefined) => void);
-  sortBy: string |undefined;
+  sortBy: string | undefined;
   setSortBy: ((label: string | undefined) => void);
-  sortByLabel: string |undefined;
+  sortByLabel: string | undefined;
   setSortByLabel: ((label: string | undefined) => void);
 }
 const initialContextState: MovieContextInterface = {
@@ -53,17 +53,17 @@ const initialContextState: MovieContextInterface = {
   trendingTVPageCount: 1,
   incrementTrendingTVPageCount: () => { },
   decrementTrendingTVPageCount: () => { },
-  moviesByGenrePageCount: 1,
-  setMoviesByGenrePageCount: () => { },
-  incrementMoviesByGenrePageCount: () => { },
-  decrementMoviesByGenrePageCount: () => { },
-  tvByGenrePageCount: 1,
-  setTVByGenrePageCount: () => { },
-  incrementTVByGenrePageCount: () => { },
-  decrementTVByGenrePageCount: () => { },
+  moviesSearchPageCount: 1,
+  setMoviesSearchPageCount: () => { },
+  incrementMoviesSearchPageCount: () => { },
+  decrementMoviesSearchPageCount: () => { },
+  tvSearchPageCount: 1,
+  setTVSearchPageCount: () => { },
+  incrementTVSearchPageCount: () => { },
+  decrementTVSearchPageCount: () => { },
   voteAverage: undefined,
   setVoteAverage: () => { },
-  tempVoteAverage:  undefined,
+  tempVoteAverage: undefined,
   setTempVoteAverage: () => { },
   genreId: undefined,
   setGenreId: () => { },
@@ -108,14 +108,14 @@ const PagesContextProvider: React.FC<React.PropsWithChildren> = ({ children }) =
     setMoviesPageCount((moviesPageCount) => (moviesPageCount - 1));
   }, []);
 
-  const [moviesByGenrePageCount, setMoviesByGenrePageCount] = useState<number>(1);
+  const [moviesSearchPageCount, setMoviesSearchPageCount] = useState<number>(1);
 
-  const incrementMoviesByGenrePageCount = useCallback(() => {
-    setMoviesByGenrePageCount((moviesByGenrePageCount) => (moviesByGenrePageCount + 1));
+  const incrementMoviesSearchPageCount = useCallback(() => {
+    setMoviesSearchPageCount((moviesSearchPageCount) => (moviesSearchPageCount + 1));
   }, []);
 
-  const decrementMoviesByGenrePageCount = useCallback(() => {
-    setMoviesByGenrePageCount((moviesByGenrePageCount) => (moviesByGenrePageCount - 1));
+  const decrementMoviesSearchPageCount = useCallback(() => {
+    setMoviesSearchPageCount((moviesSearchPageCount) => (moviesSearchPageCount - 1));
   }, []);
 
   const [tvPageCount, setTVPageCount] = useState<number>(1);
@@ -138,14 +138,14 @@ const PagesContextProvider: React.FC<React.PropsWithChildren> = ({ children }) =
     setTrendingTVPageCount((trendingTVPageCount) => (trendingTVPageCount - 1));
   }, []);
 
-  const [tvByGenrePageCount, setTVByGenrePageCount] = useState<number>(1);
+  const [tvSearchPageCount, setTVSearchPageCount] = useState<number>(1);
 
-  const incrementTVByGenrePageCount = useCallback(() => {
-    setTVByGenrePageCount((tvByGenrePageCount) => (tvByGenrePageCount + 1));
+  const incrementTVSearchPageCount = useCallback(() => {
+    setTVSearchPageCount((tvSearchPageCount) => (tvSearchPageCount + 1));
   }, []);
 
-  const decrementTVByGenrePageCount = useCallback(() => {
-    setTVByGenrePageCount((tvByGenrePageCount) => (tvByGenrePageCount - 1));
+  const decrementTVSearchPageCount = useCallback(() => {
+    setTVSearchPageCount((tvSearchPageCount) => (tvSearchPageCount - 1));
   }, []);
 
   const [voteAverage, setVoteAverage] = React.useState<number | undefined>(undefined);
@@ -173,14 +173,14 @@ const PagesContextProvider: React.FC<React.PropsWithChildren> = ({ children }) =
         trendingTVPageCount,
         incrementTrendingTVPageCount,
         decrementTrendingTVPageCount,
-        moviesByGenrePageCount,
-        setMoviesByGenrePageCount,
-        incrementMoviesByGenrePageCount,
-        decrementMoviesByGenrePageCount,
-        tvByGenrePageCount,
-        setTVByGenrePageCount,
-        incrementTVByGenrePageCount,
-        decrementTVByGenrePageCount,
+        moviesSearchPageCount,
+        setMoviesSearchPageCount,
+        incrementMoviesSearchPageCount,
+        decrementMoviesSearchPageCount,
+        tvSearchPageCount,
+        setTVSearchPageCount,
+        incrementTVSearchPageCount,
+        decrementTVSearchPageCount,
         voteAverage,
         setVoteAverage,
         genreId,

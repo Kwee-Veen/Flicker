@@ -39,11 +39,12 @@ const TVHeader: React.FC<HeaderProps> = (headerProps) => {
   const genres: MenuOptions[] = useContext(TVContext).tvGenres;
   const sortOptions: MenuOptions[] = useContext(TVContext).sortOptions;
   const title = headerProps.title;
-  let increment: Function | null = null;
-  if (headerProps.increment !== undefined) increment = headerProps.increment
-  let decrement: Function | null = null;
-  if (headerProps.decrement !== undefined) decrement = headerProps.decrement
   const showSearch = headerProps.showSearch;
+
+  let increment: Function | null = null;
+  if (headerProps.increment !== undefined) increment = headerProps.increment;
+  let decrement: Function | null = null;
+  if (headerProps.decrement !== undefined) decrement = headerProps.decrement;
 
   const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
   const [sortAnchorEl, setSortAnchorEl] = React.useState<null | HTMLElement>(null);
@@ -53,12 +54,13 @@ const TVHeader: React.FC<HeaderProps> = (headerProps) => {
   const handleClickListItem = (event: React.MouseEvent<HTMLElement>) => {
     setAnchorEl(event.currentTarget);
   };
+  
   const openSort = Boolean(sortAnchorEl);
   const handleClickSortListItem = (event: React.MouseEvent<HTMLElement>) => {
     setSortAnchorEl(event.currentTarget);
   };
 
-  const { tempVoteAverage, setTVByGenrePageCount, setVoteAverage, setGenreId, genreLabel, setGenreLabel, setSortBy, sortByLabel, setSortByLabel } = useContext(PagesContext);
+  const { tempVoteAverage, setTVSearchPageCount: setTVByGenrePageCount, setVoteAverage, setGenreId, genreLabel, setGenreLabel, setSortBy, sortByLabel, setSortByLabel } = useContext(PagesContext);
   const [tempGenreLabel, setTempGenreLabel] = React.useState<string | undefined>(genreLabel);
   const [tempGenreId, setTempGenreId] = React.useState<string | number | undefined>(undefined);
   const [tempSortBy, setTempSortBy] = React.useState<string | undefined>(undefined);
@@ -214,6 +216,7 @@ const TVHeader: React.FC<HeaderProps> = (headerProps) => {
           <ArrowForwardIcon color="primary" fontSize="large" />
         </IconButton>
       }
+      &nbsp;
     </Paper>
   );
 };
