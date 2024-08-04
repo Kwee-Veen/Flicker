@@ -8,6 +8,8 @@ import {
 } from '@mui/base/Unstable_NumberInput';
 import { styled } from '@mui/system';
 import { PagesContext } from "../../contexts/pagesContext";
+import { MoviesContext } from '../../contexts/moviesContext';
+import { TVContext } from '../../contexts/tvContext';
 
 const NumberInputBox = React.forwardRef(function CustomNumberInput(
   props: NumberInputProps,
@@ -36,16 +38,31 @@ const NumberInputBox = React.forwardRef(function CustomNumberInput(
 });
 
 export default function NumberInputBasic() {
-  const { tempVoteAverage, setTempVoteAverage } = React.useContext(PagesContext);
-  return (
-    <NumberInputBox
-      placeholder="Set Minimum Rating"
-      value={tempVoteAverage}
-      max={10}
-      min={0}
-      onChange={(event, val) => setTempVoteAverage(val)}
-    />
-  );
+  const { currentPageIsMovie } = React.useContext(PagesContext);
+  if (currentPageIsMovie) {
+    const { tempVoteAverage, setTempVoteAverage } = React.useContext(MoviesContext);
+    return (
+      <NumberInputBox
+        placeholder="Set Minimum Rating"
+        value={tempVoteAverage}
+        max={10}
+        min={0}
+        onChange={(event, val) => setTempVoteAverage(val)}
+      />
+    );
+  }
+  else {
+    const { tempVoteAverage, setTempVoteAverage } = React.useContext(TVContext);
+    return (
+      <NumberInputBox
+        placeholder="Set Minimum Rating"
+        value={tempVoteAverage}
+        max={10}
+        min={0}
+        onChange={(event, val) => setTempVoteAverage(val)}
+      />
+    );
+  }
 }
 
 const blue = {

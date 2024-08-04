@@ -24,18 +24,8 @@ interface MovieContextInterface {
   setTVSearchPageCount: ((number: number) => void);
   incrementTVSearchPageCount: (() => void);
   decrementTVSearchPageCount: (() => void);
-  voteAverage: number | undefined;
-  setVoteAverage: ((number: number | undefined) => void);
-  tempVoteAverage: number | undefined;
-  setTempVoteAverage: ((number: number | undefined) => void);
-  genreId: number | string | undefined;
-  setGenreId: ((number: number | string | undefined) => void);
-  genreLabel: string | undefined;
-  setGenreLabel: ((label: string | undefined) => void);
-  sortBy: string | undefined;
-  setSortBy: ((label: string | undefined) => void);
-  sortByLabel: string | undefined;
-  setSortByLabel: ((label: string | undefined) => void);
+  currentPageIsMovie: number; 
+  setCurrentPageIsMovie: ((number: number) => void);
 }
 const initialContextState: MovieContextInterface = {
   popularMoviesPageCount: 1,
@@ -61,18 +51,8 @@ const initialContextState: MovieContextInterface = {
   setTVSearchPageCount: () => { },
   incrementTVSearchPageCount: () => { },
   decrementTVSearchPageCount: () => { },
-  voteAverage: undefined,
-  setVoteAverage: () => { },
-  tempVoteAverage: undefined,
-  setTempVoteAverage: () => { },
-  genreId: undefined,
-  setGenreId: () => { },
-  genreLabel: undefined,
-  setGenreLabel: () => { },
-  sortBy: undefined,
-  setSortBy: () => { },
-  sortByLabel: undefined,
-  setSortByLabel: () => { },
+  currentPageIsMovie: 1, 
+  setCurrentPageIsMovie:  () => { },
 };
 
 export const PagesContext = React.createContext<MovieContextInterface>(initialContextState);
@@ -148,12 +128,7 @@ const PagesContextProvider: React.FC<React.PropsWithChildren> = ({ children }) =
     setTVSearchPageCount((tvSearchPageCount) => (tvSearchPageCount - 1));
   }, []);
 
-  const [voteAverage, setVoteAverage] = React.useState<number | undefined>(undefined);
-  const [tempVoteAverage, setTempVoteAverage] = React.useState<number | undefined>(undefined);
-  const [genreId, setGenreId] = React.useState<number | string | undefined>(undefined);
-  const [genreLabel, setGenreLabel] = React.useState<string | undefined>(undefined);
-  const [sortBy, setSortBy] = React.useState<string | undefined>(undefined);
-  const [sortByLabel, setSortByLabel] = React.useState<string | undefined>(undefined);
+  const [currentPageIsMovie, setCurrentPageIsMovie] = useState<number>(1);
 
   return (
     <PagesContext.Provider
@@ -181,18 +156,8 @@ const PagesContextProvider: React.FC<React.PropsWithChildren> = ({ children }) =
         setTVSearchPageCount,
         incrementTVSearchPageCount,
         decrementTVSearchPageCount,
-        voteAverage,
-        setVoteAverage,
-        genreId,
-        setGenreId,
-        genreLabel,
-        setGenreLabel,
-        tempVoteAverage,
-        setTempVoteAverage,
-        sortBy,
-        setSortBy,
-        sortByLabel,
-        setSortByLabel,
+        currentPageIsMovie, 
+        setCurrentPageIsMovie,
       }}
     >
       {children}

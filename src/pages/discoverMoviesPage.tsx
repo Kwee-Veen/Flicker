@@ -8,6 +8,7 @@ import AddToFavouritesIcon from '../components/cardIcons/addToFavourites'
 import { PagesContext } from "../contexts/pagesContext";
 import MovieFilterUI, { titleFilter, genreFilter } from "../components/movieFilterUI";
 import useFiltering from "../hooks/useFiltering";
+import { MoviesContext } from "../contexts/moviesContext";
 
 const titleFiltering = {
   name: "title",
@@ -20,11 +21,12 @@ const genreFiltering = {
   condition: genreFilter,
 };
 
-const MovieSearchResultsPage: React.FC = () => {
+const DiscoverMoviesPage: React.FC = () => {
 
-  const { genreId, genreLabel, voteAverage, sortBy, sortByLabel, moviesSearchPageCount, incrementMoviesSearchPageCount, decrementMoviesSearchPageCount } = useContext(PagesContext);
+  const { moviesSearchPageCount, incrementMoviesSearchPageCount, decrementMoviesSearchPageCount } = useContext(PagesContext);
+  const { genreId, genreLabel, voteAverage, sortBy, sortByLabel} = useContext(MoviesContext);
   const { filterValues, setFilterValues, filterFunction } = useFiltering( [titleFiltering, genreFiltering] );
-  document.title = `Page ${moviesSearchPageCount}`
+  document.title = `Movies Page ${moviesSearchPageCount}`
 
   const { data, error, isLoading, isError } = useQuery<DiscoverMovies, Error>(
     `Movie of genre: ${genreLabel}, average vote: ${voteAverage}, sorted by ${sortByLabel}, page: ${moviesSearchPageCount}`, 
@@ -66,4 +68,4 @@ const MovieSearchResultsPage: React.FC = () => {
     </>
   );
 };
-export default MovieSearchResultsPage;
+export default DiscoverMoviesPage;

@@ -8,6 +8,7 @@ import { PagesContext } from "../contexts/pagesContext";
 import AddToTVFavouritesIcon from "../components/cardIcons/addToTVFavourites";
 import TVFilterUI, { genreFilter, nameFilter } from "../components/tvFilterUI";
 import useFiltering from "../hooks/useFiltering";
+import { TVContext } from "../contexts/tvContext";
 
 const nameFiltering = {
   name: "title",
@@ -20,11 +21,12 @@ const genreFiltering = {
   condition: genreFilter,
 };
 
-const TVSearchResultsPage: React.FC = () => {
+const DiscoverTVPage: React.FC = () => {
 
   const { filterValues, setFilterValues, filterFunction } = useFiltering([nameFiltering, genreFiltering]);
-  const { genreId, genreLabel, voteAverage, sortBy, sortByLabel, tvSearchPageCount, incrementTVSearchPageCount, decrementTVSearchPageCount } = useContext(PagesContext);
-  document.title = `Page ${tvSearchPageCount}`
+  const { tvSearchPageCount, incrementTVSearchPageCount, decrementTVSearchPageCount } = useContext(PagesContext);
+  const { genreId, genreLabel, voteAverage, sortBy, sortByLabel} = useContext(TVContext);
+  document.title = `TV Page ${tvSearchPageCount}`
   
   const { data, error, isLoading, isError } = useQuery<DiscoverTV, Error>(
     `TV of genre: ${genreLabel}, average vote: ${voteAverage}, sorted by ${sortByLabel}, page: ${tvSearchPageCount}`, 
@@ -65,4 +67,4 @@ const TVSearchResultsPage: React.FC = () => {
     </>
   );
 };
-export default TVSearchResultsPage;
+export default DiscoverTVPage;

@@ -60,11 +60,15 @@ const TVHeader: React.FC<HeaderProps> = (headerProps) => {
     setSortAnchorEl(event.currentTarget);
   };
 
-  const { tempVoteAverage, setTVSearchPageCount: setTVByGenrePageCount, setVoteAverage, setGenreId, genreLabel, setGenreLabel, setSortBy, sortByLabel, setSortByLabel } = useContext(PagesContext);
+  const { setTVSearchPageCount, setCurrentPageIsMovie } = useContext(PagesContext);
+  const { tempVoteAverage, setVoteAverage, setGenreId, genreLabel, setGenreLabel, setSortBy, sortByLabel, setSortByLabel } = useContext(TVContext);
   const [tempGenreLabel, setTempGenreLabel] = React.useState<string | undefined>(genreLabel);
   const [tempGenreId, setTempGenreId] = React.useState<string | number | undefined>(undefined);
   const [tempSortBy, setTempSortBy] = React.useState<string | undefined>(undefined);
   const [tempSortByLabel, setTempSortByLabel] = React.useState<string | undefined>(undefined);
+
+  // globally accessible flag that the currently active page is not a movie 
+  setCurrentPageIsMovie(0);
 
   const handleGenreClick = (
     index: number,
@@ -93,7 +97,7 @@ const TVHeader: React.FC<HeaderProps> = (headerProps) => {
   };
 
   const handleSearchClick = () => {
-    setTVByGenrePageCount(1);
+    setTVSearchPageCount(1);
     setGenreId(tempGenreId);
     setGenreLabel(tempGenreLabel);
     setVoteAverage(tempVoteAverage);
@@ -130,7 +134,7 @@ const TVHeader: React.FC<HeaderProps> = (headerProps) => {
             >
               <ListItemText
                 primary="Genre"
-                secondary={tempGenreLabel}
+                secondary={tempGenreLabel? tempGenreLabel : genreLabel }
               />
             </ListItemButton>
           </List>

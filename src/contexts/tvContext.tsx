@@ -11,6 +11,18 @@ interface TVContextInterface {
   removeFromTVMustWatchList: ((tvShow: BaseTVProps) => void);
   tvGenres: MenuOptions[];
   sortOptions: MenuOptions[];
+  voteAverage: number | undefined;
+  setVoteAverage: ((number: number | undefined) => void);
+  tempVoteAverage: number | undefined;
+  setTempVoteAverage: ((number: number | undefined) => void);
+  genreId: number | string | undefined;
+  setGenreId: ((number: number | string | undefined) => void);
+  genreLabel: string | undefined;
+  setGenreLabel: ((label: string | undefined) => void);
+  sortBy: string | undefined;
+  setSortBy: ((label: string | undefined) => void);
+  sortByLabel: string | undefined;
+  setSortByLabel: ((label: string | undefined) => void);
 }
 const initialContextState: TVContextInterface = {
   tvFavourites: [],
@@ -22,6 +34,18 @@ const initialContextState: TVContextInterface = {
   removeFromTVMustWatchList: () => { },
   tvGenres: [],
   sortOptions: [],
+  voteAverage: undefined,
+  setVoteAverage: () => { },
+  tempVoteAverage: undefined,
+  setTempVoteAverage: () => { },
+  genreId: undefined,
+  setGenreId: () => { },
+  genreLabel: undefined,
+  setGenreLabel: () => { },
+  sortBy: undefined,
+  setSortBy: () => { },
+  sortByLabel: undefined,
+  setSortByLabel: () => { },
 };
 
 export const TVContext = React.createContext<TVContextInterface>(initialContextState);
@@ -84,7 +108,6 @@ const TVContextProvider: React.FC<React.PropsWithChildren> = ({ children }) => {
     { label: "War & Politics", path: 10768 },
     { label: "Western", path: 37 },
   ])
-
   
   const [sortOptions] = useState<MenuOptions[]> ([
     { label: "Name (A-Z)", path: "original_name.asc" },
@@ -95,8 +118,14 @@ const TVContextProvider: React.FC<React.PropsWithChildren> = ({ children }) => {
     { label: "Rating Average (low-high)", path: "vote_average.asc" },
     { label: "Release Date (high-low)", path: "first_air_date.desc" },
     { label: "Release Date (low-high)", path: "first_air_date.asc" },
-
   ])
+
+  const [voteAverage, setVoteAverage] = React.useState<number | undefined>(undefined);
+  const [tempVoteAverage, setTempVoteAverage] = React.useState<number | undefined>(undefined);
+  const [genreId, setGenreId] = React.useState<number | string | undefined>(undefined);
+  const [genreLabel, setGenreLabel] = React.useState<string | undefined>(undefined);
+  const [sortBy, setSortBy] = React.useState<string | undefined>(undefined);
+  const [sortByLabel, setSortByLabel] = React.useState<string | undefined>(undefined);
 
   return (
     <TVContext.Provider
@@ -110,6 +139,18 @@ const TVContextProvider: React.FC<React.PropsWithChildren> = ({ children }) => {
         removeFromTVMustWatchList,
         tvGenres,
         sortOptions,
+        voteAverage,
+        setVoteAverage,
+        genreId,
+        setGenreId,
+        genreLabel,
+        setGenreLabel,
+        tempVoteAverage,
+        setTempVoteAverage,
+        sortBy,
+        setSortBy,
+        sortByLabel,
+        setSortByLabel,
       }}
     >
       {children}

@@ -60,11 +60,15 @@ const Header: React.FC<HeaderProps> = (headerProps) => {
     setSortAnchorEl(event.currentTarget);
   };
 
-  const { tempVoteAverage, setMoviesSearchPageCount: setMoviesByGenrePageCount, setVoteAverage, setGenreId, genreLabel, setGenreLabel, setSortBy, sortByLabel, setSortByLabel } = useContext(PagesContext);
+  const { setMoviesSearchPageCount, setCurrentPageIsMovie } = useContext(PagesContext);
+  const { tempVoteAverage, setVoteAverage, setGenreId, genreLabel, setGenreLabel, setSortBy, sortByLabel, setSortByLabel } = useContext(MoviesContext);
   const [tempGenreLabel, setTempGenreLabel] = React.useState<string | undefined>(genreLabel);
   const [tempGenreId, setTempGenreId] = React.useState<string | number | undefined>(undefined);
   const [tempSortBy, setTempSortBy] = React.useState<string | undefined>(undefined);
   const [tempSortByLabel, setTempSortByLabel] = React.useState<string | undefined>(undefined);
+
+  // globally accessible flag that the currently active page is a movie 
+  setCurrentPageIsMovie(1);
 
   const handleGenreClick = (
     index: number,
@@ -93,7 +97,7 @@ const Header: React.FC<HeaderProps> = (headerProps) => {
   };
 
   const handleSearchClick = () => {
-    setMoviesByGenrePageCount(1);
+    setMoviesSearchPageCount(1);
     setGenreId(tempGenreId);
     setGenreLabel(tempGenreLabel);
     setVoteAverage(tempVoteAverage);
@@ -131,7 +135,7 @@ const Header: React.FC<HeaderProps> = (headerProps) => {
           >
             <ListItemText
               primary="Genre"
-              secondary={tempGenreLabel}
+              secondary={tempGenreLabel? tempGenreLabel : genreLabel }
             />
           </ListItemButton>
         </List>
