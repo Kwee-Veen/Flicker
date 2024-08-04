@@ -8,7 +8,7 @@ import { styled } from "@mui/material/styles";
 import MenuIcon from "@mui/icons-material/Menu";
 import MenuItem from "@mui/material/MenuItem";
 import Menu from "@mui/material/Menu";
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { useTheme } from "@mui/material/styles";
 import useMediaQuery from "@mui/material/useMediaQuery";
 import { MenuOptions } from "../../types/interfaces";
@@ -16,6 +16,11 @@ import { MenuOptions } from "../../types/interfaces";
 const styles = {
     title: {
       flexGrow: 1,
+      fontWeight: '500',
+      letterSpacing: 6,
+      fontFamily: 'Monospace',
+      textDecoration: "none",
+      boxShadow: "none"
     },
   };
 
@@ -31,8 +36,10 @@ const SiteHeader: React.FC = () => {
   const movieOptions: MenuOptions[] = [
     { label: "Discover Movies", path: "/" },
     { label: "Trending Movies", path: "/movies/popular" },
-    { label: "Upcoming Movies", path: "/movies/upcoming" },
     { label: "Favorite Movies", path: "/movies/favourites" },
+    { label: "", path: "" },
+    { label: "Upcoming Movies", path: "/movies/upcoming" },
+    { label: "Must-Watch Movies", path: "/movies/mustWatch" },
   ];
 
   const tvOptions: MenuOptions[] = [
@@ -43,6 +50,8 @@ const SiteHeader: React.FC = () => {
 
   const [menuOptions, setMenuOptions] = useState<MenuOptions[]>(movieOptions);
   const [movieOrTV, setMovieOrTV] = useState<Boolean>(false);  
+  const [toggleButtonText, setToggleButtonText] = useState<string>(" TV ");  
+  const [flickerLinkPath, setFlickerLinkPath] = useState<string>("/");  
 
   const handleMenuSelect = (pageURL: string) => {
     navigate(pageURL);
@@ -50,8 +59,16 @@ const SiteHeader: React.FC = () => {
 
   const toggleMoviesOrTV = () => {
     setMovieOrTV(!movieOrTV);
-    if (movieOrTV) setMenuOptions(movieOptions);
-    else setMenuOptions(tvOptions);
+    if (movieOrTV) {
+      setMenuOptions(movieOptions);
+      setFlickerLinkPath("/");
+      setToggleButtonText(" TV ");
+    }
+    else {
+      setMenuOptions(tvOptions);
+      setFlickerLinkPath("/tv");
+      setToggleButtonText("Movies");
+    }
   };
 
   const handleMenu = (event: MouseEvent<HTMLButtonElement>) => {
@@ -60,10 +77,10 @@ const SiteHeader: React.FC = () => {
 
   return (
     <>
-      <AppBar position="fixed" elevation={0} color="primary">
+      <AppBar position="fixed" elevation={0} color="error">
         <Toolbar>
-          <Typography variant="h4" sx={styles.title}>
-            TMDB Client
+          <Typography variant="h4" sx={styles.title} component={Link} to={flickerLinkPath} color="white"> 
+            Flicker.
           </Typography>
           {isMobile ? (
             <>
@@ -95,7 +112,7 @@ const SiteHeader: React.FC = () => {
                 {menuOptions.map((opt) => (
                   <MenuItem
                     key={opt.label}
-                    onClick={() => handleMenuSelect(opt.path)}
+                    onClick={() => handleMenuSelect(opt.path as string)}
                   >
                     {opt.label}
                   </MenuItem>
@@ -108,20 +125,20 @@ const SiteHeader: React.FC = () => {
                 <Button
                   key={opt.label}
                   color="inherit"
-                  onClick={() => handleMenuSelect(opt.path)}
+                  onClick={() => handleMenuSelect(opt.path as string)}
                 >
                   {opt.label}
                 </Button>
               ))}
             </>
           )}
+          &nbsp;&nbsp;&nbsp;
           <Button
-            color="warning"
+            color="secondary"
             onClick={() => toggleMoviesOrTV()}
-            variant="outlined"
-            classes="left"
+            variant="contained"
           >
-            Toggle Movies or TV
+            {toggleButtonText}
           </Button>
         </Toolbar>
       </AppBar>

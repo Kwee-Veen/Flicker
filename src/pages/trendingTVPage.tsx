@@ -32,7 +32,7 @@ const TrendingTVPage: React.FC = () => {
     [titleFiltering, genreFiltering]
   );
 
-  document.title = `Trending TV - TMDB Client`
+  document.title = `Trending TV`
 
   if (isLoading) {
     return <Spinner />;
@@ -68,6 +68,7 @@ const TrendingTVPage: React.FC = () => {
         decrement={
           decrementTrendingTVPageCount
         }
+        showSearch={false}
       />
       <TVFilterUI
         onFilterValuesChange={changeFilterValues}

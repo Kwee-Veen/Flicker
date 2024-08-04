@@ -1,17 +1,14 @@
 import React, { useContext } from "react";
-import { getTV } from "../api/tmdb-api";
-import useFiltering from "../hooks/useFiltering";
-import TVFilterUI, {
-  nameFilter,
-  genreFilter,
-} from "../components/tvFilterUI";
+import PageTemplate from "../components/templateTVListPage";
+import { getContent } from "../api/tmdb-api";
 import { BaseTVProps, DiscoverTV } from "../types/interfaces";
 import { useQuery } from "react-query";
 import Spinner from "../components/spinner";
 import { PagesContext } from "../contexts/pagesContext";
-import TVListPageTemplate from "../components/templateTVListPage";
 import AddToTVFavouritesIcon from "../components/cardIcons/addToTVFavourites";
-
+import TVFilterUI, { genreFilter, nameFilter } from "../components/tvFilterUI";
+import useFiltering from "../hooks/useFiltering";
+import { TVContext } from "../contexts/tvContext";
 
 const nameFiltering = {
   name: "title",
@@ -25,24 +22,19 @@ const genreFiltering = {
 };
 
 const DiscoverTVPage: React.FC = () => {
-  const { tvPageCount } = useContext(PagesContext);
-  const { incrementTVPageCount } = useContext(PagesContext);
-  const { decrementTVPageCount } = useContext(PagesContext);
-  const { data, error, isLoading, isError } = useQuery<DiscoverTV, Error>(`discoverTV ${tvPageCount}`, () => getTV(tvPageCount));
-  const { filterValues, setFilterValues, filterFunction } = useFiltering(
-    [nameFiltering, genreFiltering]
+
+  const { filterValues, setFilterValues, filterFunction } = useFiltering([nameFiltering, genreFiltering]);
+  const { tvSearchPageCount, incrementTVSearchPageCount, decrementTVSearchPageCount } = useContext(PagesContext);
+  const { genreId, genreLabel, voteAverage, sortBy, sortByLabel} = useContext(TVContext);
+  document.title = `TV Page ${tvSearchPageCount}`
+  
+  const { data, error, isLoading, isError } = useQuery<DiscoverTV, Error>(
+    `TV of genre: ${genreLabel}, average vote: ${voteAverage}, sorted by ${sortByLabel}, page: ${tvSearchPageCount}`, 
+    () => getContent("tv", tvSearchPageCount, voteAverage, genreId, sortBy)
   );
 
-  document.title = "Discover TV - TMDB Client"
-
-  if (isLoading) {
-    return <Spinner />;
-  }
-
-  if (isError) {
-    return <h1>{error.message}</h1>;
-  }
-
+  if (isLoading) return <Spinner />;
+  if (isError) return <h1>{error.message}</h1>;
 
   const changeFilterValues = (type: string, value: string) => {
     const changedFilter = { name: type, value: value };
@@ -55,21 +47,17 @@ const DiscoverTVPage: React.FC = () => {
 
   const tv = data ? data.results : [];
   const displayedTV = filterFunction(tv);
-
   return (
     <>
-      <TVListPageTemplate
-        name="Discover TV"
+      <PageTemplate
+        name={document.title}
         tv={displayedTV}
         action={(tv: BaseTVProps) => {
           return <AddToTVFavouritesIcon {...tv} />
         }}
-        increment={
-          incrementTVPageCount
-        }
-        decrement={
-          decrementTVPageCount
-        }
+        increment={incrementTVSearchPageCount}
+        decrement={decrementTVSearchPageCount}
+        showSearch={true}
       />
       <TVFilterUI
         onFilterValuesChange={changeFilterValues}

@@ -14,7 +14,7 @@ const TVDetailsPage: React.FC= () => {
     ()=> getTVSeries(id||"")
   );
 
-  if (tv) document.title = `${tv.name} - TMDB Client`
+  if (tv) document.title = `${tv.name}`
 
   if (isLoading) {
     return <Spinner />;

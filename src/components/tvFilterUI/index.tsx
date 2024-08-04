@@ -39,7 +39,7 @@ const TVFilterUI: React.FC<tvFilterUIProps> = ({ onFilterValuesChange, nameFilte
     return (
         <>
             <Fab
-                color="secondary"
+                color="warning"
                 variant="extended"
                 onClick={() => setDrawerOpen(true)}
                 sx={styles.fab}

@@ -29,7 +29,7 @@ const FavouriteTVPage: React.FC = () => {
     [titleFiltering, genreFiltering]
   );
 
-  document.title = `Favourite TV - TMDB Client`
+  document.title = `Favourite TV`
 
   // Create an array of queries and run them in parallel.
   const favouriteTVQueries = useQueries(
@@ -50,6 +50,7 @@ const FavouriteTVPage: React.FC = () => {
 
   const allFavourites = favouriteTVQueries.map((q) => q.data);
   const displayedTV = allFavourites
+    .sort((a, b) => a.name.localeCompare(b.name))
     ? filterFunction(allFavourites)
     : [];
 
@@ -75,6 +76,7 @@ const FavouriteTVPage: React.FC = () => {
             </>
           );
         }}
+        showSearch={false}
       />
       <TVFilterUI
         onFilterValuesChange={changeFilterValues}

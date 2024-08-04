@@ -9,7 +9,7 @@ import Paper from "@mui/material/Paper";
 import { Link } from "react-router-dom";
 import { getTVReviews } from "../../api/tmdb-api";
 import { excerpt } from "../../util";
-import { TVDetailsProps, Review, TVReview } from "../../types/interfaces"; 
+import { TVDetailsProps, TVReview } from "../../types/interfaces"; 
 
 const styles = {
     table: {
