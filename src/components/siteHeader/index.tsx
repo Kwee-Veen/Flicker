@@ -50,6 +50,8 @@ const SiteHeader: React.FC = () => {
 
   const [menuOptions, setMenuOptions] = useState<MenuOptions[]>(movieOptions);
   const [movieOrTV, setMovieOrTV] = useState<Boolean>(false);  
+  const [toggleButtonText, setToggleButtonText] = useState<string>(" TV ");  
+  const [flickerLinkPath, setFlickerLinkPath] = useState<string>("/");  
 
   const handleMenuSelect = (pageURL: string) => {
     navigate(pageURL);
@@ -57,8 +59,16 @@ const SiteHeader: React.FC = () => {
 
   const toggleMoviesOrTV = () => {
     setMovieOrTV(!movieOrTV);
-    if (movieOrTV) setMenuOptions(movieOptions);
-    else setMenuOptions(tvOptions);
+    if (movieOrTV) {
+      setMenuOptions(movieOptions);
+      setFlickerLinkPath("/");
+      setToggleButtonText(" TV ");
+    }
+    else {
+      setMenuOptions(tvOptions);
+      setFlickerLinkPath("/tv");
+      setToggleButtonText("Movies");
+    }
   };
 
   const handleMenu = (event: MouseEvent<HTMLButtonElement>) => {
@@ -69,7 +79,7 @@ const SiteHeader: React.FC = () => {
     <>
       <AppBar position="fixed" elevation={0} color="error">
         <Toolbar>
-          <Typography variant="h4" sx={styles.title} component={Link} to="/" color="white"> 
+          <Typography variant="h4" sx={styles.title} component={Link} to={flickerLinkPath} color="white"> 
             Flicker.
           </Typography>
           {isMobile ? (
@@ -128,7 +138,7 @@ const SiteHeader: React.FC = () => {
             onClick={() => toggleMoviesOrTV()}
             variant="contained"
           >
-            Toggle Movies or TV
+            {toggleButtonText}
           </Button>
         </Toolbar>
       </AppBar>

@@ -22,7 +22,7 @@ import AddTVReviewPage from "./pages/addTVReviewPage";
 import TrendingTVPage from "./pages/trendingTVPage";
 import MustWatchMoviesPage from "./pages/mustWatchMoviesPage";
 import MovieSearchResultsPage from "./pages/movieSearchResultsPage";
-import TVSearchResultsPage from "./pages/TVSearchResultsPage";
+import TVSearchResultsPage from "./pages/tvSearchResultsPage";
 
 const queryClient = new QueryClient({
   defaultOptions: {

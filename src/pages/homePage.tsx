@@ -26,7 +26,7 @@ const HomePage: React.FC = () => {
   const { data, error, isLoading, isError } = useQuery<DiscoverMovies, Error>(`discover${moviesPageCount}`, () => getMovies(moviesPageCount));
   const { filterValues, setFilterValues, filterFunction } = useFiltering( [titleFiltering, genreFiltering] );
 
-  document.title = "Flicker - Home Page"
+  document.title = `Discover Movies Page ${moviesPageCount}`;
 
   if (isLoading) return <Spinner />;
   if (isError) return <h1>{error.message}</h1>;

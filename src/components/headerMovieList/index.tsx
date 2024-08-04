@@ -24,6 +24,7 @@ const styles = {
     alignItems: "center",
     flexWrap: "wrap",
     marginBottom: 1.5,
+    marginTop: -1,
   },
 };
 
@@ -112,7 +113,7 @@ const Header: React.FC<HeaderProps> = (headerProps) => {
         </IconButton>
       }
 
-      <Typography variant="h5" component="h3" align="right">
+      <Typography variant="h5" align="right">
         {title}
       </Typography>
 
