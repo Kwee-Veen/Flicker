@@ -12,9 +12,7 @@ import { PagesContext } from "../../contexts/pagesContext";
 const NumberInputBox = React.forwardRef(function CustomNumberInput(
   props: NumberInputProps,
   ref: React.ForwardedRef<HTMLDivElement>,
-) 
-
-{
+) {
   return (
     <BaseNumberInput
       slots={{
@@ -41,10 +39,11 @@ export default function NumberInputBasic() {
   const { tempVoteAverage, setTempVoteAverage } = React.useContext(PagesContext);
   return (
     <NumberInputBox
-      placeholder="Min rating (0-10)"
+      placeholder="Set Minimum Rating"
       value={tempVoteAverage}
+      max={10}
+      min={0}
       onChange={(event, val) => setTempVoteAverage(val)}
-      
     />
   );
 }
@@ -76,8 +75,8 @@ const StyledInputRoot = styled('div')(
   font-weight: 400;
   border-radius: 6px;
   color: ${theme.palette.mode === 'dark' ? grey[300] : grey[900]};
-  background: ${theme.palette.mode === 'dark' ? grey[900] : '#fff'};
-  border: 1px solid ${theme.palette.mode === 'dark' ? grey[700] : grey[200]};
+  background: ${theme.palette.mode === 'dark' ? grey[900] : '#E6E6FA'};
+  border: 2px solid ${theme.palette.mode === 'dark' ? grey[700] : grey[200]};
   box-shadow: 0px 2px 2px ${theme.palette.mode === 'dark' ? grey[900] : grey[50]};
   display: grid;
   grid-template-columns: 1fr 19px;
@@ -86,13 +85,11 @@ const StyledInputRoot = styled('div')(
   padding: 3px;
 
   &.${numberInputClasses.focused} {
-    border-color: ${blue[400]};
+    border-color: #4B0082;
     box-shadow: 0 0 0 3px ${theme.palette.mode === 'dark' ? blue[600] : blue[200]};
   }
 
-  &:hover {
-    border-color: ${blue[400]};
-  }
+  &:hover { border-color: #4B0082; }
 
   // firefox
   &:focus-visible {
@@ -113,7 +110,7 @@ const StyledInputElement = styled('input')(
   background: inherit;
   border: none;
   border-radius: inherit;
-  padding: 8px 12px;
+  padding-left: 8px;
   outline: 0;
 `,
 );
@@ -154,7 +151,7 @@ const StyledButton = styled('button')(
     border-bottom: 1;
     &:hover {
       cursor: pointer;
-      background: ${blue[400]};
+      background: #4B0082;
       color: ${grey[50]};
     }
 
@@ -171,7 +168,7 @@ const StyledButton = styled('button')(
     border: 1px solid;
     &:hover {
       cursor: pointer;
-      background: ${blue[400]};
+      background: #4B0082;
       color: ${grey[50]};
     }
 
@@ -179,8 +176,6 @@ const StyledButton = styled('button')(
   background: ${theme.palette.mode === 'dark' ? grey[900] : grey[50]};
   color: ${theme.palette.mode === 'dark' ? grey[200] : grey[900]};
   }
-  & .arrow {
-    transform: translateY(-1px);
-  }
+  & .arrow { transform: translateY(-1px); }
 `,
 );

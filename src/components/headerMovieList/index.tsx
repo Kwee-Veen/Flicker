@@ -24,7 +24,6 @@ const styles = {
     alignItems: "center",
     flexWrap: "wrap",
     marginBottom: 1.5,
-    marginTop: -1,
   },
 };
 
@@ -100,7 +99,7 @@ const Header: React.FC<HeaderProps> = (headerProps) => {
     setVoteAverage(tempVoteAverage);
     if (tempSortBy) setSortBy(tempSortBy);
     if (tempSortByLabel) setSortByLabel(tempSortByLabel);
-    navigate(`/movies/customSearch`);
+    navigate(`/`);
   };
 
   return (
@@ -207,6 +206,7 @@ const Header: React.FC<HeaderProps> = (headerProps) => {
           variant="contained"
           endIcon={<SendIcon />}
           onClick={() => handleSearchClick()}
+          sx={{ bgcolor: 'Indigo', borderRadius: 2, maxHeight: 55, }}
         >
           Search
         </Button>

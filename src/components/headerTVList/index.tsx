@@ -99,7 +99,7 @@ const TVHeader: React.FC<HeaderProps> = (headerProps) => {
     setVoteAverage(tempVoteAverage);
     if (tempSortBy) setSortBy(tempSortBy);
     if (tempSortByLabel) setSortByLabel(tempSortByLabel);
-    navigate(`/tv/customSearch`);
+    navigate(`/tv/`);
   };
 
   return (
@@ -204,6 +204,7 @@ const TVHeader: React.FC<HeaderProps> = (headerProps) => {
           variant="contained"
           endIcon={<SendIcon />}
           onClick={() => handleSearchClick()}
+          sx={{ bgcolor: 'Indigo', borderRadius: 2 }}
         >
           Search
         </Button>

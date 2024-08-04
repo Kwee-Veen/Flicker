@@ -1,7 +1,6 @@
 import React from "react";
 import ReactDOM from 'react-dom/client'
 import { BrowserRouter, Route, Navigate, Routes } from "react-router-dom";
-import HomePage from "./pages/homePage";
 import MoviePage from "./pages/movieDetailsPage";
 import FavouriteMoviesPage from "./pages/favouriteMoviesPage";
 import MovieReviewPage from "./pages/movieReviewPage";
@@ -13,7 +12,6 @@ import MoviesContextProvider from "./contexts/moviesContext";
 import PagesContextProvider from "./contexts/pagesContext";
 import AddMovieReviewPage from './pages/addMovieReviewPage';
 import PopularMoviesPage from "./pages/popularMoviesPage";
-import DiscoverTVPage from "./pages/discoverTVPage";
 import TVDetailsPage from "./pages/TVDetailsPage";
 import TVContextProvider from "./contexts/tvContext";
 import FavouriteTVPage from "./pages/favouriteTVPage";
@@ -43,7 +41,7 @@ const App = () => {
           <MoviesContextProvider>
             <TVContextProvider>
               <Routes>
-                <Route path="/" element={<HomePage />} />
+                <Route path="/" element={<MovieSearchResultsPage />} />
                 <Route path="*" element={<Navigate to="/" />} />
 
                 <Route path="/movies/:id" element={<MoviePage />} />
@@ -51,15 +49,13 @@ const App = () => {
                 <Route path="/movies/mustWatch" element={<MustWatchMoviesPage />} />
                 <Route path="/movies/upcoming" element={<UpcomingMoviesPage />} />
                 <Route path="/movies/popular" element={<PopularMoviesPage />} />
-                <Route path="/movies/customSearch" element={<MovieSearchResultsPage />} />
                 <Route path="/reviews/:id" element={<MovieReviewPage />} />
                 <Route path="/reviews/form" element={<AddMovieReviewPage />} />
 
-                <Route path="/tv" element={<DiscoverTVPage />} />
+                <Route path="/tv" element={<TVSearchResultsPage />} />
                 <Route path="/tv/:id" element={<TVDetailsPage />} />
                 <Route path="/tv/favourites" element={<FavouriteTVPage />} />
                 <Route path="/tv/trending" element={<TrendingTVPage />} />
-                <Route path="/tv/customSearch" element={<TVSearchResultsPage />} />
                 <Route path="/tvreviews/:id" element={<TVReviewPage />} />
                 <Route path="/tvreviews/form" element={<AddTVReviewPage />} />
               </Routes>

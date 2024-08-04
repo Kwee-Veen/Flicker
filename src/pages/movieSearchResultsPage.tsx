@@ -24,7 +24,7 @@ const MovieSearchResultsPage: React.FC = () => {
 
   const { genreId, genreLabel, voteAverage, sortBy, sortByLabel, moviesSearchPageCount, incrementMoviesSearchPageCount, decrementMoviesSearchPageCount } = useContext(PagesContext);
   const { filterValues, setFilterValues, filterFunction } = useFiltering( [titleFiltering, genreFiltering] );
-  document.title = `Movie Search Page ${moviesSearchPageCount}`
+  document.title = `Page ${moviesSearchPageCount}`
 
   const { data, error, isLoading, isError } = useQuery<DiscoverMovies, Error>(
     `Movie of genre: ${genreLabel}, average vote: ${voteAverage}, sorted by ${sortByLabel}, page: ${moviesSearchPageCount}`, 

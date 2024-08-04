@@ -24,7 +24,7 @@ const TVSearchResultsPage: React.FC = () => {
 
   const { filterValues, setFilterValues, filterFunction } = useFiltering([nameFiltering, genreFiltering]);
   const { genreId, genreLabel, voteAverage, sortBy, sortByLabel, tvSearchPageCount, incrementTVSearchPageCount, decrementTVSearchPageCount } = useContext(PagesContext);
-  document.title = `TV Search Page ${tvSearchPageCount}`
+  document.title = `Page ${tvSearchPageCount}`
   
   const { data, error, isLoading, isError } = useQuery<DiscoverTV, Error>(
     `TV of genre: ${genreLabel}, average vote: ${voteAverage}, sorted by ${sortByLabel}, page: ${tvSearchPageCount}`, 
