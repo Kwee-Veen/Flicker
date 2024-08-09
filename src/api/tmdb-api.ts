@@ -109,7 +109,7 @@ export const getGenres = () => {
 // passes in either 'movie' or 'tv' as the second parameter
 export const getImages = (id: string | number, movieOrTV: string) => {
   return fetch(
-    `https://api.themoviedb.org/3/${movieOrTV}/${id}/images?api_key=${import.meta.env.VITE_TMDB_KEY}`
+    `https://api.themoviedb.org/3/${movieOrTV}/${id}/images?api_key=${import.meta.env.VITE_TMDB_KEY}&language=en`
   ).then((response) => {
     if (!response.ok) {
       throw new Error("failed to fetch images");

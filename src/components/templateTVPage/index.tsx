@@ -9,71 +9,68 @@ import Spinner from '../spinner';
 import TVHeader from "../headerTV";
 
 const styles = {
-    gridListRoot: {
-        display: "flex",
-        flexWrap: "wrap",
-        justifyContent: "space-around",
-    },
-    gridListTile: {
-        width: 450,
-        height: '100vh',
-    },
+  gridListRoot: {
+    display: "flex",
+    flexWrap: "wrap",
+    justifyContent: "space-around",
+  },
+  gridListTile: {
+    width: 500,
+    height: '100vh',
+  },
 };
 
 interface TemplateTVPageProps {
-    tv: TVDetailsProps;
-    children: React.ReactElement;
+  tv: TVDetailsProps;
+  children: React.ReactElement;
 }
 
 
-const templateTVPage: React.FC<TemplateTVPageProps> = ({tv, children}) => {
+const templateTVPage: React.FC<TemplateTVPageProps> = ({ tv, children }) => {
   const { data, error, isLoading, isError } = useQuery<MovieImage[], Error>(
-      ["images", tv.id],
-      () => getImages(tv.id, "tv")
+    ["images", tv.id],
+    () => getImages(tv.id, "tv")
   );
 
   if (isLoading) {
-      return <Spinner />;
+    return <Spinner />;
   }
 
   if (isError) {
-      return <h1>{(error
+    return <h1>{(error
 
-      ).message}</h1>;
+    ).message}</h1>;
   }
 
   const images = data as MovieImage[];
 
   return (
-        <>
-            <TVHeader {...tv} />
-
-            <Grid container spacing={5} style={{ padding: "15px" }}>
-                <Grid item xs={3}>
-                    <div>
-                        <ImageList cols={1}>
-                            {images.map((image: MovieImage) => (
-                                <ImageListItem
-                                    key={image.file_path}
-                                    sx={styles.gridListTile}
-                                    cols={1}
-                                >
-                                    <img
-                                        src={`https://image.tmdb.org/t/p/w500/${image.file_path}`}
-                                        alt={'Image alternative'}
-                                    />
-                                </ImageListItem>
-                            ))}
-                        </ImageList>
-                    </div>
-                </Grid>
-
-                <Grid item xs={9}>
-                    {children}
-                </Grid>
-            </Grid>
-        </>
-    );
+    <>
+      <TVHeader {...tv} />
+      <Grid item xs={9} style={{ margin: " 20px 150px" }}>
+        {children}
+      </Grid>
+      <Grid container style={{ padding: "0px, 50px" }} justifyContent="center">
+        <Grid item >
+          <span>
+            <ImageList>
+              {images.map((image: MovieImage) => (
+                <ImageListItem
+                  key={image.file_path}
+                  sx={styles.gridListTile}
+                >
+                  <img
+                    src={`https://image.tmdb.org/t/p/w500/${image.file_path}`}
+                    alt={'Image alternative'}
+                  />
+                </ImageListItem>
+              ))}
+            </ImageList>
+          </span>
+        </Grid>
+      </Grid>
+    </>
+  );
 };
 
 export default templateTVPage;
