@@ -21,6 +21,10 @@ import TrendingTVPage from "./pages/trendingTVPage";
 import MustWatchMoviesPage from "./pages/mustWatchMoviesPage";
 import DiscoverMoviesPage from "./pages/discoverMoviesPage";
 import DiscoverTVPage from "./pages/discoverTVPage";
+// import { useState, useEffect } from 'react'
+// import { supabase } from './supabaseClient'
+// import Auth from './auth'
+// import Account from './account'
 
 const queryClient = new QueryClient({
   defaultOptions: {
@@ -31,6 +35,18 @@ const queryClient = new QueryClient({
     },
   },
 });
+
+// const [session, setSession] = useState<any>(null)
+
+// useEffect(() => {
+//   supabase.auth.getSession().then(({ data: { session } }) => {
+//     setSession(session)
+//   })
+
+//   supabase.auth.onAuthStateChange((_event, session) => {
+//     setSession(session)
+//   })
+// }, [])
 
 const App = () => {
   return (

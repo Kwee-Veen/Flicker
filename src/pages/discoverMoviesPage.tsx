@@ -9,6 +9,11 @@ import { PagesContext } from "../contexts/pagesContext";
 import MovieFilterUI, { titleFilter, genreFilter } from "../components/movieFilterUI";
 import useFiltering from "../hooks/useFiltering";
 import { MoviesContext } from "../contexts/moviesContext";
+// import { getTestUsers } from "../api/supabase-db";
+// import { useState, useEffect } from 'react'
+// import { supabase } from '../supabaseClient'
+// import Auth from '../auth'
+// import Account from '../account'
 
 const titleFiltering = {
   name: "title",
@@ -22,6 +27,19 @@ const genreFiltering = {
 };
 
 const DiscoverMoviesPage: React.FC = () => {
+//   const [session, setSession] = useState<any>(null)
+
+// useEffect(() => {
+//   supabase.auth.getSession().then(({ data: { session } }) => {
+//     setSession(session)
+//   })
+
+//   supabase.auth.onAuthStateChange((_event, session) => {
+//     setSession(session)
+//   })
+// }, [])
+
+
 
   const { moviesSearchPageCount, incrementMoviesSearchPageCount, decrementMoviesSearchPageCount } = useContext(PagesContext);
   const { genreId, genreLabel, voteAverage, sortBy, sortByLabel} = useContext(MoviesContext);
@@ -32,6 +50,9 @@ const DiscoverMoviesPage: React.FC = () => {
     `Movie of genre: ${genreLabel}, average vote: ${voteAverage}, sorted by ${sortByLabel}, page: ${moviesSearchPageCount}`, 
     () => getContent("movie", moviesSearchPageCount, voteAverage, genreId, sortBy)
   );
+
+  // Note: for testing only, delete once unnecessary
+  // getTestUsers();
 
   if (isLoading) return <Spinner />;
   if (isError) return <h1>{error.message}</h1>;
@@ -50,6 +71,9 @@ const DiscoverMoviesPage: React.FC = () => {
 
   return (
     <>
+      {/* <div className="container" style={{ padding: '50px 0 100px 0' }}>
+        {!session ? <Auth /> : <Account key={session.user.id} session={session} />}
+      </div> */}
       <PageTemplate
         title={document.title}
         movies={displayedMovies}

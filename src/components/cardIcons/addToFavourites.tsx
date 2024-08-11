@@ -3,6 +3,7 @@ import { MoviesContext } from "../../contexts/moviesContext";
 import IconButton from "@mui/material/IconButton";
 import FavoriteIcon from "@mui/icons-material/Favorite";
 import {BaseMovieProps} from "../../types/interfaces"
+import { addToFavourites } from "../../api/supabase-db";
 
 const AddToFavouritesIcon: React.FC<BaseMovieProps> = (movie) => {
   const context = useContext(MoviesContext);
@@ -10,6 +11,7 @@ const AddToFavouritesIcon: React.FC<BaseMovieProps> = (movie) => {
   const onUserSelect = (e: MouseEvent<HTMLButtonElement>) => {
     e.preventDefault();
     context.addToFavourites(movie);
+    addToFavourites(movie.id);
   };
   return (
     <IconButton aria-label="add to favorites" onClick={onUserSelect}>

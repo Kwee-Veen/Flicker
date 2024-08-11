@@ -3,6 +3,7 @@ import IconButton from "@mui/material/IconButton";
 import DeleteIcon from "@mui/icons-material/Delete";
 import { MoviesContext } from "../../contexts/moviesContext";
 import {BaseMovieProps} from "../../types/interfaces";
+import { removeFromFavourites } from "../../api/supabase-db";
 
 const RemoveFromFavouritesIcon: React.FC<BaseMovieProps> = (movie) => {
   const context = useContext(MoviesContext);
@@ -10,6 +11,7 @@ const RemoveFromFavouritesIcon: React.FC<BaseMovieProps> = (movie) => {
   const onUserRequest = (e: MouseEvent<HTMLButtonElement>) => {
     e.preventDefault();
     context.removeFromFavourites(movie);
+    removeFromFavourites(movie.id);
   };
 
 return (

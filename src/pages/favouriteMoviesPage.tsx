@@ -1,6 +1,6 @@
-import React, { useContext } from "react"
+import React, { useContext, useState } from "react"
 import PageTemplate from "../components/templateMovieListPage";
-import { MoviesContext } from "../contexts/moviesContext";
+// import { MoviesContext } from "../contexts/moviesContext";
 import { useQueries } from "react-query";
 import { getMovie } from "../api/tmdb-api";
 import Spinner from "../components/spinner";
@@ -11,6 +11,7 @@ import MovieFilterUI, {
 } from "../components/movieFilterUI";
 import RemoveFromFavourites from "../components/cardIcons/removeFromFavourites";
 import WriteReview from "../components/cardIcons/writeReview";
+import { getMovieFavouriteIDs } from "../api/supabase-db";
 
 const titleFiltering = {
   name: "title",
@@ -24,16 +25,25 @@ const genreFiltering = {
 };
 
 const FavouriteMoviesPage: React.FC = () => {
-  const { favourites: movieIds } = useContext(MoviesContext);
+  // const { favourites, addToFavourites } = useContext(MoviesContext);
   const { filterValues, setFilterValues, filterFunction } = useFiltering(
     [titleFiltering, genreFiltering]
   );
 
   document.title = `Favourite Movies`
 
+  // Get the list of favourite movie IDs in Supabase:
+  // convert Promise<number[]> from db into a number array, then save that array as movieFavouriteIDs
+  const [ movieFavouriteIDs, setMovieFavouriteIDs ] = useState<number[]>([]);
+  getMovieFavouriteIDs().then(x => {
+    let temp: number[] = [];
+    x.forEach(x => temp.push(x))
+    setMovieFavouriteIDs(temp);
+  })  
+
   // Create an array of queries and run them in parallel.
   const favouriteMovieQueries = useQueries(
-    movieIds.map((movieId) => {
+    movieFavouriteIDs.map((movieId: any) => {
       return {
         queryKey: ["movie", movieId],
         queryFn: () => getMovie(movieId.toString()),
