@@ -6,11 +6,13 @@ import {BaseMovieProps} from "../../types/interfaces";
 import { removeFromFavourites } from "../../api/supabase-db";
 
 const RemoveFromFavouritesIcon: React.FC<BaseMovieProps> = (movie) => {
-  const context = useContext(MoviesContext);
+  const { movieFavouriteIDs, setMovieFavouriteIDs} = useContext(MoviesContext);
 
   const onUserRequest = (e: MouseEvent<HTMLButtonElement>) => {
     e.preventDefault();
-    context.removeFromFavourites(movie);
+    var temp = movieFavouriteIDs;
+    temp?.splice(movie.id)
+    setMovieFavouriteIDs(temp);
     removeFromFavourites(movie.id);
   };
 

@@ -6,13 +6,16 @@ import {BaseMovieProps} from "../../types/interfaces"
 import { addToFavourites } from "../../api/supabase-db";
 
 const AddToFavouritesIcon: React.FC<BaseMovieProps> = (movie) => {
-  const context = useContext(MoviesContext);
+  const { movieFavouriteIDs, setMovieFavouriteIDs} = useContext(MoviesContext);
 
   const onUserSelect = (e: MouseEvent<HTMLButtonElement>) => {
     e.preventDefault();
-    context.addToFavourites(movie);
+    var temp = movieFavouriteIDs;
+    temp?.push(movie.id)
+    setMovieFavouriteIDs(temp);
     addToFavourites(movie.id);
   };
+  
   return (
     <IconButton aria-label="add to favorites" onClick={onUserSelect}>
       <FavoriteIcon color="primary" fontSize="large" />

@@ -1,4 +1,4 @@
-import React, { useContext } from "react";
+import React, { useContext, useEffect } from "react";
 import PageTemplate from "../components/templateMovieListPage";
 import { getContent } from "../api/tmdb-api";
 import { BaseMovieProps, DiscoverMovies } from "../types/interfaces";
@@ -9,9 +9,8 @@ import { PagesContext } from "../contexts/pagesContext";
 import MovieFilterUI, { titleFilter, genreFilter } from "../components/movieFilterUI";
 import useFiltering from "../hooks/useFiltering";
 import { MoviesContext } from "../contexts/moviesContext";
-// import { getTestUsers } from "../api/supabase-db";
-// import { useState, useEffect } from 'react'
-// import { supabase } from '../supabaseClient'
+import { getMovieFavouriteIDs } from "../api/supabase-db";
+import { supabase } from "../supabaseClient";
 // import Auth from '../auth'
 // import Account from '../account'
 
@@ -39,7 +38,29 @@ const DiscoverMoviesPage: React.FC = () => {
 //   })
 // }, [])
 
+const { setMovieFavouriteIDs } = useContext(MoviesContext);
+  document.title = `Favourite Movies`
 
+  // Function that queries the DB for IDs of movieFavourites and assigns the results to movieFavouriteIDs (in movieContext) 
+  const loadFavourites = () => {
+    getMovieFavouriteIDs().then(x => {
+      let temp: number[] = [];
+      x.forEach(x => temp.push(x))
+      setMovieFavouriteIDs(temp);
+    })
+  }
+
+  // loads initial favourites (once only)
+  useEffect(() => { loadFavourites(); }, []);
+
+  // subscribes to the movieFavourites db channel and re-loads favourites if there's any db change
+  supabase.channel('table_db_changes').on('postgres_changes', 
+    {
+      event: '*',
+      schema: 'public',
+      table: 'movieFavourites',
+    }, 
+    () => { loadFavourites(); }).subscribe();
 
   const { moviesSearchPageCount, incrementMoviesSearchPageCount, decrementMoviesSearchPageCount } = useContext(PagesContext);
   const { genreId, genreLabel, voteAverage, sortBy, sortByLabel} = useContext(MoviesContext);
@@ -50,9 +71,6 @@ const DiscoverMoviesPage: React.FC = () => {
     `Movie of genre: ${genreLabel}, average vote: ${voteAverage}, sorted by ${sortByLabel}, page: ${moviesSearchPageCount}`, 
     () => getContent("movie", moviesSearchPageCount, voteAverage, genreId, sortBy)
   );
-
-  // Note: for testing only, delete once unnecessary
-  // getTestUsers();
 
   if (isLoading) return <Spinner />;
   if (isError) return <h1>{error.message}</h1>;
