@@ -3,13 +3,17 @@ import IconButton from "@mui/material/IconButton";
 import DeleteIcon from "@mui/icons-material/Delete";
 import { TVContext } from "../../contexts/tvContext";
 import { BaseTVProps} from "../../types/interfaces";
+import { removeFromTVFavourites } from "../../api/supabase-db";
 
 const RemoveFromTVFavouritesIcon: React.FC<BaseTVProps> = (tv) => {
-  const context = useContext(TVContext);
+  const { tvFavouriteIDs, setTVFavouriteIDs} = useContext(TVContext);
 
   const onUserRequest = (e: MouseEvent<HTMLButtonElement>) => {
     e.preventDefault();
-    context.removeFromTVFavourites(tv);
+    var temp = tvFavouriteIDs;
+    temp?.push(tv.id)
+    setTVFavouriteIDs(temp);
+    removeFromTVFavourites(tv.id);
   };
 
 return (

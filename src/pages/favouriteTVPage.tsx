@@ -1,7 +1,7 @@
-import React, { useContext } from "react"
+import React, { useContext, useEffect } from "react"
 import PageTemplate from "../components/templateTVListPage";
 import { TVContext } from "../contexts/tvContext";
-import { useQueries } from "react-query";
+import { useQueries, UseQueryResult } from "react-query";
 import { getTVSeries } from "../api/tmdb-api";
 import Spinner from "../components/spinner";
 import useFiltering from "../hooks/useFiltering";
@@ -11,6 +11,8 @@ import TVFilterUI, {
 } from "../components/tvFilterUI";
 import RemoveFromTVFavourites from "../components/cardIcons/removeFromTVFavourites";
 import WriteTVReview from "../components/cardIcons/writeTVReview";
+import { supabase } from "../supabaseClient";
+import { getTVFavouriteIDs } from "../api/supabase-db";
 
 const titleFiltering = {
   name: "title",
@@ -24,22 +26,39 @@ const genreFiltering = {
 };
 
 const FavouriteTVPage: React.FC = () => {
-  const { tvFavourites: tvIds } = useContext(TVContext);
-  const { filterValues, setFilterValues, filterFunction } = useFiltering(
-    [titleFiltering, genreFiltering]
-  );
-
+  const { tvFavouriteIDs, setTVFavouriteIDs } = useContext(TVContext);
+  const { filterValues, setFilterValues, filterFunction } = useFiltering( [titleFiltering, genreFiltering] );
   document.title = `Favourite TV`
 
-  // Create an array of queries and run them in parallel.
-  const favouriteTVQueries = useQueries(
-    tvIds.map((tvId) => {
+// Function that queries the DB for IDs of tvFavourites and assigns the results to tvFavouriteIDs (in TVContext) 
+const loadFavourites = () => {
+  getTVFavouriteIDs().then(x => {
+    let temp: number[] = [];
+    x.forEach(x => temp.push(x))
+    setTVFavouriteIDs(temp);
+  })
+}
+
+// loads initial favourites (once only)
+useEffect(() => { loadFavourites(); }, []);
+
+// subscribes to the movieFavourites db channel and re-loads favourites if there's any db change
+supabase.channel('table_db_changes_tvFavourites').on('postgres_changes', 
+  { event: '*', schema: 'public', table: 'tvFavourites' }, 
+  () => { loadFavourites(); }).subscribe();
+
+// Create an array of queries and run them in parallel.
+let favouriteTVQueries: UseQueryResult<any, unknown>[] = [];
+if (tvFavouriteIDs) {
+  favouriteTVQueries = useQueries(
+    tvFavouriteIDs.map((tvId) => {
       return {
         queryKey: ["tv", tvId],
         queryFn: () => getTVSeries(tvId.toString()),
       };
     })
   );
+}
 
   // Check if any of the parallel queries is still loading.
   const isLoading = favouriteTVQueries.find((m) => m.isLoading === true);

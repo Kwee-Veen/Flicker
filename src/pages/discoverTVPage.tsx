@@ -1,4 +1,4 @@
-import React, { useContext } from "react";
+import React, { useContext, useEffect } from "react";
 import PageTemplate from "../components/templateTVListPage";
 import { getContent } from "../api/tmdb-api";
 import { BaseTVProps, DiscoverTV } from "../types/interfaces";
@@ -9,6 +9,8 @@ import AddToTVFavouritesIcon from "../components/cardIcons/addToTVFavourites";
 import TVFilterUI, { genreFilter, nameFilter } from "../components/tvFilterUI";
 import useFiltering from "../hooks/useFiltering";
 import { TVContext } from "../contexts/tvContext";
+import { supabase } from "../supabaseClient";
+import { getTVFavouriteIDs } from "../api/supabase-db";
 
 const nameFiltering = {
   name: "title",
@@ -23,9 +25,28 @@ const genreFiltering = {
 
 const DiscoverTVPage: React.FC = () => {
 
+const { genreId, genreLabel, voteAverage, sortBy, sortByLabel, setTVFavouriteIDs} = useContext(TVContext);
+
+// Function that queries the DB for IDs of tvFavourites and assigns the results to tvFavouriteIDs (in TVContext) 
+const loadFavourites = () => {
+  getTVFavouriteIDs().then(x => {
+    let temp: number[] = [];
+    x.forEach(x => temp.push(x))
+    setTVFavouriteIDs(temp);
+  })
+}
+
+// loads initial favourites (once only)
+useEffect(() => { loadFavourites(); }, []);
+
+// subscribes to the movieFavourites db channel and re-loads favourites if there's any db change
+supabase.channel('table_db_changes_tvFavourites').on('postgres_changes', 
+  { event: '*', schema: 'public', table: 'tvFavourites' }, 
+  () => { loadFavourites(); }).subscribe();
+
   const { filterValues, setFilterValues, filterFunction } = useFiltering([nameFiltering, genreFiltering]);
   const { tvSearchPageCount, incrementTVSearchPageCount, decrementTVSearchPageCount } = useContext(PagesContext);
-  const { genreId, genreLabel, voteAverage, sortBy, sortByLabel} = useContext(TVContext);
+
   document.title = `TV Page ${tvSearchPageCount}`
   
   const { data, error, isLoading, isError } = useQuery<DiscoverTV, Error>(

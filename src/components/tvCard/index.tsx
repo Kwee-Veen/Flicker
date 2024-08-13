@@ -7,7 +7,6 @@ import CardHeader from "@mui/material/CardHeader";
 import Button from "@mui/material/Button";
 import Typography from "@mui/material/Typography";
 import FavoriteIcon from "@mui/icons-material/Favorite";
-import PlaylistAddIcon from "@mui/icons-material/PlaylistAdd";
 import CalendarIcon from "@mui/icons-material/CalendarTodayTwoTone";
 import StarRateIcon from "@mui/icons-material/StarRate";
 import Grid from "@mui/material/Grid";
@@ -31,27 +30,19 @@ interface TVCardProps {
 }
 
 const TVCard: React.FC<TVCardProps> = ({ tv, action }) => {
-  const { tvFavourites } = useContext(TVContext);
 
-  const isTVFavourite = tvFavourites.find((id) => id === tv.id) ? true : false;
-
-  const { tvMustWatchList } = useContext(TVContext);
-
-  const isInTVMustWatchList = tvMustWatchList.find((id) => id === tv.id) ? true : false;
+  const { tvFavouriteIDs } = useContext(TVContext);
+  const isFavourite = tvFavouriteIDs?.find((id) => id === tv.id) ? true : false;
 
   return (
     <Card sx={styles.card}>
       <CardHeader
         avatar={
-          isTVFavourite ? (
+          isFavourite ? (
             <Avatar sx={styles.avatar}>
               <FavoriteIcon />
             </Avatar>
-          ) : (isInTVMustWatchList ? (
-            <Avatar sx={styles.avatar}>
-              <PlaylistAddIcon />
-            </Avatar>
-          ) : null)
+          ) : null
         }
         title={
           <Typography variant="h5" component="p">

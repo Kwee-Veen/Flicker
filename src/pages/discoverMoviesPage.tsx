@@ -55,11 +55,7 @@ const { setMovieFavouriteIDs } = useContext(MoviesContext);
 
   // subscribes to the movieFavourites db channel and re-loads favourites if there's any db change
   supabase.channel('table_db_changes').on('postgres_changes', 
-    {
-      event: '*',
-      schema: 'public',
-      table: 'movieFavourites',
-    }, 
+    { event: '*', schema: 'public', table: 'movieFavourites' }, 
     () => { loadFavourites(); }).subscribe();
 
   const { moviesSearchPageCount, incrementMoviesSearchPageCount, decrementMoviesSearchPageCount } = useContext(PagesContext);
