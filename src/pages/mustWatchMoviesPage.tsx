@@ -1,7 +1,7 @@
-import React, { useContext } from "react"
+import React, { useContext, useEffect } from "react"
 import PageTemplate from "../components/templateMovieListPage";
 import { MoviesContext } from "../contexts/moviesContext";
-import { useQueries } from "react-query";
+import { useQueries, UseQueryResult } from "react-query";
 import { getMovie } from "../api/tmdb-api";
 import Spinner from "../components/spinner";
 import useFiltering from "../hooks/useFiltering";
@@ -11,6 +11,8 @@ import MovieFilterUI, {
 } from "../components/movieFilterUI";
 import RemoveFromMustWatchMovies from "../components/cardIcons/removeFromMustWatchMovies";
 import WriteReview from "../components/cardIcons/writeReview";
+import { supabase } from "../supabaseClient";
+import { getMustWatchMovieIDs } from "../api/supabase-db";
 
 const titleFiltering = {
   name: "title",
@@ -24,22 +26,38 @@ const genreFiltering = {
 };
 
 const MustWatchMoviesPage: React.FC = () => {
-  const { mustWatchList: movieIds } = useContext(MoviesContext);
-  const { filterValues, setFilterValues, filterFunction } = useFiltering(
-    [titleFiltering, genreFiltering]
-  );
-
+  const { mustWatchMovieIDs, setMustWatchMovieIDs } = useContext(MoviesContext);
+  const { filterValues, setFilterValues, filterFunction } = useFiltering( [titleFiltering, genreFiltering] );
   document.title = `Must Watch Movies`
 
-  // Create an array of queries and run them in parallel.
-  const mustWatchMovieQueries = useQueries(
-    movieIds.map((movieId) => {
-      return {
-        queryKey: ["movie", movieId],
-        queryFn: () => getMovie(movieId.toString()),
-      };
-    })
+ // Function that queries the DB for IDs of movieFavourites and assigns the results to movieFavouriteIDs (in movieContext) 
+ const loadMustWatchMovies = () => {
+  getMustWatchMovieIDs().then(x => {
+    let temp: number[] = [];
+    x.forEach(x => temp.push(x))
+    setMustWatchMovieIDs(temp);
+  })
+}
+
+// loads initial must watch movies (once only)
+useEffect(() => { loadMustWatchMovies(); }, []);
+
+// subscribes to the movieFavourites db channel and re-loads must watch movies if there's any db change
+supabase.channel('table_db_changes_must_watch_movies').on('postgres_changes', 
+  { event: '*', schema: 'public', table: 'mustWatchMovies' }, 
+  () => { loadMustWatchMovies(); }).subscribe();
+
+// Create an array of queries and run them in parallel.
+let mustWatchMovieQueries: UseQueryResult<any, unknown>[] = [];
+if (mustWatchMovieIDs) {
+  mustWatchMovieQueries = useQueries(mustWatchMovieIDs.map((movieId: any) => {
+    return {
+      queryKey: ["movie", movieId],
+      queryFn: () => getMovie(movieId.toString()),
+    };
+  })
   );
+}
 
   // Check if any of the parallel queries is still loading.
   const isLoading = mustWatchMovieQueries.find((m) => m.isLoading === true);

@@ -3,13 +3,17 @@ import IconButton from "@mui/material/IconButton";
 import DeleteIcon from "@mui/icons-material/Delete";
 import { MoviesContext } from "../../contexts/moviesContext";
 import {BaseMovieProps} from "../../types/interfaces";
+import { removeFromMustWatchMovies } from "../../api/supabase-db";
 
 const RemoveFromMustWatchMoviesIcon: React.FC<BaseMovieProps> = (movie) => {
-  const context = useContext(MoviesContext);
+  const { mustWatchMovieIDs, setMustWatchMovieIDs} = useContext(MoviesContext);
 
   const onUserRequest = (e: MouseEvent<HTMLButtonElement>) => {
     e.preventDefault();
-    context.removeFromMustWatchList(movie);
+    var temp = mustWatchMovieIDs;
+    temp?.splice(movie.id)
+    setMustWatchMovieIDs(temp);
+    removeFromMustWatchMovies(movie.id);
   };
 
 return (

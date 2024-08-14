@@ -63,3 +63,36 @@ export const removeFromTVFavourites = async (removeFavouriteTVId: number) => {
   if (error?.message) throw new Error(`Unable to remove tv series from db favourites. Error: ${error?.message}`);
   else console.log(`Removed tv from db favourites. Id: ${removeFavouriteTVId}`); 
 };
+
+export const getMustWatchMovieIDs = async () => {
+  const { data: mustWatchMovies, error } = await supabase.from('mustWatchMovies').select('movieId')
+  if (mustWatchMovies) {
+    let ret: number[] = [];
+    mustWatchMovies.forEach(x => { ret.push(x.movieId); })
+    console.log(ret);
+    return ret;
+  
+  } else
+    throw new Error(`Unable to fetch must-watch movies from Supabase. Error: ${error}`);
+};
+
+export const addToMustWatchMovies = async (newMustWatchMovieID: number) => {
+  const { error } = await supabase
+    .from('mustWatchMovies')
+    .insert([ { movieId: newMustWatchMovieID, userId: 1 } ])
+    .select('movieId');
+
+  if (error?.message) throw new Error(`Unable to add movie to db must watch movies list. Error: ${error?.message}`);
+  else console.log(`Added movie to db must watch movies list. Id: ${newMustWatchMovieID}`); ;
+};
+
+export const removeFromMustWatchMovies = async (removeMustWatchMovieID: number) => {
+  const { error } = await supabase
+    .from('mustWatchMovies')
+    .delete()
+    .eq('movieId', removeMustWatchMovieID)
+
+  if (error?.message) throw new Error(`Unable to remove movie from db must watch movies list. Error: ${error?.message}`);
+  else console.log(`Removed movie to db must watch movies list. Id: ${removeMustWatchMovieID}`); 
+};
+

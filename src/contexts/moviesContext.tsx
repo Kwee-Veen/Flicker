@@ -1,11 +1,8 @@
-import React, { useState, useCallback } from "react";
+import React, { useState } from "react";
 import { BaseMovieProps, MenuOptions, Review } from "../types/interfaces";
 
 interface MovieContextInterface {
   addReview: ((movie: BaseMovieProps, review: Review) => void);
-  mustWatchList: number[];
-  addToMustWatchList: ((movie: BaseMovieProps) => void);
-  removeFromMustWatchList: ((movie: BaseMovieProps) => void);
   movieGenres: MenuOptions[];
   sortOptions: MenuOptions[];
   voteAverage: number | undefined;
@@ -22,13 +19,12 @@ interface MovieContextInterface {
   setSortByLabel: ((label: string | undefined) => void);
   movieFavouriteIDs: number[] | undefined;
   setMovieFavouriteIDs: ((number: number[] | undefined) => void);
+  mustWatchMovieIDs: number[] | undefined;
+  setMustWatchMovieIDs: ((number: number[] | undefined) => void);
 }
 
 const initialContextState: MovieContextInterface = {
   addReview: (movie, review) => { movie.id, review },
-  mustWatchList: [],
-  addToMustWatchList: () => { },
-  removeFromMustWatchList: () => { },
   movieGenres: [],
   sortOptions: [],
   voteAverage: undefined,
@@ -45,6 +41,8 @@ const initialContextState: MovieContextInterface = {
   setSortByLabel: () => { },
   movieFavouriteIDs: [],
   setMovieFavouriteIDs: () => { },
+  mustWatchMovieIDs: [],
+  setMustWatchMovieIDs: () => { },
 };
 
 export const MoviesContext = React.createContext<MovieContextInterface>(initialContextState);
@@ -55,23 +53,6 @@ const MoviesContextProvider: React.FC<React.PropsWithChildren> = ({ children }) 
   const addReview = (movie: BaseMovieProps, review: Review) => {
     setMyReviews({ ...myReviews, [movie.id]: review })
   };
-
-  const [mustWatchList, setMustWatchList] = useState<number[]>([]);
-
-  const addToMustWatchList = useCallback((movie: BaseMovieProps) => {
-    setMustWatchList((prevMustWatchList) => {
-      if (!prevMustWatchList.includes(movie.id)) {
-        console.log(`Added movie ${movie.title} to Must Watch List`);
-        return [...prevMustWatchList, movie.id];
-      }
-      console.log(`Did not add movie ${movie.title} to Must Watch List - already present`);
-      return prevMustWatchList;
-    });
-  }, []);
-
-  const removeFromMustWatchList = useCallback((movie: BaseMovieProps) => {
-    setMustWatchList((prevMustWatchList) => prevMustWatchList.filter((mId) => mId !== movie.id));
-  }, []);
 
   const [movieGenres] = useState<MenuOptions[]>([
     { label: "Pick a genre", path: "" },
@@ -114,14 +95,12 @@ const MoviesContextProvider: React.FC<React.PropsWithChildren> = ({ children }) 
   const [sortBy, setSortBy] = React.useState<string | undefined>(undefined);
   const [sortByLabel, setSortByLabel] = React.useState<string | undefined>(undefined);
   const [movieFavouriteIDs, setMovieFavouriteIDs ] = useState<number[] | undefined>([]);
+  const [mustWatchMovieIDs, setMustWatchMovieIDs ] = useState<number[] | undefined>([]);
 
   return (
     <MoviesContext.Provider
       value={{
         addReview,
-        mustWatchList,
-        addToMustWatchList,
-        removeFromMustWatchList,
         movieGenres,
         sortOptions,
         voteAverage,
@@ -138,6 +117,8 @@ const MoviesContextProvider: React.FC<React.PropsWithChildren> = ({ children }) 
         setSortByLabel,
         movieFavouriteIDs,
         setMovieFavouriteIDs,
+        mustWatchMovieIDs, 
+        setMustWatchMovieIDs,
       }}
     >
       {children}

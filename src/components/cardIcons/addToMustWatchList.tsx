@@ -3,14 +3,17 @@ import { MoviesContext } from "../../contexts/moviesContext";
 import IconButton from "@mui/material/IconButton";
 import PlaylistAddIcon from "@mui/icons-material/PlaylistAdd";
 import { BaseMovieProps } from "../../types/interfaces"
+import { addToMustWatchMovies } from "../../api/supabase-db";
 
 const AddToMustWatchListIcon: React.FC<BaseMovieProps> = (movie) => {
-
-  const context = useContext(MoviesContext);
+  const { mustWatchMovieIDs, setMustWatchMovieIDs} = useContext(MoviesContext);
 
   const onUserSelect = (e: MouseEvent<HTMLButtonElement>) => {
     e.preventDefault();
-    context.addToMustWatchList(movie);
+    var temp = mustWatchMovieIDs;
+    temp?.push(movie.id)
+    setMustWatchMovieIDs(temp);
+    addToMustWatchMovies(movie.id);
   };
 
   return (
