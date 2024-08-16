@@ -13,21 +13,22 @@ import MovieReviews from '../movieReviews'
 
 const styles = {
     chipSet: {
-        display: "flex",
-        justifyContent: "center",
-        alignItems: "center",
-        flexWrap: "wrap",
-        listStyle: "none",
-        padding: 1.5,
-        margin: 0,
+      display: "flex",
+      justifyContent: "center",
+      alignItems: "center",
+      flexWrap: "wrap",
+      listStyle: "none",
+      padding: 1.5,
+      margin: 0,
     },
     chipLabel: {
-        margin: 0.5,
+      margin: 0.5,
     },
     fab: {
-        position: "fixed",
-        top: 50,
-        right: 2,
+      marginTop: 8,
+      position: "fixed",
+      top: 37,
+      right: 10,
     },
 };
 
@@ -68,7 +69,7 @@ const MovieDetails: React.FC<MovieDetailsProps> = (movie) => {
                 <Chip label={`Released: ${movie.release_date}`} />
             </Paper>
             <Fab
-                color="secondary"
+                color="primary"
                 variant="extended"
                 onClick={() => setDrawerOpen(true)}
                 sx={styles.fab}

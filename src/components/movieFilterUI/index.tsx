@@ -16,13 +16,13 @@ export const genreFilter = (movie: BaseMovieProps, value: string) => {
 
 const styles = {
     root: {
-        backgroundColor: "#bfbfbf",
+      backgroundColor: "#bfbfbf",
     },
     fab: {
-        marginTop: 8,
-        position: "fixed",
-        top: 20,
-        right: 2,
+      marginTop: 8,
+      position: "fixed",
+      top: 10,
+      right: 20,
     },
 };
 
@@ -39,7 +39,7 @@ const MovieFilterUI: React.FC<MovieFilterUIProps> = ({ onFilterValuesChange, tit
     return (
         <>
             <Fab
-                color="warning"
+                color="primary"
                 variant="extended"
                 onClick={() => setDrawerOpen(true)}
                 sx={styles.fab}

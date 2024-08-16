@@ -2,7 +2,6 @@ import React, { useState } from "react";
 import Chip from "@mui/material/Chip";
 import Paper from "@mui/material/Paper";
 import AccessTimeIcon from "@mui/icons-material/AccessTime";
-import MonetizationIcon from "@mui/icons-material/MonetizationOn";
 import StarRate from "@mui/icons-material/StarRate";
 import Typography from "@mui/material/Typography";
 import { TVDetailsProps } from "../../types/interfaces";
@@ -14,21 +13,22 @@ import TVReviews from "../tvReviews";
 
 const styles = {
     chipSet: {
-        display: "flex",
-        justifyContent: "center",
-        alignItems: "center",
-        flexWrap: "wrap",
-        listStyle: "none",
-        padding: 1.5,
-        margin: 0,
+      display: "flex",
+      justifyContent: "center",
+      alignItems: "center",
+      flexWrap: "wrap",
+      listStyle: "none",
+      padding: 1.5,
+      margin: 0,
     },
     chipLabel: {
-        margin: 0.5,
+      margin: 0.5,
     },
     fab: {
-        position: "fixed",
-        top: 50,
-        right: 2,
+      marginTop: 8,
+      position: "fixed",
+      top: 37,
+      right: 10,
     },
 };
 
@@ -58,10 +58,6 @@ const TVDetails: React.FC<TVDetailsProps> = (tv) => {
             </Paper>
             <Paper component="ul" sx={styles.chipSet}>
                 <Chip icon={<AccessTimeIcon />} label={`${tv.episode_run_time} min.`} />
-                {/* <Chip
-                    icon={<MonetizationIcon />}
-                    label={`${tv.revenue.toLocaleString()}`}
-                /> */}
                 <Chip
                     icon={<StarRate />}
                     label={`${tv.vote_average} (${tv.vote_count}`}
@@ -70,7 +66,7 @@ const TVDetails: React.FC<TVDetailsProps> = (tv) => {
                 <Chip label={`Last Airing: ${tv.last_air_date}`} />
             </Paper>
             <Fab
-                color="secondary"
+                color="primary"
                 variant="extended"
                 onClick={() => setDrawerOpen(true)}
                 sx={styles.fab}

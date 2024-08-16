@@ -11,8 +11,6 @@ import useFiltering from "../hooks/useFiltering";
 import { MoviesContext } from "../contexts/moviesContext";
 import { getMovieFavouriteIDs } from "../api/supabase-db";
 import { supabase } from "../supabaseClient";
-// import Auth from '../auth'
-// import Account from '../account'
 
 const titleFiltering = {
   name: "title",
@@ -26,20 +24,8 @@ const genreFiltering = {
 };
 
 const DiscoverMoviesPage: React.FC = () => {
-//   const [session, setSession] = useState<any>(null)
-
-// useEffect(() => {
-//   supabase.auth.getSession().then(({ data: { session } }) => {
-//     setSession(session)
-//   })
-
-//   supabase.auth.onAuthStateChange((_event, session) => {
-//     setSession(session)
-//   })
-// }, [])
-
-const { setMovieFavouriteIDs } = useContext(MoviesContext);
-  document.title = `Favourite Movies`
+  const { setMovieFavouriteIDs } = useContext(MoviesContext);
+  document.title = `Movies - Flicker`
 
   // Function that queries the DB for IDs of movieFavourites and assigns the results to movieFavouriteIDs (in movieContext) 
   const loadFavourites = () => {
@@ -54,17 +40,17 @@ const { setMovieFavouriteIDs } = useContext(MoviesContext);
   useEffect(() => { loadFavourites(); }, []);
 
   // subscribes to the movieFavourites db channel and re-loads favourites if there's any db change
-  supabase.channel('table_db_changes').on('postgres_changes', 
-    { event: '*', schema: 'public', table: 'movieFavourites' }, 
+  supabase.channel('table_db_changes').on('postgres_changes',
+    { event: '*', schema: 'public', table: 'movieFavourites' },
     () => { loadFavourites(); }).subscribe();
 
   const { moviesSearchPageCount, incrementMoviesSearchPageCount, decrementMoviesSearchPageCount } = useContext(PagesContext);
-  const { genreId, genreLabel, voteAverage, sortBy, sortByLabel} = useContext(MoviesContext);
-  const { filterValues, setFilterValues, filterFunction } = useFiltering( [titleFiltering, genreFiltering] );
+  const { genreId, genreLabel, voteAverage, sortBy, sortByLabel } = useContext(MoviesContext);
+  const { filterValues, setFilterValues, filterFunction } = useFiltering([titleFiltering, genreFiltering]);
   document.title = `Movies Page ${moviesSearchPageCount}`
 
   const { data, error, isLoading, isError } = useQuery<DiscoverMovies, Error>(
-    `Movie of genre: ${genreLabel}, average vote: ${voteAverage}, sorted by ${sortByLabel}, page: ${moviesSearchPageCount}`, 
+    `Movie of genre: ${genreLabel}, average vote: ${voteAverage}, sorted by ${sortByLabel}, page: ${moviesSearchPageCount}`,
     () => getContent("movie", moviesSearchPageCount, voteAverage, genreId, sortBy)
   );
 

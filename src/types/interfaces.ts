@@ -220,3 +220,9 @@ export interface TVDetailsProps extends BaseTVProps{
   status: string,
   tagline: string,
 }
+
+export interface AuthContextInterface {
+  token: string | null;
+  authenticate: ((username: string, password: string) => void);
+  signout: () => void;
+}

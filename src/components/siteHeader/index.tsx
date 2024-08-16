@@ -1,4 +1,4 @@
-import React, { useState, MouseEvent } from "react";
+import React, { useState, MouseEvent, useContext } from "react";
 import AppBar from "@mui/material/AppBar";
 import Toolbar from "@mui/material/Toolbar";
 import Typography from "@mui/material/Typography";
@@ -12,14 +12,36 @@ import { Link, useNavigate } from "react-router-dom";
 import { useTheme } from "@mui/material/styles";
 import useMediaQuery from "@mui/material/useMediaQuery";
 import { MenuOptions } from "../../types/interfaces";
+import { AuthContext } from "../../contexts/authContext";
 
 const styles = {
     title: {
-      flexGrow: 1,
       fontWeight: '500',
       letterSpacing: 6,
       fontFamily: 'Monospace',
       textDecoration: "none",
+      pr: 10,
+    },
+    auth: {
+      display: 'inline',
+      fontWeight: 'Light',
+      alignItems: 'flex-start',
+      fontFamily: 'Monospace',
+      textDecoration: "none",
+    },
+    buttons: {
+      bgcolor: 'primary',
+      fontFamily: 'Monospace',
+      boxShadow: "10"
+    },
+    filler: {
+      display: 'inline',
+      flexGrow: 5,
+      boxShadow: "none"
+    },
+    filler_small: {
+      display: 'inline',
+      flexGrow: 1,
       boxShadow: "none"
     },
   };
@@ -27,6 +49,7 @@ const styles = {
 const Offset = styled("div")(({ theme }) => theme.mixins.toolbar);
 
 const SiteHeader: React.FC = () => {
+  const { token, signout } = useContext(AuthContext) || {};
   const navigate = useNavigate();
   const [anchorEl, setAnchorEl] = useState<HTMLButtonElement|null>(null);
   const open = Boolean(anchorEl);
@@ -34,23 +57,22 @@ const SiteHeader: React.FC = () => {
   const isMobile = useMediaQuery(theme.breakpoints.down("lg"));
 
   const movieOptions: MenuOptions[] = [
-    { label: "Discover Movies", path: "/" },
-    { label: "Trending Movies", path: "/movies/popular" },
-    { label: "Favorite Movies", path: "/movies/favourites" },
-    { label: "", path: "" },
-    { label: "Upcoming Movies", path: "/movies/upcoming" },
-    { label: "Must-Watch Movies", path: "/movies/mustWatch" },
+    { label: "Discover", path: "/" },
+    { label: "Trending", path: "/movies/popular" },
+    { label: "Favourites List", path: "/movies/favourites" },
+    { label: "Upcoming", path: "/movies/upcoming" },
+    { label: "Must-Watch List", path: "/movies/mustWatch" },
   ];
 
   const tvOptions: MenuOptions[] = [
-    { label: "Discover TV", path: "/tv" },
-    { label: "Trending TV", path: "/tv/trending" },
-    { label: "TV Favourites", path: "/tv/favourites" },
+    { label: "Discover", path: "/tv" },
+    { label: "Trending", path: "/tv/trending" },
+    { label: "Favourites List", path: "/tv/favourites" },
   ];
 
   const [menuOptions, setMenuOptions] = useState<MenuOptions[]>(movieOptions);
-  const [movieOrTV, setMovieOrTV] = useState<Boolean>(false);  
-  const [toggleButtonText, setToggleButtonText] = useState<string>(" TV ");  
+  const [movieOrTV, setMovieOrTV] = useState<Boolean>(false);   
+  const [toggleButtonText, setToggleButtonText] = useState<string>("Movies");  
   const [flickerLinkPath, setFlickerLinkPath] = useState<string>("/");  
 
   const handleMenuSelect = (pageURL: string) => {
@@ -62,12 +84,12 @@ const SiteHeader: React.FC = () => {
     if (movieOrTV) {
       setMenuOptions(movieOptions);
       setFlickerLinkPath("/");
-      setToggleButtonText(" TV ");
+      setToggleButtonText("Movies");
     }
     else {
       setMenuOptions(tvOptions);
       setFlickerLinkPath("/tv");
-      setToggleButtonText("Movies");
+      setToggleButtonText(" TV ");
     }
   };
 
@@ -80,8 +102,20 @@ const SiteHeader: React.FC = () => {
       <AppBar position="fixed" elevation={0} color="error">
         <Toolbar>
           <Typography variant="h4" sx={styles.title} component={Link} to={flickerLinkPath} color="white"> 
-            Flicker.
+            Flicker
           </Typography>
+
+          <Button
+            color="secondary"
+            onClick={() => toggleMoviesOrTV()}
+            variant="contained"
+            style={{minWidth: '90px'}}
+          >
+            {toggleButtonText}
+          </Button>
+
+          &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+
           {isMobile ? (
             <>
               <IconButton
@@ -122,24 +156,37 @@ const SiteHeader: React.FC = () => {
           ) : (
             <>
               {menuOptions.map((opt) => (
-                <Button
+                <>
+                &nbsp;
+                <Button variant="outlined"
+                
                   key={opt.label}
                   color="inherit"
                   onClick={() => handleMenuSelect(opt.path as string)}
                 >
+                  &nbsp;
                   {opt.label}
+                  &nbsp;
                 </Button>
+                &nbsp;&nbsp;
+                </>
               ))}
+              <Typography sx={styles.filler_small} ></Typography>
             </>
           )}
-          &nbsp;&nbsp;&nbsp;
-          <Button
-            color="secondary"
-            onClick={() => toggleMoviesOrTV()}
-            variant="contained"
-          >
-            {toggleButtonText}
-          </Button>
+
+          {token ? (
+            <Typography variant="h6" sx={styles.auth}>
+              Welcome!&nbsp;
+              <Button sx={styles.buttons} variant="contained" color='warning' onClick={() => signout && signout()}>Sign out</Button>
+            </Typography>
+          ) : (
+            <Typography variant="h6" sx={styles.auth} >
+              &nbsp;Log in:&nbsp;
+              <Button sx={styles.buttons} variant="contained" color='warning' onClick={() => navigate("login") }>Login</Button>
+            </Typography>
+
+          )}
         </Toolbar>
       </AppBar>
       <Offset />
