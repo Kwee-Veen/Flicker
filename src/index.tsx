@@ -49,6 +49,17 @@ const App = () => {
                 <Route path="/login" element={<LoginPage />} />
 
                 <Route path="/movies/:id" element={<MoviePage />} />
+                <Route path="/movies/upcoming" element={<UpcomingMoviesPage />} />
+                <Route path="/movies/popular" element={<PopularMoviesPage />} />
+                <Route path="/reviews/:id" element={<MovieReviewPage />} />
+                <Route path="/reviews/form" element={<AddMovieReviewPage />} />
+
+                <Route path="/tv" element={<DiscoverTVPage />} />
+                <Route path="/tv/:id" element={<TVDetailsPage />} />
+                <Route path="/tv/trending" element={<TrendingTVPage />} />
+                <Route path="/tvreviews/:id" element={<TVReviewPage />} />
+                <Route path="/tvreviews/form" element={<AddTVReviewPage />} />
+
                 <Route path="/movies/favourites" element={
                   <ProtectedRoute>
                     <FavouriteMoviesPage />
@@ -59,23 +70,13 @@ const App = () => {
                     <MustWatchMoviesPage />
                   </ProtectedRoute>
                 } />
-                <Route path="/movies/upcoming" element={<UpcomingMoviesPage />} />
-                <Route path="/movies/popular" element={<PopularMoviesPage />} />
-                <Route path="/reviews/:id" element={<MovieReviewPage />} />
-                <Route path="/reviews/form" element={<AddMovieReviewPage />} />
-
-                <Route path="/tv" element={<DiscoverTVPage />} />
-                <Route path="/tv/:id" element={<TVDetailsPage />} />
                 <Route path="/tv/favourites" element={
                   <ProtectedRoute>
                     <FavouriteTVPage />
                   </ProtectedRoute>
                 } />
-                <Route path="/tv/trending" element={<TrendingTVPage />} />
-                <Route path="/tvreviews/:id" element={<TVReviewPage />} />
-                <Route path="/tvreviews/form" element={<AddTVReviewPage />} />
-                <Route path="*" element={<Navigate to="/" replace />} />
 
+                <Route path="*" element={<Navigate to="/" replace />} />
               </Routes>
             </TVContextProvider>
           </MoviesContextProvider>

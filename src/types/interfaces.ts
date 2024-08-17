@@ -222,7 +222,32 @@ export interface TVDetailsProps extends BaseTVProps{
 }
 
 export interface AuthContextInterface {
-  token: string | null;
-  authenticate: ((username: string, password: string) => void);
+  token: AuthToken | null;
+  authenticate: ((token: AuthToken) => void);
   signout: () => void;
+}
+
+// NOTE: Not using, keeping as reference, will delete in later commit:
+// export interface User {
+//   firstName: string;
+//   lastName?: string;
+//   email: string;
+//   password: string;
+// }
+
+export interface AuthToken {
+  aud: string;
+  azp: string;
+  email: string;
+  email_verified: true;
+  exp: number;
+  family_name: string;
+  given_name: string;
+  iat: number
+  iss: string;
+  jti: string;
+  name: string;
+  nbf: number
+  picture: string;
+  sub: string;
 }

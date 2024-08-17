@@ -20,7 +20,7 @@ const styles = {
       letterSpacing: 6,
       fontFamily: 'Monospace',
       textDecoration: "none",
-      pr: 10,
+      pr: 8,
     },
     auth: {
       display: 'inline',
@@ -175,17 +175,17 @@ const SiteHeader: React.FC = () => {
             </>
           )}
 
+
           {token ? (
-            <Typography variant="h6" sx={styles.auth}>
-              Welcome!&nbsp;
+            <Typography variant="body2" sx={styles.auth}>
+              Hey {token.given_name} 👋&nbsp;
               <Button sx={styles.buttons} variant="contained" color='warning' onClick={() => signout && signout()}>Sign out</Button>
             </Typography>
           ) : (
-            <Typography variant="h6" sx={styles.auth} >
-              &nbsp;Log in:&nbsp;
+            <Typography variant="body2" sx={styles.auth} >
+              &nbsp;Log in 👉&nbsp;
               <Button sx={styles.buttons} variant="contained" color='warning' onClick={() => navigate("login") }>Login</Button>
             </Typography>
-
           )}
         </Toolbar>
       </AppBar>

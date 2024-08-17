@@ -32,10 +32,8 @@ interface MovieCardProps {
 
 const MovieCard: React.FC<MovieCardProps> = ({ movie, action }) => {
 
-  const { movieFavouriteIDs } = useContext(MoviesContext);
+  const { movieFavouriteIDs, mustWatchMovieIDs } = useContext(MoviesContext);
   const isFavourite = movieFavouriteIDs?.find((id) => id === movie.id) ? true : false;
-
-  const { mustWatchMovieIDs } = useContext(MoviesContext);
   const isInMustWatchList = mustWatchMovieIDs?.find((id) => id === movie.id) ? true : false;
 
   return (

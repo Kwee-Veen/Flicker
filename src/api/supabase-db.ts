@@ -1,4 +1,15 @@
+// import { User } from "../types/interfaces";
 import { supabase } from "../supabaseClient";
+
+// NOTE: Decided against this approach for logging in and went with Google OAuth. This would've been hilariously insecure. Keeping it in this commit for reference, will delete later.
+// export const getUsers = async () => {
+//   const { data: users, error } = await supabase.from('users').select('firstName, lastName, email, password');
+//   if (users) {
+//     let ret: User[] = users;
+//     return ret;
+//   } 
+//   else throw new Error(`Unable to fetch users from Supabase. Error: ${error}`);
+// };
 
 export const getMovieFavouriteIDs = async () => {
   const { data: movieFavourites, error } = await supabase.from('movieFavourites').select('movieId')
