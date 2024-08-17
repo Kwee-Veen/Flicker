@@ -16,10 +16,12 @@ import { BaseMovieProps } from "../../types/interfaces";
 import { Link } from "react-router-dom";
 import { Avatar } from "@mui/material";
 import { MoviesContext } from "../../contexts/moviesContext";
+import { AuthContext } from "../../contexts/authContext";
 
 const styles = {
-  card: { maxWidth: 345 },
-  media: { height: 500 },
+  card: { maxWidth: 345, borderRadius: 10, outline: 5, outlineColor: "white" },
+  cardHeader: {minHeight: 60},
+  media: { height: 500, borderRadius: 8},
   avatar: {
     backgroundColor: "rgb(255, 0, 0)",
   },
@@ -33,8 +35,14 @@ interface MovieCardProps {
 const MovieCard: React.FC<MovieCardProps> = ({ movie, action }) => {
 
   const { movieFavouriteIDs, mustWatchMovieIDs } = useContext(MoviesContext);
-  const isFavourite = movieFavouriteIDs?.find((id) => id === movie.id) ? true : false;
-  const isInMustWatchList = mustWatchMovieIDs?.find((id) => id === movie.id) ? true : false;
+  const { token } = useContext(AuthContext) || {};
+  let isFavourite, isInMustWatchList: boolean = false;
+
+  // Both favourite icons will only be flagged and displayed if logged in
+  if (token) {
+    isFavourite = movieFavouriteIDs?.find((id) => id === movie.id) ? true : false;
+    isInMustWatchList = mustWatchMovieIDs?.find((id) => id === movie.id) ? true : false;
+  }
 
   return (
     <Card sx={styles.card}>
@@ -51,10 +59,11 @@ const MovieCard: React.FC<MovieCardProps> = ({ movie, action }) => {
           ) : null)
         }
         title={
-          <Typography variant="h5" component="p">
-            {movie.title}{" "}
+          <Typography variant="h5" component="p" align="right">
+            {movie.title}&nbsp;
           </Typography>
         }
+        sx={styles.cardHeader}
       />
       <CardMedia
         sx={styles.media}
@@ -66,24 +75,25 @@ const MovieCard: React.FC<MovieCardProps> = ({ movie, action }) => {
       />
       <CardContent>
         <Grid container>
-          <Grid item xs={6}>
-            <Typography variant="h6" component="p">
-              <CalendarIcon fontSize="small" />
-              {movie.release_date}
-            </Typography>
-          </Grid>
-          <Grid item xs={6}>
+        <Grid item xs={6} style={{ display:'flex', justifyContent:'center' }}>
             <Typography variant="h6" component="p">
               <StarRateIcon fontSize="small" />
-              {"  "} {movie.vote_average}{" "}
+              &nbsp;{movie.vote_average}&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+            </Typography>
+          </Grid>
+          <Grid item xs={6} style={{ display:'flex', justifyContent:'center' }}>
+            <Typography variant="h6" component="p">
+              <CalendarIcon fontSize="small" />
+              &nbsp;{movie.release_date}&nbsp;&nbsp;&nbsp;
             </Typography>
           </Grid>
         </Grid>
       </CardContent>
-      <CardActions disableSpacing>
-        {action(movie)}
-        <Link to={`/movies/${movie.id}`}>
-          <Button variant="outlined" size="medium" color="primary">
+      <CardActions disableSpacing sx={{ marginTop: -2}} style={{justifyContent: 'center'}}>
+        {/* Displays the add to favourites / must-watch buttons only if logged in */}
+        {token ? (action(movie)) : null}
+        <Link to={`/movies/${movie.id}`} >
+          <Button variant="contained" size="medium" color="error" style={{justifyContent: 'center'}}>
             More Info ...
           </Button>
         </Link>
