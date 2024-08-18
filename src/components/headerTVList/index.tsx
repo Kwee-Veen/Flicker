@@ -41,9 +41,9 @@ const TVHeader: React.FC<HeaderProps> = (headerProps) => {
   const title = headerProps.title;
   const showSearch = headerProps.showSearch;
 
-  let increment: Function | null = null;
+  let increment: Function = () => { };
   if (headerProps.increment !== undefined) increment = headerProps.increment;
-  let decrement: Function | null = null;
+  let decrement: Function = () => { };
   if (headerProps.decrement !== undefined) decrement = headerProps.decrement;
 
   const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);

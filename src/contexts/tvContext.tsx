@@ -1,4 +1,4 @@
-import React, { useState, useCallback } from "react";
+import React, { useState } from "react";
 import { BaseTVProps, MenuOptions, TVReview } from "../types/interfaces";
 
 interface TVContextInterface {

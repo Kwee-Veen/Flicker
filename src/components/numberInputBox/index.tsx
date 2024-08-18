@@ -47,7 +47,7 @@ export default function NumberInputBasic() {
         value={tempVoteAverage}
         max={10}
         min={0}
-        onChange={(event, val) => setTempVoteAverage(val)}
+        onChange={(_event, val) => setTempVoteAverage(val)}
       />
     );
   }
@@ -59,7 +59,7 @@ export default function NumberInputBasic() {
         value={tempVoteAverage}
         max={10}
         min={0}
-        onChange={(event, val) => setTempVoteAverage(val)}
+        onChange={(_event, val) => setTempVoteAverage(val)}
       />
     );
   }
