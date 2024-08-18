@@ -20,7 +20,8 @@ const styles = {
       letterSpacing: 6,
       fontFamily: 'Monospace',
       textDecoration: "none",
-      pr: 8,
+      pl: 2,
+      pr: 6,
     },
     auth: {
       display: 'inline',
@@ -101,10 +102,9 @@ const SiteHeader: React.FC = () => {
     <>
       <AppBar position="fixed" elevation={0} color="error">
         <Toolbar>
-        <img rel="icon" src="/flicker-interference-icon-white.svg" width="40" height="auto"></img>&nbsp;&nbsp;&nbsp;&nbsp;
+        <img rel="icon" src="/flicker-interference-icon-white.svg" width="38" height="auto"></img>
           <Typography variant="h4" sx={styles.title} component={Link} to={flickerLinkPath} color="white"> 
             Flicker
-
           </Typography>
 
           <Button
@@ -116,7 +116,7 @@ const SiteHeader: React.FC = () => {
             {toggleButtonText}
           </Button>
 
-          &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+          &nbsp;&nbsp;&nbsp;
 
           {isMobile ? (
             <>

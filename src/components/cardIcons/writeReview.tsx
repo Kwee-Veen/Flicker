@@ -5,14 +5,17 @@ import { Link } from "react-router-dom";
 
 const WriteReviewIcon:React.FC<BaseMovieProps> = (movie) => {
   return (
-    <Link
-    to={'/reviews/form'}
-    state={{
-        movieId: movie.id,
-      }}
-  >
-    <RateReviewIcon color="primary" fontSize="large" />
-  </Link>
+    <>
+      <Link
+      to={'/reviews/form'}
+      state={{
+          movieId: movie.id,
+        }}
+      >
+        <RateReviewIcon color="primary" fontSize="large" />
+      </Link>
+      &nbsp;&nbsp;&nbsp;&nbsp;
+    </>
   );
 };
 

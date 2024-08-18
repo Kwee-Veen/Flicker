@@ -16,14 +16,17 @@ const RemoveFromMustWatchMoviesIcon: React.FC<BaseMovieProps> = (movie) => {
     removeFromMustWatchMovies(movie.id);
   };
 
-return (
-  <IconButton
-    aria-label="remove from must watch movies"
-    onClick={onUserRequest}
-  >
-    <DeleteIcon color="primary" fontSize="large" />
-  </IconButton>
-);
+  return (
+    <>
+      <IconButton
+      aria-label="remove from must watch movies"
+      onClick={onUserRequest}
+      >
+        <DeleteIcon color="primary" fontSize="large" />
+      </IconButton>
+        &nbsp;&nbsp;
+    </>
+  );
 };
 
 export default RemoveFromMustWatchMoviesIcon;

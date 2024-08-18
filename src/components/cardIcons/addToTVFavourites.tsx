@@ -17,9 +17,12 @@ const AddToTVFavouritesIcon: React.FC<BaseTVProps> = (tv) => {
   };
 
   return (
-    <IconButton aria-label="add to tv favorites" onClick={onUserSelect}>
-      <FavoriteIcon color="primary" fontSize="large" />
-    </IconButton>
+    <>
+      <IconButton aria-label="add to tv favorites" onClick={onUserSelect}>
+        <FavoriteIcon color="primary" fontSize="large" />
+      </IconButton>
+      &nbsp;&nbsp;&nbsp;&nbsp;
+    </>
   );
 };
 

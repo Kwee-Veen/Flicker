@@ -16,14 +16,17 @@ const RemoveFromTVFavouritesIcon: React.FC<BaseTVProps> = (tv) => {
     removeFromTVFavourites(tv.id);
   };
 
-return (
-  <IconButton
-    aria-label="remove from tv favorites"
-    onClick={onUserRequest}
-  >
-    <DeleteIcon color="primary" fontSize="large" />
-  </IconButton>
-);
+  return (
+    <>
+      <IconButton
+        aria-label="remove from tv favorites"
+        onClick={onUserRequest}
+      >
+        <DeleteIcon color="primary" fontSize="large" />
+      </IconButton>
+      &nbsp;&nbsp;
+    </>
+  );
 };
 
 export default RemoveFromTVFavouritesIcon;

@@ -5,14 +5,17 @@ import { Link } from "react-router-dom";
 
 const WriteTVReviewIcon:React.FC<BaseTVProps> = (tv) => {
   return (
-    <Link
-    to={'/tvReviews/form'}
-    state={{
-        series_id: tv.id,
-      }}
-  >
-    <RateReviewIcon color="primary" fontSize="large" />
-  </Link>
+    <>
+      <Link
+      to={'/tvReviews/form'}
+      state={{
+          series_id: tv.id,
+        }}
+      >
+        <RateReviewIcon color="primary" fontSize="large" />
+    </Link>
+    &nbsp;&nbsp;&nbsp;&nbsp;
+  </>
   );
 };
 

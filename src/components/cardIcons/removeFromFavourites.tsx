@@ -16,14 +16,17 @@ const RemoveFromFavouritesIcon: React.FC<BaseMovieProps> = (movie) => {
     removeFromFavourites(movie.id);
   };
 
-return (
-  <IconButton
-    aria-label="remove from favorites"
-    onClick={onUserRequest}
-  >
-    <DeleteIcon color="primary" fontSize="large" />
-  </IconButton>
-);
+  return (
+    <>
+      <IconButton
+        aria-label="remove from favorites"
+        onClick={onUserRequest}
+      >
+        <DeleteIcon color="primary" fontSize="large" />
+      </IconButton>
+      &nbsp;&nbsp;
+    </>
+  );
 };
 
 export default RemoveFromFavouritesIcon;

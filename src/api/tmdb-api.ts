@@ -1,41 +1,10 @@
-export const getMovies = (page: number = 1) => {
-  if (page < 1) { page = 1}
-  return fetch(
-    `https://api.themoviedb.org/3/discover/movie?api_key=${import.meta.env.VITE_TMDB_KEY}&language=en-US&include_adult=false&include_video=false&page=${page}`
-  ).then((response) => {
-    if (!response.ok)
-      throw new Error(`Unable to fetch movies. Response status: ${response.status}`);
-    return response.json();
-  })
-    .catch((error) => {
-      throw error
-    });
-};
-
-export const getContentWithGenre = (medium: string, page: number = 1, genreId: number, ) => {
-  if (page < 1) { page = 1}
-  return fetch(
-    `https://api.themoviedb.org/3/discover/${medium}?api_key=${import.meta.env.VITE_TMDB_KEY}&language=en-US&include_adult=false&include_video=false&page=${page}&with_genres=${genreId}`
-  ).then((response) => {
-    if (!response.ok)
-      throw new Error(`Unable to fetch movies with genreId ${genreId}. Response status: ${response.status}`);
-    return response.json();
-  })
-    .catch((error) => {
-      throw error
-    });
-};
-
 export const getContent = (medium: string, page: number = 1, voteAverageParam?: number, genreId?: number | string, sortByParam?: string) => {
-  
   if (page < 1) { page = 1}
 
   let genre: string = '';
   if (genreId) {genre = `&with_genres=${genreId}`}
-
   let voteAverage: string = '';
   if (voteAverageParam) {voteAverage = `&vote_average.gte=${voteAverageParam}`}
-
   let sortBy: string = '';
   if (sortByParam) {sortBy = `&sort_by=${sortByParam}`}
 
@@ -44,20 +13,6 @@ export const getContent = (medium: string, page: number = 1, voteAverageParam?: 
   ).then((response) => {
     if (!response.ok)
       throw new Error(`Unable to fetch ${medium} page ${page} ${genre} ${voteAverage}. Response status: ${response.status}`);
-    return response.json();
-  })
-    .catch((error) => {
-      throw error
-    });
-};
-
-export const getTV = (page: number = 1) => {
-  if (page < 1) { page = 1}
-  return fetch(
-    `https://api.themoviedb.org/3/discover/tv?api_key=${import.meta.env.VITE_TMDB_KEY}&language=en-US&include_adult=false&include_video=false&page=${page}`
-  ).then((response) => {
-    if (!response.ok)
-      throw new Error(`Unable to fetch tv. Response status: ${response.status}`);
     return response.json();
   })
     .catch((error) => {
@@ -109,7 +64,7 @@ export const getGenres = () => {
 // passes in either 'movie' or 'tv' as the second parameter
 export const getImages = (id: string | number, movieOrTV: string) => {
   return fetch(
-    `https://api.themoviedb.org/3/${movieOrTV}/${id}/images?api_key=${import.meta.env.VITE_TMDB_KEY}&language=en`
+    `https://api.themoviedb.org/3/${movieOrTV}/${id}/images?api_key=${import.meta.env.VITE_TMDB_KEY}`
   ).then((response) => {
     if (!response.ok) {
       throw new Error("failed to fetch images");

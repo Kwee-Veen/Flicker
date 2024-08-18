@@ -17,9 +17,12 @@ const AddToMustWatchListIcon: React.FC<BaseMovieProps> = (movie) => {
   };
 
   return (
-    <IconButton aria-label="add to must watch list" onClick={onUserSelect}>
-      <PlaylistAddIcon color="primary" fontSize="large" />
-    </IconButton>
+    <>
+      <IconButton aria-label="add to must watch list" onClick={onUserSelect}>
+        <PlaylistAddIcon color="primary" fontSize="large" />
+      </IconButton>
+      &nbsp;&nbsp;&nbsp;&nbsp;
+    </>
   );
 };
 
