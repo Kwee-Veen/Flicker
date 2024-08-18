@@ -25,7 +25,7 @@ const genreFiltering = {
 
 const DiscoverMoviesPage: React.FC = () => {
   const { setMovieFavouriteIDs } = useContext(MoviesContext);
-  document.title = `Movies - Flicker`
+  document.title = `Flicker - Movies`
 
   // Function that queries the DB for IDs of movieFavourites and assigns the results to movieFavouriteIDs (in movieContext) 
   const loadFavourites = () => {
@@ -47,7 +47,6 @@ const DiscoverMoviesPage: React.FC = () => {
   const { moviesSearchPageCount, incrementMoviesSearchPageCount, decrementMoviesSearchPageCount } = useContext(PagesContext);
   const { genreId, genreLabel, voteAverage, sortBy, sortByLabel } = useContext(MoviesContext);
   const { filterValues, setFilterValues, filterFunction } = useFiltering([titleFiltering, genreFiltering]);
-  document.title = `Movies Page ${moviesSearchPageCount}`
 
   const { data, error, isLoading, isError } = useQuery<DiscoverMovies, Error>(
     `Movie of genre: ${genreLabel}, average vote: ${voteAverage}, sorted by ${sortByLabel}, page: ${moviesSearchPageCount}`,
@@ -75,7 +74,7 @@ const DiscoverMoviesPage: React.FC = () => {
         {!session ? <Auth /> : <Account key={session.user.id} session={session} />}
       </div> */}
       <PageTemplate
-        title={document.title}
+        title = {`Movies Page ${moviesSearchPageCount}`}
         movies={displayedMovies}
         action={(movie: BaseMovieProps) => {
           return <AddToFavouritesIcon {...movie} />

@@ -47,7 +47,7 @@ supabase.channel('table_db_changes_tvFavourites').on('postgres_changes',
   const { filterValues, setFilterValues, filterFunction } = useFiltering([nameFiltering, genreFiltering]);
   const { tvSearchPageCount, incrementTVSearchPageCount, decrementTVSearchPageCount } = useContext(PagesContext);
 
-  document.title = `TV Page ${tvSearchPageCount}`
+  document.title = `Flicker - TV`
   
   const { data, error, isLoading, isError } = useQuery<DiscoverTV, Error>(
     `TV of genre: ${genreLabel}, average vote: ${voteAverage}, sorted by ${sortByLabel}, page: ${tvSearchPageCount}`, 
@@ -71,7 +71,7 @@ supabase.channel('table_db_changes_tvFavourites').on('postgres_changes',
   return (
     <>
       <PageTemplate
-        name={document.title}
+        name={`TV Page ${tvSearchPageCount}`}
         tv={displayedTV}
         action={(tv: BaseTVProps) => {
           return <AddToTVFavouritesIcon {...tv} />

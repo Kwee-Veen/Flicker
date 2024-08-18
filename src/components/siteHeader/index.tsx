@@ -101,8 +101,10 @@ const SiteHeader: React.FC = () => {
     <>
       <AppBar position="fixed" elevation={0} color="error">
         <Toolbar>
+        <img rel="icon" src="/flicker-interference-icon-white.svg" width="40" height="auto"></img>&nbsp;&nbsp;&nbsp;&nbsp;
           <Typography variant="h4" sx={styles.title} component={Link} to={flickerLinkPath} color="white"> 
             Flicker
+
           </Typography>
 
           <Button
