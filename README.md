@@ -1,12 +1,15 @@
 # React App Assignment
-
 ###### Full Stack Development 2, HDip in Computer Science
+
+![Flicker-2](https://github.com/user-attachments/assets/181b7a98-3768-4963-b796-8c0d74f94c94)
 
 __Name:__ Caoimhín Arnott
 
 __Video Demo:__ https://youtu.be/lvw022D30Io
 
 This repository contains an implementation of the Movie Fans Web Application using the React library, named Flicker.
+
+![Flicker-3](https://github.com/user-attachments/assets/4ee71fde-0913-4f25-9b5a-d1cafb91a235)
 
 ### Features
 
@@ -23,6 +26,8 @@ This repository contains an implementation of the Movie Fans Web Application usi
 + Update - Designated favourites / Must-Watch / TV Favourites only visible and modifiable upon login, even in Discover pages (which are not protected routes)
 + Update - Caching for all pages, including custom searches for Movies or TV
 + New - Deployed to Vercel
+
+![Flicker-4](https://github.com/user-attachments/assets/84c4156d-38cb-4175-b298-f36ab8bdcaac)
 
 ### Setup requirements.
 
